@@ -1,0 +1,7 @@
+{
+  "name": "TP2-PPS",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
