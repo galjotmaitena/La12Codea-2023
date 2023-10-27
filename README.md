@@ -2,6 +2,9 @@
 
 ## Login/SplashScreen (24/10 - 25/10 aprox.)
 ### En conjunto
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/da53f25f-1449-4e33-9d81-a84fa7d69bf2)    ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/1053be6a-b56f-4f15-a854-abe50cccea72)
+
+
 Terminado 26/10
 
 ## ALTAS (25/10 - 27/10 aprox.)
