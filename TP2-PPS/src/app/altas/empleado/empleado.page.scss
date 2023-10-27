@@ -1,0 +1,63 @@
+.container-gral{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    --background: #FFD7BA;
+    --color: black;
+    width: 100%;
+}
+
+ion-avatar {
+    --border-radius: 4px;
+    left : 3%;
+    display: fixed;
+    position:relative;
+    margin:5px;
+}
+
+ion-fab{
+    right : 3%;
+}
+
+ion-fab-button{
+    --background: #F28482;
+}
+
+.inputs{
+    display:flex;
+    position:relative;
+    justify-content: space-evenly;
+    top: 10%;
+    flex-direction: column;
+    align-items:center;
+}
+
+.txt{
+    width:85%;
+    margin:5px;
+    --background:#FEC5BB;
+    --color:#84A59D;
+}
+
+.txt:hover{
+    --background:#FEC5BB;
+    --color:#84A59D;
+}
+
+.list{
+    --background:#FEC5BB;
+    --color:#84A59D;
+    width:85%;
+    margin:5px;
+}
+
+.btn{
+    width : 85%;
+    top: 20%;
+    display: flex;
+    position : relative;
+    margin:15px;
+    justify-content: space-evenly;
+    --background:#F28482;
+}

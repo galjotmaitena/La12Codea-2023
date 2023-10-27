@@ -15,6 +15,14 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
+    path: 'empleado',
+    loadChildren: () => import('./altas/empleado/empleado.module').then( m => m.EmpleadoPageModule)
+  },
+  {
+    path: 'duenio',
+    loadChildren: () => import('./altas/duenio/duenio.module').then( m => m.DuenioPageModule)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'

@@ -1,0 +1,32 @@
+<ion-content class="container-gral">
+  <h1>Alta de Empleados</h1>
+  <div style="flex-direction: row; display: flex; position:relative; top:5%;">
+    <ion-avatar>
+      <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+
+    <ion-fab>
+      <ion-fab-button>
+        <ion-icon name="qr-code-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </div>
+  <div class="inputs">
+    <ion-input class="txt" label="Nombre" label-placement="floating" fill="solid" placeholder="Nombre" [(ngModel)]="nombre" name="name"></ion-input>
+    <ion-input class="txt" label="Apellido" label-placement="floating" fill="solid" placeholder="Apellido" [(ngModel)]="apellido" name="surname"></ion-input>
+    <ion-input class="txt" label="DNI" label-placement="floating" fill="solid" placeholder="DNI" type="number" [(ngModel)]="dni" name="doc"></ion-input>
+    <ion-input class="txt" label="CUIL" label-placement="floating" fill="solid" placeholder="CUIL" type="number"SSSSSSSSSSSSSSSSSSSSSSSS [(ngModel)]="cuil" name="cu"></ion-input>
+
+  
+
+    <ion-select label="Tipo de empleado" label-placement="floating" fill="solid" class="list">
+      <ion-select-option value="metre">Metre</ion-select-option>
+      <ion-select-option value="mozo">Mozo</ion-select-option>
+      <ion-select-option value="cocinero">Cocinero</ion-select-option>
+      <ion-select-option value="bartender">Bartender</ion-select-option>
+    </ion-select>
+    <ion-button class="btn" fill="solid">Alta</ion-button>
+
+  </div>
+</ion-content>

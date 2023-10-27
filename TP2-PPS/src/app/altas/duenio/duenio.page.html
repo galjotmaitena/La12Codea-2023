@@ -1,0 +1,22 @@
+<ion-content [fullscreen]="true" class="container-gral" *ngIf="!abierta">
+  <div class="divTitulo">
+    <label class="titulo">ALTA DUEÑO-SUPERVISOR</label>
+  </div>
+
+  <div style="top: 6%; position: relative;">
+    <ion-fab horizontal="end" class="fab" (click)="startScan()">
+      <ion-fab-button>
+        <ion-icon name="qr-code-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-thumbnail (click)="sacarFoto()">
+      <img [src]="urlFoto">
+    </ion-thumbnail>
+  </div>
+</ion-content>
+
+
+  
+    <ion-toolbar *ngIf="abierta">
+      <ion-title>Header Toolbar</ion-title>
+    </ion-toolbar>

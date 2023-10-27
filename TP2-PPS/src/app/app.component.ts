@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import  firebase  from 'firebase/compat/app';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private router:Router) {}
+
+  ngOnInit(){
+    firebase.initializeApp(environment.firebase);
+    this.router.navigateByUrl('duenio');
+  }
 }
