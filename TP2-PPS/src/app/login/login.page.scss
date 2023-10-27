@@ -1,9 +1,113 @@
-.container{
+.container-gral{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    --background: pink;
+    --background: #fae1dd;
     --color: black;
     width: 100%;
+}
+
+.inputs{
+    width:100%;
+    left:0%;
+    top:10%;
+    display:flex;
+    position:relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.btns{
+    width:100%;
+    left:0%;
+    top:10%;
+    display:flex;
+    position:relative;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+}
+
+ion-input{
+    margin:15px;
+    --border-color: 2px solid #84A59D;
+    color:#84A59D; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 3);
+    height: 10px;
+    border-radius: 10px;
+    width:85%;
+}
+
+#ingresar{
+    --border-radius: 0;
+    --border-color: #84A59D;
+    --border-style: solid;
+    --border-width: 2px;
+
+    --background:#E8E8E4;
+    --color: #84A59D;
+    
+    width:42.5%;
+    left:50%;
+
+    margin:5px;
+
+   // display:flex;
+    //position:relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 3);
+}
+
+#limpiar{
+    --border-radius: 0;
+    --border-color: #84A59D;
+    --border-style: solid;
+    --border-width: 2px;
+
+    --background:#E8E8E4;
+    --color: #84A59D;
+    
+    width:42.5%;
+    left:0%;
+
+    margin:5px;
+
+    // display:flex;
+    //position:relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 3);
+}
+
+.divBtnPick{
+    width:100%;
+    top:10%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+}
+
+.button-pick{
+    --border-radius: 0;
+    --border-color: #84A59D;
+    --border-style: solid;
+    --border-width: 2px;
+
+    --background:#E8E8E4;
+    --color: #84A59D;
+    
+    width:85%;
+    left:0%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 3);
+
+    margin:10px;
+}
+
+#image{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
 }

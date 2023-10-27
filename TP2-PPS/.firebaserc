@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tp-pps-dbd3e": {
+      "hosting": {
+        "app": [
+          "tp-pps-dbd3e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tp-pps-dbd3e"
+  }
+}
