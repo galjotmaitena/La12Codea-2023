@@ -14,7 +14,7 @@ export class EmpleadoPage implements OnInit {
 
   nombre = '';
   apellido = '';
-  dni = null;
+  dni : any = '';
   cuil = null;
 
   abierta = false;
@@ -22,6 +22,8 @@ export class EmpleadoPage implements OnInit {
   dniEsc : any[] = [];
 
   foto = "assets/perfil.png";
+
+  tipo = 0;
   
   constructor(private aFirestorage : AngularFireStorage, private authService : AuthService) { }
 
@@ -52,74 +54,90 @@ export class EmpleadoPage implements OnInit {
     return ret;
   }
 
-    async startScan()
+  async startScan()
+  {
+    try
     {
-      try
+      const permission = await this.checkPermission();
+      if(!permission)
       {
-        const permission = await this.checkPermission();
-        if(!permission)
-        {
-          return;
-        }
+        return;
+      }
 
-        this.abierta = true;
-        await BarcodeScanner.hideBackground();
+      this.abierta = true;
+      await BarcodeScanner.hideBackground();
+      document.querySelector('body')?.classList.add('scanner-active');
+      const result = await BarcodeScanner.startScan();
+      
+      if(result?.hasContent)
+      {
+        this.escaneado = result.content;
+        BarcodeScanner.showBackground();
         document.querySelector('body')?.classList.add('scanner-active');
-        const result = await BarcodeScanner.startScan();
-        //alert(result);
-        if(result?.hasContent)
-        {
-          this.escaneado = result.content;
-          BarcodeScanner.showBackground();
-          document.querySelector('body')?.classList.add('scanner-active');
-          //alert(this.escaneado);
-          this.dniEsc = this.escaneado.split('@');
-          this.asignarEscan();
-          this.abierta = false;
-        }
-      }
-      catch(error)
-      {
-        alert(error);
-        this.stopScan();
+        this.dniEsc = this.escaneado.split('@');
+        this.asignarEscan();
+        this.abierta = false;
       }
     }
-
-    async stopScan()
+    catch(error)
     {
-      BarcodeScanner.showBackground();
-      BarcodeScanner.stopScan();
-      document.querySelector('body')?.classList.remove('scanner-active');
+      alert(error);
+      this.stopScan();
     }
+  }
+
+  async stopScan()
+  {
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    document.querySelector('body')?.classList.remove('scanner-active');
+  }
 
 
-    asignarEscan()
+  asignarEscan()
+  {
+    this.tipo = this.dniEsc[1];
+
+    if(this.contieneSoloNumeros(this.dniEsc[3]))
+    {
+      this.nombre = this.dniEsc[5];
+      this.apellido = this.dniEsc[4];
+      this.dni = parseInt(this.dniEsc[1]);
+    }
+    else
     {
       this.nombre = this.dniEsc[2];
       this.apellido = this.dniEsc[1];
       this.dni = this.dniEsc[4];
     }
+  }
 
-    async sacarFoto()
-    {
-      const fotoCapturada = await Camera.getPhoto({
-        resultType: CameraResultType.DataUrl,
-        source: CameraSource.Camera,
-        quality: 100,
-        webUseInput: true,
+  async sacarFoto()
+  {
+    const fotoCapturada = await Camera.getPhoto({
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+      quality: 100,
+      webUseInput: true,
+    });
+  
+    let storage = getStorage();
+    let fecha = new Date().getTime();
+    let nombre = `${this.authService.get_email()} ${fecha}`;
+    let storageRef = ref(storage, nombre);
+  
+    uploadString(storageRef as any, fotoCapturada.dataUrl as any, 'data_url').then(()=>{
+      let promesa = this.aFirestorage.ref(nombre).getDownloadURL().toPromise();
+  
+      promesa.then((url : any)=>{
+        this.foto = url;
       });
-  
-      let storage = getStorage();
-      let fecha = new Date().getTime();
-      let nombre = `${this.authService.get_email()} ${fecha}`;
-      let storageRef = ref(storage, nombre);
-  
-      uploadString(storageRef as any, fotoCapturada.dataUrl as any, 'data_url').then(()=>{
-        let promesa = this.aFirestorage.ref(nombre).getDownloadURL().toPromise();
-  
-         promesa.then((url : any)=>{
-           this.foto = url;
-         });
-      });
-    }
+    });
+  }
+
+  contieneSoloNumeros(cadena: string): boolean 
+  {
+    const expresionRegular = /^\d+$/;
+    return expresionRegular.test(cadena);
+  }
 }
