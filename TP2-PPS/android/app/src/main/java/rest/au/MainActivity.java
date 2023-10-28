@@ -1,4 +1,4 @@
-package com.avalos.relevamientoVisual;
+package rest.au;
 
 import com.getcapacitor.BridgeActivity;
 

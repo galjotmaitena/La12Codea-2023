@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.avalos.relevamientoVisual',
-  appName: 'app_1_relevamiento_visual',
+  appId: 'rest.au',
+  appName: 'La12Codea',
   webDir: 'www',
   bundledWebRuntime: false,
   "plugins": {
