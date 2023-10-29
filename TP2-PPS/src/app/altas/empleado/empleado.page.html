@@ -1,4 +1,4 @@
-<ion-content class="container-gral">
+<ion-content [fullscreen]="true" class="container-gral" *ngIf="!abierta">
   <h1>Alta de Empleados</h1>
   <div style="flex-direction: row; display: flex; position:relative; top:5%;">
     <ion-avatar (click)="sacarFoto()">
@@ -28,8 +28,11 @@
     </ion-select>
     <ion-button class="btn" fill="solid">Alta</ion-button>
 
-    <div>
-      <p>{{dniEsc}}</p>
+    <div style="width: 85%;">
+      <p>{{tipo}}</p>  
+      <p>{{escaneado}}</p> 
+
+      <!-- <p>holaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholahola</p> -->
     </div>
   </div>
 </ion-content>
