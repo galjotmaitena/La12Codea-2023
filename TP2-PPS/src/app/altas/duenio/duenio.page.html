@@ -1,9 +1,9 @@
 <ion-content [fullscreen]="true" class="container-gral" *ngIf="!abierta">
-  <div class="divTitulo">
+  <div class="py-4 divTitulo">
     <label class="titulo">ALTA DUEÑO-SUPERVISOR</label>
   </div>
 
-  <div style="top: 6%; position: relative;">
+  <div class="py-4 p-4">
     <ion-fab horizontal="end" class="fab" (click)="startScan()">
       <ion-fab-button>
         <ion-icon name="qr-code-outline"></ion-icon>
@@ -11,12 +11,68 @@
     </ion-fab>
     <ion-thumbnail (click)="sacarFoto()">
       <img [src]="urlFoto">
+      <label style="color: black; font-weight: bold;">Tomar foto</label>
     </ion-thumbnail>
   </div>
-</ion-content>
 
-
+  <div class="py-4">
+    <form id="form" [formGroup]="form">
+      <ion-item class="input">
+        <ion-input [(ngModel)]="nombre" formControlName="nombre" name="n" label="Nombre/s" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span
+        *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('invalido')">
+        El nombre solo debe contener letras.
+      </span>
+      <span
+        *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('required')">
+        El nombre es requerido.
+      </span>
   
-    <ion-toolbar *ngIf="abierta">
-      <ion-title>Header Toolbar</ion-title>
-    </ion-toolbar>
+      <ion-item class="input">
+        <ion-input [(ngModel)]="apellido" formControlName="apellido" name="n" label="Apellido/s" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span
+        *ngIf="form.controls['apellido'].hasError('invalido')">
+        El apellido solo debe contener letras.
+      </span>
+      <span
+        *ngIf="form.controls['apellido'].touched && form.controls['apellido'].hasError('required')">
+        El apellido es requerido.
+      </span>
+
+      <ion-item class="input">
+        <ion-input [(ngModel)]="dni" formControlName="dni" name="n" label="DNI" type="number" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span
+        *ngIf="form.controls['dni'].touched && form.controls['dni'].hasError('maxlength')">
+        El DNI debe tener al menos 7 caracteres.
+      </span>
+      <span
+        *ngIf="form.controls['dni'].touched && form.controls['dni'].hasError('required')">
+        El DNI es requerido.
+      </span>
+
+      <ion-item class="input">
+        <ion-input [(ngModel)]="cuil" formControlName="cuil" id="n" name="n" label="CUIL" type="number" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span
+        *ngIf="form.controls['cuil'].touched && form.controls['cuil'].hasError('maxlength')">
+        El CUIL debe tener al menos 7 caracteres.
+      </span>
+      <span
+        *ngIf="form.controls['cuil'].touched && form.controls['cuil'].hasError('required')">
+        El CUIL es requerido.
+      </span>
+  
+      <div class="divToggle py-4">
+        <ion-toggle [checked]="toggle1State" (ionChange)="toggleChanged(1)">DUEÑO</ion-toggle>
+        <ion-toggle [checked]="toggle2State" (ionChange)="toggleChanged(2)">SUPERVISOR</ion-toggle>
+      </div>
+    </form>
+  </div>
+
+  <div class="divBoton">
+    <ion-button (click)="guardar()" [disabled]="!form.valid" id="btn">ALTA</ion-button>
+  </div>
+</ion-content>

@@ -4,21 +4,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    //height: 100vh;
 }
 
 ion-fab-button{
-    position: relative;
     --background: #000000;
     top: 3%;
     right: 6%;
 }
 
 ion-thumbnail {
-    position: relative;
     --size: 125px;
     --border-radius: 14px;
-    top: 2%;
-    left: 5%;
 }
 
 .titulo{
@@ -29,7 +26,6 @@ ion-thumbnail {
 }
 
 .divTitulo{
-    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -38,3 +34,89 @@ ion-thumbnail {
     text-align: center;
     top: 3%;
 }
+
+#form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input{
+    margin: 15px;
+    width: 85%;
+    border-radius: red;
+}
+
+.divToggle{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    top: 5%;
+}
+
+.divBoton{
+    width: 100%;
+    height: 9%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btn{
+    --background: #84A59D;
+    color: #000000;
+    font-size: 30px;
+    font-weight: bold;
+    width: 50%;
+    height: 60%;
+}
+
+.input{
+    --background: #84A59D;
+    color: #000000;
+    border-radius: 6px;
+}
+
+ion-toggle {
+    padding: 12px;
+  
+    --handle-width: 25px;
+    --handle-height: 27px;
+    --handle-max-height: auto;
+    --handle-spacing: 6px;
+  
+    contain: none;
+    color: #000000;
+  }
+  
+  ion-toggle::part(track),
+  ion-toggle.toggle-checked::part(track) {
+    height: 10px;
+    width: 65px;
+  
+    background: #ddd;
+  
+    /* Required for iOS handle to overflow the height of the track */
+    overflow: visible;
+  }
+  
+  ion-toggle::part(handle) {
+    background: #eb7769;
+  
+    border-radius: 4px;
+    box-shadow: none;
+  }
+  
+  ion-toggle.toggle-checked::part(handle) {
+    background: #95c34e;
+  }
+
+  span{
+    color: #eb7769;
+  }
