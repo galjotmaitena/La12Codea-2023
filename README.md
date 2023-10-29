@@ -7,9 +7,9 @@
 
 Terminado 26/10
 
-## ALTAS (25/10 - 27/10 aprox.)
+## ALTAS (25/10 - 30/10 aprox.)
 ### Gauna Tomas Agustin
-* Alta de dueño/supervisor
+* Alta de dueño/supervisor | Terminado 28/10
 * Alta de clientes
 * Alta de productos
 
