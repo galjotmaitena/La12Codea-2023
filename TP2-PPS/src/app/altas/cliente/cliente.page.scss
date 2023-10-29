@@ -19,7 +19,7 @@ ion-thumbnail {
 }
 
 .titulo{
-    color: #84A59D;
+    color: #ECE4DB;
     font-size: 28px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 3);
     font-weight: bold;
@@ -43,21 +43,19 @@ ion-thumbnail {
 }
 
 .input{
-    margin: 15px;
+    margin: 10px;
     width: 85%;
-    border-radius: red;
+    --background: #ECE4DB;
+    color: #000000;
+    border-radius: 6px;
 }
 
-.divToggle{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+ion-select{
+    margin: 10px;
+    width: 85%;
+    --background: #ECE4DB;
     color: #000000;
-    font-size: 18px;
-    font-weight: bold;
-    top: 5%;
+    border-radius: 6px;
 }
 
 .divBoton{
@@ -69,54 +67,13 @@ ion-thumbnail {
 }
 
 #btn{
-    --background: #84A59D;
+    --background: #ECE4DB;
     color: #000000;
     font-size: 30px;
     font-weight: bold;
     width: 50%;
     height: 60%;
 }
-
-.input{
-    --background: #84A59D;
-    color: #000000;
-    border-radius: 6px;
-    margin: 5px;
-}
-
-ion-toggle {
-    padding: 12px;
-  
-    --handle-width: 25px;
-    --handle-height: 27px;
-    --handle-max-height: auto;
-    --handle-spacing: 6px;
-  
-    contain: none;
-    color: #000000;
-  }
-  
-  ion-toggle::part(track),
-  ion-toggle.toggle-checked::part(track) {
-    height: 10px;
-    width: 65px;
-  
-    background: #ddd;
-  
-    /* Required for iOS handle to overflow the height of the track */
-    overflow: visible;
-  }
-  
-  ion-toggle::part(handle) {
-    background: #eb7769;
-  
-    border-radius: 4px;
-    box-shadow: none;
-  }
-  
-  ion-toggle.toggle-checked::part(handle) {
-    background: #95c34e;
-  }
 
   span{
     color: #eb7769;
