@@ -1,0 +1,34 @@
+<!-- <ion-content [fullscreen]="true" class="container-gral" *ngIf="!abierta">
+  <h1>Alta de Empleados</h1>
+  <div style="flex-direction: row; display: flex; position:relative; top:0%;">
+    <ion-avatar (click)="sacarFoto()">
+      <img [src]="foto" />
+    </ion-avatar>
+    <ion-fab>
+      <ion-fab-button (click)="startScan()">
+        <ion-icon name="qr-code-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  <div class="inputs">
+
+    <ion-input class="txt" label="Nombre" label-placement="floating" fill="solid" placeholder="Nombre" [(ngModel)]="nombre" name="name"></ion-input>
+    <ion-input class="txt" label="Apellido" label-placement="floating" fill="solid" placeholder="Apellido" [(ngModel)]="apellido" name="surname"></ion-input>
+    <ion-input class="txt" label="DNI" label-placement="floating" fill="solid" placeholder="DNI" type="number" [(ngModel)]="dni" name="doc" maxlength="8" minlength="7"></ion-input>
+    <ion-input class="txt" label="CUIL" label-placement="floating" fill="solid" placeholder="CUIL" type="number" [(ngModel)]="cuil" name="cu" maxlength="11" minlength="10"></ion-input>
+
+    <ion-select label="Tipo de empleado" label-placement="floating" fill="solid" class="list" name="empleado" [(ngModel)]="tipoEmpleado">
+      <ion-select-option value="metre">Metre</ion-select-option>
+      <ion-select-option value="mozo">Mozo</ion-select-option>
+      <ion-select-option value="cocinero">Cocinero</ion-select-option>
+      <ion-select-option value="bartender">Bartender</ion-select-option>
+    </ion-select>
+
+    <ion-input class="txt" label="Correo electrónico" label-placement="floating" fill="solid" placeholder="Correo electrónico" type="email" [(ngModel)]="correo" name="email" errorText="Correo electrónico invalido." ngModel email></ion-input>
+    <ion-input class="txt" label="Contraseña" label-placement="floating" fill="solid" placeholder="Contraseña" type="password" [(ngModel)]="password" name="pass" maxlength="8"></ion-input>
+    <ion-input class="txt" label="Repita la contraseña" label-placement="floating" fill="solid" placeholder="Repita la contraseña" type="password" [(ngModel)]="password2" name="pass2"></ion-input>
+    
+    <ion-button class="btn" fill="solid" (click)="darAlta()">Alta</ion-button>
+  </div>
+</ion-content>
+ -->

@@ -27,6 +27,11 @@ const routes: Routes = [
     redirectTo: 'splash',
     pathMatch: 'full'
   },
+  {
+    path: 'mesa',
+    loadChildren: () => import('./altas/mesa/mesa.module').then( m => m.MesaPageModule)
+  },
+
 ];
 
 @NgModule({

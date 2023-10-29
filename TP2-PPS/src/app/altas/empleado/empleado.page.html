@@ -1,38 +1,76 @@
 <ion-content [fullscreen]="true" class="container-gral" *ngIf="!abierta">
   <h1>Alta de Empleados</h1>
-  <div style="flex-direction: row; display: flex; position:relative; top:5%;">
+  <div style="flex-direction: row; display: flex; position:relative; top:0%;">
     <ion-avatar (click)="sacarFoto()">
       <img [src]="foto" />
     </ion-avatar>
-
     <ion-fab>
       <ion-fab-button (click)="startScan()">
         <ion-icon name="qr-code-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-
   </div>
   <div class="inputs">
-    <ion-input class="txt" label="Nombre" label-placement="floating" fill="solid" placeholder="Nombre" [(ngModel)]="nombre" name="name"></ion-input>
-    <ion-input class="txt" label="Apellido" label-placement="floating" fill="solid" placeholder="Apellido" [(ngModel)]="apellido" name="surname"></ion-input>
-    <ion-input class="txt" label="DNI" label-placement="floating" fill="solid" placeholder="DNI" type="number" [(ngModel)]="dni" name="doc"></ion-input>
-    <ion-input class="txt" label="CUIL" label-placement="floating" fill="solid" placeholder="CUIL" type="number" [(ngModel)]="cuil" name="cu"></ion-input>
+    <form  [formGroup]="form" class="forms">
+      <ion-input class="txt" label="Nombre" label-placement="floating" fill="solid" placeholder="Nombre" formControlName="nombre" name="name" [(ngModel)]="nombre"></ion-input>
+      <span class="msjError" *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('required')">
+        Debe ingresar el nombre para dar de alta.
+      </span>
+      <span class="msjError" *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('invalido')">
+        Nombre invalido.
+      </span>
 
-  
+      <ion-input class="txt" label="Apellido" label-placement="floating" fill="solid" placeholder="Apellido" formControlName="apellido" name="surname" [(ngModel)]="apellido"></ion-input>
+      <span class="msjError" *ngIf="form.controls['apellido'].touched && form.controls['apellido'].hasError('required')">
+        Debe ingresar el apellido para dar de alta.
+      </span>
+      <span class="msjError" *ngIf="form.controls['apellido'].touched && form.controls['apellido'].hasError('invalido')">
+        Apellido invalido.
+      </span>
 
-    <ion-select label="Tipo de empleado" label-placement="floating" fill="solid" class="list">
+      <ion-input class="txt" label="DNI" label-placement="floating" fill="solid" placeholder="DNI" type="number" formControlName="dni" name="doc" [(ngModel)]="dni"></ion-input>
+      <span class="msjError" *ngIf="form.controls['dni'].touched && form.controls['dni'].hasError('required')">
+        Debe ingresar el DNI para dar de alta.
+      </span>
+
+      <ion-input class="txt" label="CUIL" label-placement="floating" fill="solid" placeholder="CUIL" type="number" formControlName="cuil" name="cu" [(ngModel)]="cuil"></ion-input>
+      <span class="msjError" *ngIf="form.controls['cuil'].touched && form.controls['cuil'].hasError('required')">
+        Debe ingresar el CUIL para dar de alta.
+      </span>
+    </form>
+
+    <ion-select label="Tipo de empleado" label-placement="floating" fill="solid" class="list" name="empleado" [(ngModel)]="tipoEmpleado">
       <ion-select-option value="metre">Metre</ion-select-option>
       <ion-select-option value="mozo">Mozo</ion-select-option>
       <ion-select-option value="cocinero">Cocinero</ion-select-option>
       <ion-select-option value="bartender">Bartender</ion-select-option>
     </ion-select>
-    <ion-button class="btn" fill="solid">Alta</ion-button>
 
-    <div style="width: 85%;">
-      <p>{{tipo}}</p>  
-      <p>{{escaneado}}</p> 
+    <form [formGroup]="form" class="forms">
+      <ion-input class="txt" label="Correo electrónico" label-placement="floating" fill="solid" placeholder="Correo electrónico" type="email" formControlName="correo" name="email" [(ngModel)]="correo"></ion-input>
+      <span class="msjError" *ngIf="form.controls['correo'].touched && form.controls['correo'].hasError('required')">
+        Debe ingresar un correo electrónico para dar de alta.
+      </span>
+      <span class="msjError" *ngIf="form.controls['correo'].touched && form.controls['correo'].hasError('invalido')">
+        Correo electrónico invalido.
+      </span>
 
-      <!-- <p>holaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholaholahola</p> -->
-    </div>
+      <ion-input class="txt" label="Contraseña" label-placement="floating" fill="solid" placeholder="Contraseña" type="password" formControlName="password" name="pass" [(ngModel)]="password"></ion-input>
+      <span class="msjError" *ngIf="form.controls['password'].touched && form.controls['password'].hasError('required')">
+        Debe ingresar una contraseña para dar de alta.
+      </span>
+      <span class="msjError" *ngIf="form.controls['password'].touched && form.controls['password'].hasError('minlength')">
+        La contraseña debe contener un minimo de 8 caracteres.
+      </span>
+
+      <ion-input class="txt" label="Repita la contraseña" label-placement="floating" fill="solid" placeholder="Repita la contraseña" type="password" formControlName="password2" name="pass2" [(ngModel)]="password2"></ion-input>
+      <span class="msjError" *ngIf="form.controls['password2'].touched && form.controls['password2'].hasError('required')">
+        Debe repetir la contraseña para dar de alta.
+      </span>
+      <span class="msjError" *ngIf="form.controls['password2'].touched && form.controls['password2'].hasError('minlength')">
+        La contraseña debe contener un minimo de 8 caracteres.
+      </span>
+    </form>
+    <ion-button class="btn" fill="solid" (click)="darAlta()">Alta</ion-button>
   </div>
 </ion-content>

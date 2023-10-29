@@ -5,6 +5,10 @@ import {Camera, CameraResultType, CameraSource} from '@capacitor/camera';
 import { getStorage, ref, uploadString } from '@firebase/storage';
 import { AuthService } from 'src/app/services/auth.service';
 
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, MinLengthValidator } from '@angular/forms';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { Firestore } from '@angular/fire/firestore';
+
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.page.html',
@@ -12,23 +16,40 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class EmpleadoPage implements OnInit {
 
+  form: FormGroup;
+
+  correo = '';
+  password = '';
+  password2 = '';
   nombre = '';
   apellido = '';
   dni : any = '';
   cuil = null;
 
+  tipoEmpleado = '';
+
   abierta = false;
   escaneado = '';
   dniEsc : any[] = [];
 
-  foto = "assets/perfil.png";
+  foto = "assets/user.png";
 
   tipo = 0;
   
-  constructor(private aFirestorage : AngularFireStorage, private authService : AuthService) { }
-
-  ngOnInit() {
+  constructor(private aFirestorage : AngularFireStorage, private authService : AuthService, private formBuilder: FormBuilder, private firestore : Firestore) 
+  { 
+    this.form = this.formBuilder.group({
+      nombre: ['', [Validators.required, this.contieneSoloLetras()]],
+      apellido: ['', [Validators.required, this.contieneSoloLetras()]],
+      dni: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      cuil: ['', [Validators.required,  Validators.pattern('^[0-9]+$')]],
+      correo: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]],
+      password2: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(12)]],
+    });
   }
+
+  ngOnInit() {}
 
   ngOnDestroy(): void 
   {
@@ -93,7 +114,6 @@ export class EmpleadoPage implements OnInit {
     document.querySelector('body')?.classList.remove('scanner-active');
   }
 
-
   asignarEscan()
   {
     this.tipo = this.dniEsc[1];
@@ -123,7 +143,7 @@ export class EmpleadoPage implements OnInit {
   
     let storage = getStorage();
     let fecha = new Date().getTime();
-    let nombre = `${this.authService.get_email()} ${fecha}`;
+    let nombre = `empleados/${this.nombre.replace(' ', '_')}_${this.apellido.replace(' ', '_')} ${fecha}`;
     let storageRef = ref(storage, nombre);
   
     uploadString(storageRef as any, fotoCapturada.dataUrl as any, 'data_url').then(()=>{
@@ -135,9 +155,52 @@ export class EmpleadoPage implements OnInit {
     });
   }
 
-  contieneSoloNumeros(cadena: string): boolean 
+  contieneSoloNumeros(cadena: string) : boolean 
   {
     const expresionRegular = /^\d+$/;
     return expresionRegular.test(cadena);
+  }
+
+  contieneSoloLetras() : ValidatorFn 
+  {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (value) {
+        // Elimina los espacios en blanco al principio y al final del valor
+        const trimmedValue = value.trim();
+        // Comprueba si el valor contiene solo letras y espacios en blanco
+        if (!/^[A-Za-zÁáÉéÍíÓóÚúÜüÑñ\s]+$/.test(trimmedValue)) {
+          return { 'invalido': true };
+        }
+      }
+      return null;
+    };
+  }
+
+  darAlta()
+  {
+    if(!this.form.valid  || this.tipoEmpleado === '')
+    {
+      this.authService.mostrarToastError('Quedan campos por completar!');
+    }
+    else
+    {
+      if(this.password === this.password2)
+      {
+        this.authService.mostrarToastExito('Alta exitosa');
+        let empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, correo : this.correo, foto : ''};
+
+        if(this.foto !== "assets/user.png")
+        {
+          empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, correo : this.correo, foto : this.foto};
+        }
+        
+        FirestoreService.guardarFs('empleados', empleado, this.firestore);
+      }
+      else
+      {
+        this.authService.mostrarToastError('Las contraseñas no coinciden!');
+      }
+    }
   }
 }

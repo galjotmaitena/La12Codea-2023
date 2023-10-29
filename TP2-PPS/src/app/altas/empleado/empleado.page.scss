@@ -29,7 +29,7 @@ ion-fab-button{
     display:flex;
     position:relative;
     justify-content: space-evenly;
-    top: 10%;
+    top: 3%;
     flex-direction: column;
     align-items:center;
 }
@@ -54,11 +54,37 @@ ion-fab-button{
 }
 
 .btn{
+    height: 100%;
     width : 85%;
     top: 20%;
     display: flex;
     position : relative;
-    margin:15px;
+    margin:8px;
     justify-content: space-evenly;
     --background:#F28482;
+    color:#84A59D;
+    font-size: 25px;
+}
+
+h1{
+    font-weight: bold;
+    color: #84A59D;
+    justify-content: center;
+    position: relative;
+    left: 10%;
+}
+
+.forms{
+    display:flex;
+    position:relative;
+    justify-content: space-evenly;
+    top: 3%;
+    flex-direction: column;
+    align-items:center;
+    width: 100%;
+}
+
+.msjError{
+    font-size: 10px;
+    color: red;
 }
