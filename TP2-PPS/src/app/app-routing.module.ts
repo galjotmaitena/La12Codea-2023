@@ -23,6 +23,10 @@ const routes: Routes = [
     loadChildren: () => import('./altas/duenio/duenio.module').then( m => m.DuenioPageModule)
   },
   {
+    path: 'cliente',
+    loadChildren: () => import('./altas/cliente/cliente.module').then( m => m.ClientePageModule)
+  },
+  {
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'

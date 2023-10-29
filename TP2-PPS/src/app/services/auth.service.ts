@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,23 @@ export class AuthService {
     }
 
     return ret;
+  }
+
+  async signup(email: string, password: string)
+  {
+    let retorno;
+
+    try
+    {
+      retorno = createUserWithEmailAndPassword(this.auth, email, password);
+    }
+    catch(error)
+    {
+      console.log("Error en register: ", error);
+      retorno = null;
+    }
+
+    return retorno;
   }
 
   get_email()

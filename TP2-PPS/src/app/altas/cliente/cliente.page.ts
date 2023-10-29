@@ -9,27 +9,25 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-duenio',
-  templateUrl: './duenio.page.html',
-  styleUrls: ['./duenio.page.scss'],
+  selector: 'app-cliente',
+  templateUrl: './cliente.page.html',
+  styleUrls: ['./cliente.page.scss'],
 })
-export class DuenioPage {
+export class ClientePage {
   form: FormGroup;
   urlFoto : any = 'assets/perfil.png';
   abierta = false;
   fotoCapturada:any = null;
-  toggle1State: boolean = false;
-  toggle2State: boolean = false;
   toast = false;
   mensaje = '';
 
   nombre = '';
   apellido = '';
   dni:any;
-  cuil:any;
   email = '';
   clave = '';
   rClave = '';
+  perfil = '';
 
   constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore) 
   {
@@ -38,10 +36,10 @@ export class DuenioPage {
         nombre: ['', [Validators.required, this.letrasValidator()]],
         apellido: ['', [Validators.required, this.letrasValidator()]],
         dni: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-        cuil: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
         email: ['', [Validators.required, Validators.pattern(/^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/), Validators.email]],
         clave: ['', [Validators.required, Validators.minLength(6)]],
-        rClave: ['', [Validators.required, Validators.minLength(6)]]
+        rClave: ['', [Validators.required, Validators.minLength(6)]],
+        perfil: ['', [Validators.required]]
       },{
         validator: this.passwordMatchValidator,
       }
@@ -51,20 +49,6 @@ export class DuenioPage {
   ngOnDestroy(): void 
   {
     this.stopScan();
-  }
-
-  toggleChanged(toggleNumber: number) 
-  {
-    if (toggleNumber === 1) 
-    {
-      this.toggle1State = !this.toggle1State;
-      this.toggle2State = false;
-    } 
-    else 
-    {
-      this.toggle2State = !this.toggle2State;
-      this.toggle1State = false; 
-    }
   }
 
   async sacarFoto()
@@ -155,32 +139,15 @@ export class DuenioPage {
     return capitalizedWords.join(' ');
   }
 
-  splitAndConvert(input: string)
-  {
-    if (input.length === 3) 
-    {
-      const primeraParte = parseInt(input.slice(0, 2), 10);
-      const segundaParte = parseInt(input.slice(2), 10);
-      return {primeraParte, segundaParte};
-    } 
-    else 
-    {
-      return;
-    }
-  }
-
   rellenarInputs(string: string)
   {
     let array = string.split("@");
 
     if(array.length === 9)
     {
-      let cuilA:any = this.splitAndConvert(array[8]);
-
       this.apellido = this.capitalizeFirstLetter(array[1]);
       this.nombre = this.capitalizeFirstLetter(array[2]);
       this.dni = parseInt(array[4]);
-      this.cuil = `${cuilA.primeraParte}${this.dni}${cuilA.segundaParte}`;
     }
     else
     {
@@ -221,7 +188,7 @@ export class DuenioPage {
     {
       const fecha = new Date().getTime();
       const storage = getStorage();
-      const nombre = `duenios/${this.nombre.replace(" ", "_")}_${this.apellido.replace(" ", "_")} ${fecha}`;
+      const nombre = `clientes/${this.nombre.replace(" ", "_")}_${this.apellido.replace(" ", "_")} ${fecha}`;
       const storageRef = ref(storage, nombre);
       //this.mostrarSpinner = true;
       uploadString(storageRef as any, this.fotoCapturada.dataUrl as any, 'data_url').then(()=>{
@@ -230,7 +197,7 @@ export class DuenioPage {
         {
           //this.mostrarSpinner = false;
           let obj_ = {...obj, foto: url};
-          FirestoreService.guardarFs('duenios', obj_, this.firestore);
+          FirestoreService.guardarFs('clientes', obj_, this.firestore);
         });
       });
     }
@@ -243,14 +210,21 @@ export class DuenioPage {
   guardar()
   {
     let obj;
-    let perfil = this.toggle1State ? 'duenio' : (this.toggle2State ? 'superv' : '');
 
     if(this.form.valid && this.fotoCapturada != null)
     {
-      if(perfil != '')
+      if(this.perfil != '')
       {
         this.auth.signup(this.email, this.clave).then(()=>{
-          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, cuil: this.cuil, email: this.email, perfil: perfil};
+          if(this.perfil === 'anonimo')
+          {
+            obj = {nombre: this.nombre, perfil: this.perfil};
+          }
+          else
+          {
+            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil};
+          }
+
           this.subir(obj);
           this.mensaje = 'Alta realizada con exito';
           this.urlFoto = 'assets/perfil.png';
@@ -258,11 +232,9 @@ export class DuenioPage {
           this.nombre = '';
           this.apellido = '';
           this.dni = '';
-          this.cuil = '';
           this.email = '';
           this.clave = '';
-          this.toggle1State = false;
-          this.toggle2State = false;
+          this.perfil = '';
         });
       }
       else
@@ -281,7 +253,6 @@ export class DuenioPage {
         this.mensaje = 'Completar correctamente los campos indicados';  
       }
     }
-    //alert(this.mensaje);
   }
 
   passwordMatchValidator(form: FormGroup) {
