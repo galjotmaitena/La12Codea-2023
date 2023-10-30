@@ -19,4 +19,7 @@ Terminado 26/10
 * Alta de empleados | Terminado 29/10
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e22c43dd-0f64-430d-a889-b28fa77a5946)
-* Alta de mesa
+* Alta de mesa | Terminado 30/10
+
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/36329fb6-d582-498b-b572-a18d236c9da7)
+
