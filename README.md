@@ -18,5 +18,5 @@ Terminado 26/10
 ### Galjot Maitena Camila
 * Alta de empleados | Terminado 29/10
 
-  ![Imagen de WhatsApp 2023-10-29 a las 21 33 51_881f53dd](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/316b5e8f-5928-49a4-aabf-902d06a5c4cb)
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e22c43dd-0f64-430d-a889-b28fa77a5946)
 * Alta de mesa
