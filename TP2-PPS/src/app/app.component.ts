@@ -13,6 +13,6 @@ export class AppComponent {
 
   ngOnInit(){
     firebase.initializeApp(environment.firebase);
-    this.router.navigateByUrl('cliente');
+    this.router.navigateByUrl('duenio');
   }
 }

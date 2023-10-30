@@ -135,10 +135,11 @@ export class DuenioPage {
   }
 
   async stopScan()
-    {
-      BarcodeScanner.showBackground();
-      BarcodeScanner.stopScan();
-      document.querySelector('body')?.classList.remove('scanner-active');
+  {
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    this.abierta = false;
+    document.querySelector('body')?.classList.remove('scanner-active');
   }
 
   capitalizeFirstLetter(input: string): string 

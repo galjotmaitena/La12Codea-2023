@@ -90,7 +90,7 @@
         Las contraseñas no coinciden.
       </span>
   
-      <div class="divToggle py-4">
+      <div class="divToggle py-0">
         <ion-toggle [checked]="toggle1State" (ionChange)="toggleChanged(1)">DUEÑO</ion-toggle>
         <ion-toggle [checked]="toggle2State" (ionChange)="toggleChanged(2)">SUPERVISOR</ion-toggle>
       </div>
@@ -101,3 +101,9 @@
     <ion-button (click)="guardar()" [disabled]="!form.valid" id="btn">ALTA</ion-button>
   </div>
 </ion-content>
+
+<ion-fab *ngIf="abierta" horizontal="start" (click)="stopScan()">
+  <ion-fab-button>
+    <ion-icon name="arrow-undo-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
