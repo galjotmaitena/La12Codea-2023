@@ -194,8 +194,26 @@ export class EmpleadoPage implements OnInit {
         {
           empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, correo : this.correo, foto : this.foto};
         }
-        
-        FirestoreService.guardarFs('empleados', empleado, this.firestore);
+
+        this.authService.signup(this.correo, this.password).catch((error)=>{
+          if(error === 'auth/email-already-in-use')
+          {
+            this.authService.mostrarToastError('El correo electrónico ya se encuentra en uso.');
+          }
+        }).then(()=>{
+          FirestoreService.guardarFs('empleados', empleado, this.firestore);
+
+          this.nombre = '';
+          this.apellido = '';
+          this.dni = '';
+          this.cuil = null;
+          this.correo = '';
+          this.password = '';
+          this.password2 = '';
+          this.tipoEmpleado = '';
+          this.foto = "assets/user.png";
+
+        });
       }
       else
       {

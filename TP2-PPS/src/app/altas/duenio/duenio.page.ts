@@ -249,7 +249,12 @@ export class DuenioPage {
     {
       if(perfil != '')
       {
-        this.auth.signup(this.email, this.clave).then(()=>{
+        this.auth.signup(this.email, this.clave).catch((error)=>{
+          if(error === 'auth/email-already-in-use')
+          {
+            this.auth.mostrarToastError('El correo electrónico ya se encuentra en uso.');
+          }
+        }).then(()=>{
           obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, cuil: this.cuil, email: this.email, perfil: perfil};
           this.subir(obj);
           this.mensaje = 'Alta realizada con exito';
