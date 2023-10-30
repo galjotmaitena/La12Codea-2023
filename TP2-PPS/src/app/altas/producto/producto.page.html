@@ -1,13 +1,8 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>producto</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">producto</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div>
+    <ion-button (click)="guardarQr()">Generar Código QR</ion-button>
+  </div>
+  <!-- <div *ngIf="qrImage">
+    <img [src]="qrImage" alt="Código QR">
+  </div> -->
 </ion-content>
