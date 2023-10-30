@@ -236,7 +236,7 @@ export class DuenioPage {
     }
     catch
     {
-      
+      this.auth.mostrarToastError("Error al subir la foto...");
     }
   }
 
@@ -249,15 +249,19 @@ export class DuenioPage {
     {
       if(perfil != '')
       {
-        this.auth.signup(this.email, this.clave).catch((error)=>{
+        this.auth.signup(this.email, this.clave)
+        .catch((error)=>
+        {
           if(error === 'auth/email-already-in-use')
           {
             this.auth.mostrarToastError('El correo electrónico ya se encuentra en uso.');
           }
-        }).then(()=>{
+        })
+        .then(()=>
+        {
           obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, cuil: this.cuil, email: this.email, perfil: perfil};
           this.subir(obj);
-          this.mensaje = 'Alta realizada con exito';
+          this.auth.mostrarToastExito('Alta realizada con exito.');
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';
@@ -272,7 +276,7 @@ export class DuenioPage {
       }
       else
       {
-        this.mensaje = '¡Debe elegir un perfil!';
+        this.auth.mostrarToastError('¡Debe elegir un perfil!');
       }
     }
     else
@@ -285,6 +289,8 @@ export class DuenioPage {
       {
         this.mensaje = 'Completar correctamente los campos indicados';  
       }
+
+      this.auth.mostrarToastError(this.mensaje);
     }
     //alert(this.mensaje);
   }

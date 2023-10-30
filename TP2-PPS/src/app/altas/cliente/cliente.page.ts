@@ -191,7 +191,8 @@ export class ClientePage {
       const nombre = `clientes/${this.nombre.replace(" ", "_")}_${this.apellido.replace(" ", "_")} ${fecha}`;
       const storageRef = ref(storage, nombre);
       //this.mostrarSpinner = true;
-      uploadString(storageRef as any, this.fotoCapturada.dataUrl as any, 'data_url').then(()=>{
+      uploadString(storageRef as any, this.fotoCapturada.dataUrl as any, 'data_url')
+      .then(()=>{
         const urlPromise = this.angularFirestorage.ref(nombre).getDownloadURL().toPromise();
         urlPromise.then((url: any) => 
         {
@@ -203,7 +204,7 @@ export class ClientePage {
     }
     catch
     {
-      
+      this.auth.mostrarToastError("Error al subir la foto...");
     }
   }
 
@@ -226,7 +227,7 @@ export class ClientePage {
           }
 
           this.subir(obj);
-          this.mensaje = 'Alta realizada con exito';
+          this.auth.mostrarToastExito('Alta realizada con exito.');
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';
@@ -235,11 +236,17 @@ export class ClientePage {
           this.email = '';
           this.clave = '';
           this.perfil = '';
+        })
+        .catch((error)=>{
+          if(error === 'auth/email-already-in-use')
+          {
+            this.auth.mostrarToastError('El correo electrónico ya se encuentra en uso.');
+          }
         });
       }
       else
       {
-        this.mensaje = '¡Debe elegir un perfil!';
+        this.auth.mostrarToastError('¡Debe elegir un perfil!');
       }
     }
     else
@@ -252,6 +259,8 @@ export class ClientePage {
       {
         this.mensaje = 'Completar correctamente los campos indicados';  
       }
+
+      this.auth.mostrarToastError(this.mensaje);
     }
   }
 

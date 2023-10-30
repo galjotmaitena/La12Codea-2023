@@ -13,6 +13,6 @@ export class AppComponent {
 
   ngOnInit(){
     firebase.initializeApp(environment.firebase);
-    this.router.navigateByUrl('empleado');
+    this.router.navigateByUrl('cliente');
   }
 }
