@@ -1,14 +1,14 @@
 <ion-content [fullscreen]="true" class="container-gral" >
   <h1>Alta de Mesas</h1>
-  <div style="flex-direction: row; display: flex; position:relative; top:0%;">
+  <div class="foto">
     <ion-avatar (click)="sacarFoto()">
-      <img [src]="foto" />
+      <img [src]="foto"/>
     </ion-avatar>
-    <ion-fab>
+    <!-- <ion-fab>
       <ion-fab-button >
-        <ion-icon name="qr-code-outline"></ion-icon>
+        <ion-icon name="qr-code-outline" (click)="generarQR()"></ion-icon>
       </ion-fab-button>
-    </ion-fab>
+    </ion-fab> -->
   </div>
   <div class="inputs">
     <form  [formGroup]="form" class="forms">
@@ -24,11 +24,15 @@
     </form>
 
     <ion-select label="Tipo de mesa" label-placement="floating" fill="solid" class="list" name="mesa" [(ngModel)]="tipoMesa">
-      <ion-select-option value="vip">VIP</ion-select-option>
-      <ion-select-option value="discapacitados">Para discapacitados</ion-select-option>
-      <ion-select-option value="estandar">Estandar</ion-select-option>
+      <ion-select-option value="1">VIP</ion-select-option>
+      <ion-select-option value="2">Para discapacitados</ion-select-option>
+      <ion-select-option value="3">Estandar</ion-select-option>
     </ion-select>
 
     <ion-button class="btn" fill="solid" (click)="darAlta()">Alta</ion-button>
+  </div>
+
+  <div class="qr">
+    <img style="width: 60%; height: 60%;" [src]="qr">
   </div>
 </ion-content>

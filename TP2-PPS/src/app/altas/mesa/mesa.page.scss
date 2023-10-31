@@ -10,7 +10,6 @@
 
 ion-avatar {
     --border-radius: 4px;
-    left : 7%;
     display: fixed;
     position:relative;
     margin:5px;
@@ -88,4 +87,23 @@ h1{
 .msjError{
     font-size: 10px;
     color: red;
+}
+
+.qr{
+    display: flex;
+    position: relative;
+    width: auto;
+    align-items: center;
+    margin: 10px;
+    top: 5%;
+    justify-content: center;
+}
+
+.foto{
+    display: flex;
+    position: relative;
+    width: auto;
+    align-items: center;
+    top: 0%;
+    justify-content: center;
 }
