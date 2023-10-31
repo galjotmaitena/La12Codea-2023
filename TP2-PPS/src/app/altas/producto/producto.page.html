@@ -1,12 +1,77 @@
-<ion-content [fullscreen]="true">
-  <div>
-    <ion-button (click)="sacarFotos()">Fotos</ion-button>
+<ion-content [fullscreen]="true" class="container-gral">
+  <div class="py-4 divTitulo">
+    <label class="titulo">ALTA PRODUCTO</label>
   </div>
-  <div>
-    <ion-button (click)="guardar()">Generar Código QR</ion-button>
+
+  <div class="divFab py-4">
+    <ion-fab (click)="sacarFotos()">
+      <ion-fab-button>
+        <ion-icon style="width: 50%;" name="camera-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+
+  <div class="py-2">
+    <form id="form" [formGroup]="form">
+      <ion-item class="input">
+        <ion-input [(ngModel)]="nombre" formControlName="nombre" name="n" label="Nombre" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('invalido')">
+        El nombre solo debe contener letras.
+      </span>
+      <span *ngIf="form.controls['nombre'].touched && form.controls['nombre'].hasError('required')">
+        El nombre es requerido.
+      </span>
+  
+      <ion-item class="input">
+        <ion-input [(ngModel)]="descripcion" formControlName="descripcion" name="n" label="Descripcion" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span *ngIf="form.controls['descripcion'].hasError('invalido')">
+        La descripcion solo debe contener letras.
+      </span>
+      <span *ngIf="form.controls['descripcion'].touched && form.controls['descripcion'].hasError('required')">
+        La descripcion es requerido.
+      </span>
+
+      <ion-item class="input">
+        <ion-input [(ngModel)]="tiempo" formControlName="tiempo" name="n" label="Tiempo de elaboracion (mins)" type="number" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <span *ngIf="form.controls['tiempo'].touched && form.controls['tiempo'].hasError('required')">
+        El tiempo es requerido.
+      </span>
+
+      <ion-item class="input">
+        <ion-input [(ngModel)]="precio" formControlName="precio" id="n" name="n" label="Precio" type="number" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <!-- <span *ngIf="form.controls['precio'].touched && form.controls['precio'].hasError('minlength')">
+        El precio debe tener al menos 7 caracteres.
+      </span> -->
+      <span *ngIf="form.controls['precio'].touched && form.controls['precio'].hasError('required')">
+        El precio es requerido.
+      </span>
+
+      <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+        <swiper-slide>
+          <img [src]="fotoCapturadas[0] == null ? 'assets/sin-fotos.png' : fotoCapturadas[0]">
+        </swiper-slide>  
+        <swiper-slide>
+          <img [src]="fotoCapturadas[1] == null ? 'assets/sin-fotos.png' : fotoCapturadas[1]">
+        </swiper-slide> 
+        <swiper-slide>
+          <img [src]="fotoCapturadas[2] == null ? 'assets/sin-fotos.png' : fotoCapturadas[2]">
+        </swiper-slide> 
+      </swiper-container>
+      <!-- <div *ngFor="let img of fotoCapturadas">
+        <swiper-container navigation="true" pagination="true" loop="true">
+          <swiper-slide>
+            <img [src]="img.foto" alt="Imagen">
+          </swiper-slide>
+        </swiper-container>
+      </div> -->
+    </form>
   </div>
   
-  <!-- <div *ngIf="qrImage">
-    <img [src]="qrImage" alt="Código QR">
-  </div> -->
+  <div class="divBoton">
+    <ion-button (click)="subirTodo()" [disabled]="!form.valid || fotosRestantes !== 0" id="btn">ALTA</ion-button>
+  </div>
 </ion-content>

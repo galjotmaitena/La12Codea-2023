@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { register } from 'swiper/element/bundle';
+register();
+
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,9 +15,11 @@ import { ProductoPage } from './producto.page';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     ProductoPageRoutingModule
   ],
-  declarations: [ProductoPage]
+  declarations: [ProductoPage],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductoPageModule {}
