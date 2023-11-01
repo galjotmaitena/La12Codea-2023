@@ -23,3 +23,10 @@ Terminado 26/10
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/36329fb6-d582-498b-b572-a18d236c9da7)
 
+## QR's (01/11 - 02/11)
+### Gauna Tomas Agustin
+* QR de propina
+
+### Galjot Maitena Camila
+* QR de ingreso al local
+* QR de la mesa
