@@ -12,8 +12,8 @@ Terminado 26/10
 * Alta de dueño/supervisor | Terminado 28/10
   
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e7870fc5-cff1-47bc-b791-a9534d32bb3b)
-* Alta de clientes 
-* Alta de productos
+* Alta de clientes | Terminado 29/10
+* Alta de productos | Terminado 30/10
 
 ### Galjot Maitena Camila
 * Alta de empleados | Terminado 29/10
