@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { SplashScreenComponent } from './componentes/splash-screen/splash-screen.component';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 
 const routes: Routes = [
   {
@@ -15,8 +15,8 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'empleado',
-    loadChildren: () => import('./altas/empleado/empleado.module').then( m => m.EmpleadoPageModule)
+    path: 'ingreso',
+    loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
   },
   {
     path: 'duenio',
@@ -27,23 +27,22 @@ const routes: Routes = [
     loadChildren: () => import('./altas/cliente/cliente.module').then( m => m.ClientePageModule)
   },
   {
-    path: '',
-    redirectTo: 'splash',
-    pathMatch: 'full'
-  },
-  {
-    path: 'mesa',
-    loadChildren: () => import('./altas/mesa/mesa.module').then( m => m.MesaPageModule)
-  },  {
     path: 'producto',
     loadChildren: () => import('./altas/producto/producto.module').then( m => m.ProductoPageModule)
   },
   {
-    path: 'ingreso',
-    loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
+    path: 'mesa',
+    loadChildren: () => import('./altas/mesa/mesa.module').then( m => m.MesaPageModule)
   },
-
-
+  {
+    path: 'empleado',
+    loadChildren: () => import('./altas/empleado/empleado.module').then( m => m.EmpleadoPageModule)
+  },
+  {
+    path: '',
+    redirectTo: 'splash',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

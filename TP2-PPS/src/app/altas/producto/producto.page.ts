@@ -7,6 +7,7 @@ import { QrService } from 'src/app/services/qr.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { PushService } from 'src/app/services/push.service';
 
 @Component({
   selector: 'app-producto',
@@ -27,7 +28,7 @@ export class ProductoPage implements OnInit {
   tiempo = '';
   precio = '';
 
-  constructor(private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
+  constructor(private push: PushService, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
   {
     this.form = this.formBuilder.group(
       {
@@ -82,6 +83,7 @@ export class ProductoPage implements OnInit {
                       this.fotosSubidas.push(url3);
                       FirestoreService.guardarFs('productos', {...obj, fotos: this.fotosSubidas, qr: urlQr}, this.firestore);
                       this.auth.mostrarToastExito("¡Alta realizada con éxito!");
+                      this.push.sendPush('ok', '¡Alta realizada con éxito!');
                     });
                   });
                 });

@@ -7,6 +7,7 @@ import { QrService } from 'src/app/services/qr.service';
 import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { PushService } from 'src/app/services/push.service';
 
 
 @Component({
@@ -25,10 +26,11 @@ export class MesaPage implements OnInit {
   qr = 'assets/escanear.png';
   ocupada = false;
   pedido = '';
+  fotoPrueba:any = 'assets/mesa-redonda.png';
   
   info: any;
 
-  constructor(private aFirestorage : AngularFireStorage, private formBuilder: FormBuilder, private qrService : QrService, private firestore : Firestore, private authService :AuthService) 
+  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private formBuilder: FormBuilder, private qrService : QrService, private firestore : Firestore, private authService :AuthService) 
   { 
     this.form = this.formBuilder.group({
       numero: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -53,7 +55,9 @@ export class MesaPage implements OnInit {
     let fecha = new Date().getTime();
     let nombre = `mesas/fotos/${this.numero} ${fecha}`;
     let storageRef = ref(storage, nombre);
-  
+    
+    this.fotoPrueba = fotoCapturada.dataUrl;
+
     uploadString(storageRef as any, fotoCapturada.dataUrl as any, 'data_url').then(()=>{
       let promesa = this.aFirestorage.ref(nombre).getDownloadURL().toPromise();
   

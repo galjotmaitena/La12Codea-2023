@@ -9,11 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { environment } from 'src/environments/environment';
-import { AuthService } from './services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
+import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireModule } from '@angular/fire/compat';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,11 +20,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
+    HttpClientModule, 
     AngularFireStorageModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    provideFirebaseApp(() => initializeApp(environment.firebase)), 
-    provideFirestore(() => getFirestore()), 
-    provideAuth(() => getAuth())],
+    AngularFireModule.initializeApp({"projectId":"tp-pps-dbd3e","appId":"1:723280552401:web:65a9966e11bf7a4bd400f0","storageBucket":"tp-pps-dbd3e.appspot.com","apiKey":"AIzaSyAyq_JiKgxj58yx8mBub51PXFFKyXqWado","authDomain":"tp-pps-dbd3e.firebaseapp.com","messagingSenderId":"723280552401"}),
+    provideFirebaseApp(() => initializeApp({"projectId":"tp-pps-dbd3e","appId":"1:723280552401:web:65a9966e11bf7a4bd400f0","storageBucket":"tp-pps-dbd3e.appspot.com","apiKey":"AIzaSyAyq_JiKgxj58yx8mBub51PXFFKyXqWado","authDomain":"tp-pps-dbd3e.firebaseapp.com","messagingSenderId":"723280552401"})),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideMessaging(() => getMessaging()),
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

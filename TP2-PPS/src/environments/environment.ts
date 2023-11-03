@@ -3,16 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  firebase: {
-    projectId: 'tp-pps-dbd3e',
-    appId: '1:723280552401:web:65a9966e11bf7a4bd400f0',
-    storageBucket: 'tp-pps-dbd3e.appspot.com',
-    locationId: 'southamerica-east1',
-    apiKey: 'AIzaSyAyq_JiKgxj58yx8mBub51PXFFKyXqWado',
-    authDomain: 'tp-pps-dbd3e.firebaseapp.com',
-    messagingSenderId: '723280552401',
-  },
-  production: false
+  production: false,
+  fcmServerKey: 'AAAA5Xwo6w4:APA91bEezJZSk8lLiwz961CBut4gSq6SRl4Vz55vqdVN9SBospKzXegacZmUecxA5-a-W1ZDjQ7JN2BH3fwQDmofs4n-94OOjtxJm25xQIOyPdPTh54jk0cS5pNAU_nrdsWaS7WPGXYc',
+  fcmUrl: 'https://fcm.googleapis.com/fcm/send',
+  //firebase: '{"projectId":"prueba-app-b34c5","appId":"1:985630567182:web:4a925b2b9e3984af52455f","storageBucket":"prueba-app-b34c5.appspot.com","apiKey":"AIzaSyDMwT9_lEEMYYx0Ju3Xb4M2x5wuK3FRLhI","authDomain":"prueba-app-b34c5.firebaseapp.com","messagingSenderId":"985630567182"}',
 };
 
 /*

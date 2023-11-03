@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { PushService } from './services/push.service';
 import  firebase  from 'firebase/compat/app';
-import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   constructor(private router:Router) {}
 
   ngOnInit(){
-    firebase.initializeApp(environment.firebase);
-    this.router.navigateByUrl('mesa');
+    firebase.initializeApp({"projectId":"tp-pps-dbd3e","appId":"1:723280552401:web:65a9966e11bf7a4bd400f0","storageBucket":"tp-pps-dbd3e.appspot.com","apiKey":"AIzaSyAyq_JiKgxj58yx8mBub51PXFFKyXqWado","authDomain":"tp-pps-dbd3e.firebaseapp.com","messagingSenderId":"723280552401"});
+    this.router.navigateByUrl('producto');
   }
 }

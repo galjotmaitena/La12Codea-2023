@@ -65,9 +65,9 @@ export class AuthService {
     return retorno;
   }
 
-  get_email()
+  get_user()
   {
-    return this.email;
+    return this.auth.currentUser;//para obtener el email acceder con .email. Para corroborar que te trajo algo, solo hace un if(user)
   }
 
   async mostrarToastError(mensaje: string) {

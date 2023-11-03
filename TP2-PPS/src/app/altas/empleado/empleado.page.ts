@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, MinLengthValidator } from '@angular/forms';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
+import { PushService } from 'src/app/services/push.service';
 
 @Component({
   selector: 'app-empleado',
@@ -36,7 +37,7 @@ export class EmpleadoPage implements OnInit {
 
   tipo = 0;
   
-  constructor(private aFirestorage : AngularFireStorage, private authService : AuthService, private formBuilder: FormBuilder, private firestore : Firestore) 
+  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private authService : AuthService, private formBuilder: FormBuilder, private firestore : Firestore) 
   { 
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, this.contieneSoloLetras()]],

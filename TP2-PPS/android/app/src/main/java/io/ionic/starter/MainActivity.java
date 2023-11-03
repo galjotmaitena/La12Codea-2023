@@ -1,4 +1,4 @@
-package rest.au;
+package io.ionic.starter;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -53,6 +53,58 @@ export class DuenioPage {
     this.stopScan();
   }
 
+  
+  async startScan()
+  {
+    try
+    {
+      const permission = await this.checkPermission();
+      if(!permission)
+      {
+        return;
+      }
+      
+      this.abierta = true;
+      await BarcodeScanner.hideBackground();
+      document.querySelector('body')?.classList.add('scanner-active');
+      const result = await BarcodeScanner.startScan();
+      if(result?.hasContent)
+      {
+        this.rellenarInputs(result.content);
+        BarcodeScanner.showBackground();
+        document.querySelector('body')?.classList.add('scanner-active');
+        this.abierta = false;
+      }
+    }
+    catch(error)
+    {
+      alert(error);
+      this.stopScan();
+    }
+  }
+  
+  async stopScan()
+  {
+    BarcodeScanner.showBackground();
+    BarcodeScanner.stopScan();
+    this.abierta = false;
+    document.querySelector('body')?.classList.remove('scanner-active');
+  }
+  
+  capitalizeFirstLetter(input: string): string 
+  {
+    const words = input.split(' ');
+    const capitalizedWords = words.map(word => {
+      if (word.length === 0) {
+        return '';
+      }
+      const firstLetter = word[0].toUpperCase();
+      const restOfTheWord = word.slice(1).toLowerCase();
+      return firstLetter + restOfTheWord;
+    });
+    return capitalizedWords.join(' ');
+  }
+  
   toggleChanged(toggleNumber: number) 
   {
     if (toggleNumber === 1) 
@@ -104,58 +156,7 @@ export class DuenioPage {
 
     return ret;
   }
-
-  async startScan()
-    {
-      try
-      {
-        const permission = await this.checkPermission();
-        if(!permission)
-        {
-          return;
-        }
-
-        this.abierta = true;
-        await BarcodeScanner.hideBackground();
-        document.querySelector('body')?.classList.add('scanner-active');
-        const result = await BarcodeScanner.startScan();
-        if(result?.hasContent)
-        {
-          this.rellenarInputs(result.content);
-          BarcodeScanner.showBackground();
-          document.querySelector('body')?.classList.add('scanner-active');
-          this.abierta = false;
-        }
-      }
-      catch(error)
-      {
-        alert(error);
-        this.stopScan();
-      }
-  }
-
-  async stopScan()
-  {
-    BarcodeScanner.showBackground();
-    BarcodeScanner.stopScan();
-    this.abierta = false;
-    document.querySelector('body')?.classList.remove('scanner-active');
-  }
-
-  capitalizeFirstLetter(input: string): string 
-  {
-    const words = input.split(' ');
-    const capitalizedWords = words.map(word => {
-      if (word.length === 0) {
-        return '';
-      }
-      const firstLetter = word[0].toUpperCase();
-      const restOfTheWord = word.slice(1).toLowerCase();
-      return firstLetter + restOfTheWord;
-    });
-    return capitalizedWords.join(' ');
-  }
-
+  
   splitAndConvert(input: string)
   {
     if (input.length === 3) 
