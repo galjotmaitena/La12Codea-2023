@@ -1,0 +1,21 @@
+{
+  "targets": {
+    "prueba-app-b34c5": {
+      "hosting": {
+        "app": [
+          "prueba-app-b34c5"
+        ]
+      }
+    },
+    "tp-pps-dbd3e": {
+      "hosting": {
+        "app": [
+          "tp-pps-dbd3e"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tp-pps-dbd3e"
+  }
+}

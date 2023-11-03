@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">La12Codea</string>
-    <string name="title_activity_main">La12Codea</string>
-    <string name="package_name">rest.au</string>
-    <string name="custom_url_scheme">rest.au</string>
-</resources>

@@ -1,0 +1,38 @@
+<ion-content [fullscreen]="true" class="container-gral" >
+  <h1>Alta de Mesas</h1>
+  <div class="foto">
+    <ion-avatar (click)="sacarFoto()">
+      <img [src]="fotoPrueba"/>
+    </ion-avatar>
+    <!-- <ion-fab>
+      <ion-fab-button >
+        <ion-icon name="qr-code-outline" (click)="generarQR()"></ion-icon>
+      </ion-fab-button>
+    </ion-fab> -->
+  </div>
+  <div class="inputs">
+    <form  [formGroup]="form" class="forms">
+      <ion-input class="txt" label="Numero de mesa" label-placement="floating" fill="solid" placeholder="Numero de mesa" type="number" formControlName="numero" name="num" [(ngModel)]="numero"></ion-input>
+      <span class="msjError" *ngIf="form.controls['numero'].touched && form.controls['numero'].hasError('required')">
+        Debe ingresar el numero de mesa para dar de alta.
+      </span>
+
+      <ion-input class="txt" label="Cantidad de comensales" label-placement="floating" fill="solid" placeholder="Cantidad de comensales" type="number" formControlName="cantidad" name="cant" [(ngModel)]="cantidad"></ion-input>
+      <span class="msjError" *ngIf="form.controls['cantidad'].touched && form.controls['cantidad'].hasError('required')">
+        Debe ingresar la cantidad de comensales para dar de alta.
+      </span>
+    </form>
+
+    <ion-select label="Tipo de mesa" label-placement="floating" fill="solid" class="list" name="mesa" [(ngModel)]="tipoMesa">
+      <ion-select-option value="VIP">VIP</ion-select-option>
+      <ion-select-option value="discapacitados">Para discapacitados</ion-select-option>
+      <ion-select-option value="estandar">Estandar</ion-select-option>
+    </ion-select>
+
+    <ion-button class="btn" fill="solid" (click)="darAlta()">Alta</ion-button>
+  </div>
+
+  <div class="qr">
+    <img style="width: 60%; height: 60%;" [src]="qr">
+  </div>
+</ion-content>
