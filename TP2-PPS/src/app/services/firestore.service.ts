@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, query, orderBy, getDocs } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, query, orderBy, getDocs, doc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class FirestoreService {
             const data: any[] = [];
 
             querySnapshot.forEach((doc) => {
-                data.push(doc.data());
+                data.push({id: doc.id, ...doc.data()});
             });
 
             return data;
@@ -32,6 +32,22 @@ export class FirestoreService {
         {
             console.error('Error al obtener datos de Firestore:', error);
             throw error;
+        }
+    }
+
+    static async actualizarFs(col: string, obj: any, firestore: Firestore) 
+    {
+        const docRef = doc(firestore, col, obj.id);
+    
+        try 
+        {
+          await updateDoc(docRef, obj);
+          return 'Registro actualizado correctamente.';
+        } 
+        catch (error) 
+        {
+          console.error('Error al actualizar el registro en Firestore:', error);
+          throw error;
         }
     }
 }

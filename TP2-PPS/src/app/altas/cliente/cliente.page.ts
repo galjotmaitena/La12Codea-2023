@@ -40,7 +40,8 @@ export class ClientePage {
         clave: ['', [Validators.required, Validators.minLength(6)]],
         rClave: ['', [Validators.required, Validators.minLength(6)]],
         perfil: ['', [Validators.required]]
-      },{
+      },
+      {
         validator: this.passwordMatchValidator,
       }
     );
@@ -219,11 +220,11 @@ export class ClientePage {
         this.auth.signup(this.email, this.clave).then(()=>{
           if(this.perfil === 'anonimo')
           {
-            obj = {nombre: this.nombre, perfil: this.perfil};
+            obj = {nombre: this.nombre, perfil: this.perfil, mesa: ''};
           }
           else
           {
-            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil};
+            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, mesa: ''};
           }
 
           this.subir(obj);

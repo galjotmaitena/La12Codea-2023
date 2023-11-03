@@ -17,7 +17,7 @@ const config: CapacitorConfig = {
       "androidSpinnerStyle": "large",
       "iosSpinnerStyle": "small",
       "spinnerColor": "#999999",
-      "splashFullScreen": true,
+      "splashFullScreen": false,/////////////////////linea modificada
       "splashImmersive": true,
       "layoutName": "launch_screen",
       "useDialog": true
