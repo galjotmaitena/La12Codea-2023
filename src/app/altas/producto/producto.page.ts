@@ -83,6 +83,7 @@ export class ProductoPage implements OnInit {
                       this.fotosSubidas.push(url3);
                       FirestoreService.guardarFs('productos', {...obj, fotos: this.fotosSubidas, qr: urlQr}, this.firestore);
                       this.auth.mostrarToastExito("¡Alta realizada con éxito!");
+                      this.push.sendPush('ok', '¡Alta realizada con éxito!');
                     });
                   });
                 });
