@@ -29,4 +29,7 @@ Terminado 26/10
 
 ### Galjot Maitena Camila
 * QR de ingreso al local
+
+  https://cdn.discordapp.com/attachments/1040381726536511581/1169820783967731834/qr-ingreso.png?ex=6556cb81&is=65445681&hm=9caf2a7d13f67d3c5baab95a2068322987902632e4a5e61381ae76489708b056&
+  
 * QR de la mesa
