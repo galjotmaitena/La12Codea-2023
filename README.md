@@ -27,10 +27,9 @@ Terminado 26/10
 ### Gauna Tomas Agustin
 * QR de propina
 
-
 Qr satisfaccion 'malo'
-![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/75463e24-e370-44f3-ba9d-29f2859fc212)
 
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/75463e24-e370-44f3-ba9d-29f2859fc212)
 
 Qr satisfaccion 'regular'
 Qr satisfaccion 'bueno'
