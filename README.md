@@ -39,5 +39,6 @@ Qr satisfaccion 'excelente'
 ### Galjot Maitena Camila
 * QR de ingreso al local
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/44db5014-90af-4931-94ed-d98b6bde4119)
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/ada7d482-af05-4db6-8821-fc725b4576fd)
+
 * QR de la mesa
