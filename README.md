@@ -25,7 +25,7 @@ Terminado 26/10
 
 ## QR's (01/11 - 02/11)
 ### Gauna Tomas Agustin
-* QR de propina
+* QR de propina | Terminado 02/11
 
 Qr satisfaccion 'malo'
 
@@ -48,11 +48,11 @@ Qr satisfaccion 'excelente'
 ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/6d3f4692-f970-46ab-ac78-155e880e5e3b)
 
 ### Galjot Maitena Camila
-* QR de ingreso al local
+* QR de ingreso al local | Terminado 02/11
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/ada7d482-af05-4db6-8821-fc725b4576fd)
 
-* QR de la mesa
+* QR de la mesa | Terminado 02/11
 
 Mesa 1
 
