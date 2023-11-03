@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'producto',
     loadChildren: () => import('./altas/producto/producto.module').then( m => m.ProductoPageModule)
   },
+  {
+    path: 'ingreso',
+    loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
+  },
 
 
 ];

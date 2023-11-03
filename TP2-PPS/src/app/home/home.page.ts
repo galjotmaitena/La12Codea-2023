@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
+  usuario = 'metre';
+  listaEspera : any[] = ['Pereyra', 'Lopez'];
+
   constructor() {}
+
 
 }

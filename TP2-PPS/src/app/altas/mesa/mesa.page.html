@@ -24,9 +24,9 @@
     </form>
 
     <ion-select label="Tipo de mesa" label-placement="floating" fill="solid" class="list" name="mesa" [(ngModel)]="tipoMesa">
-      <ion-select-option value="1">VIP</ion-select-option>
-      <ion-select-option value="2">Para discapacitados</ion-select-option>
-      <ion-select-option value="3">Estandar</ion-select-option>
+      <ion-select-option value="VIP">VIP</ion-select-option>
+      <ion-select-option value="discapacitados">Para discapacitados</ion-select-option>
+      <ion-select-option value="estandar">Estandar</ion-select-option>
     </ion-select>
 
     <ion-button class="btn" fill="solid" (click)="darAlta()">Alta</ion-button>
