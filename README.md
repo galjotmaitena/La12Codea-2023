@@ -53,3 +53,6 @@ Qr satisfaccion 'excelente'
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/ada7d482-af05-4db6-8821-fc725b4576fd)
 
 * QR de la mesa
+
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/179992e3-e311-45bd-9832-24c7b705a56d)
+
