@@ -29,7 +29,7 @@ Terminado 26/10
 
 Qr satisfaccion 'malo'
 
-![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/75463e24-e370-44f3-ba9d-29f2859fc212)
+![qr-propina-0](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/e60aba01-2b61-4c1d-a90e-8f404d068dde)
 
 Qr satisfaccion 'regular'
 
