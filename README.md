@@ -89,8 +89,10 @@ Mesa 8
 Mesa 9
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/7a2fe2c8-b617-4ede-bb69-938d26a18f1a)
+  
+Mesa 10
 
-
+  ![QR_10](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/f9108efa-cfe5-4f1b-9e18-0adf9bd17a1b)
 
   
 
