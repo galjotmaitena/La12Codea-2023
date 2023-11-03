@@ -32,9 +32,20 @@ Qr satisfaccion 'malo'
 ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/75463e24-e370-44f3-ba9d-29f2859fc212)
 
 Qr satisfaccion 'regular'
+
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/823a3006-f141-40b9-ba3b-a592627b90ab)
+
 Qr satisfaccion 'bueno'
+
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/0e596074-a34a-4c77-966a-da697be6056a)
+
 Qr satisfaccion 'muy bueno'
+
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/78ff0bd9-ace9-443d-8c54-f3696ecc33c7)
+
 Qr satisfaccion 'excelente'
+
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/6d3f4692-f970-46ab-ac78-155e880e5e3b)
 
 ### Galjot Maitena Camila
 * QR de ingreso al local
