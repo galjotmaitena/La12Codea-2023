@@ -54,10 +54,6 @@ Qr satisfaccion 'excelente'
 
 * QR de la mesa | Terminado 02/11
 
-Mesa 1
-
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/3b793e62-a930-49f5-95ea-b58de771f9a8)
-
 Mesa 2
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e8fe4873-6ef1-4251-9f26-b3559d9d61bd)
