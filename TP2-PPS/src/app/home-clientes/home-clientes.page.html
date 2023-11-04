@@ -1,0 +1,21 @@
+<ion-content class="container-gral" *ngIf="!abierta">
+  <ion-fab>
+    <ion-fab-button (click)="asignarEscan()">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div *ngIf="ingreso">
+    <label>{{mensaje}}</label>
+
+    <div style="background-color: #fff; position: relative; display: flex;">
+<label>encuestas</label>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer class="ion-no-border" >
+  <ion-toolbar style="--background:#F6BD60">
+    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
+  </ion-toolbar>
+</ion-footer>

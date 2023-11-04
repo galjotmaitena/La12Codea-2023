@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, query, orderBy, getDocs, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, query, orderBy, getDocs, doc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
+
+  private dataSubject = new BehaviorSubject<any[]>([]);
+  data$ = this.dataSubject.asObservable();
 
   static guardarFs(col: string, params:any, firestore: Firestore)
   {   
@@ -36,13 +40,15 @@ export class FirestoreService {
       }
   }
 
-/*   static async actualizarFs(col: string, foto: any, firestore: Firestore) 
+
+
+   static async actualizarFs(col: string, obj: any, firestore: Firestore) 
   {
-      const docRef = doc(firestore, col, foto.id);
+      const docRef = doc(firestore, col, obj.id);
   
       try 
       {
-        await updateDoc(docRef, foto);
+        await updateDoc(docRef, obj);
         return 'Registro actualizado correctamente.';
       } 
       catch (error) 
@@ -50,5 +56,24 @@ export class FirestoreService {
         console.error('Error al actualizar el registro en Firestore:', error);
         throw error;
       }
-  } */
+  } 
+
+  static buscarFs(col : string, email : any, firestore : Firestore)
+  {
+    return new Promise((resolve, reject) => {
+      FirestoreService.traerFs(col, firestore).then((data) => {
+        let usuario = null;
+  
+        data.forEach((obj) => {
+          if (obj.email === email) {
+            usuario = obj;
+          }
+        });
+  
+        resolve(usuario);
+      });
+    });
+  }
+
+
 }

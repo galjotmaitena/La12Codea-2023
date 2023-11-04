@@ -1,0 +1,25 @@
+.container-gral{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    --background: #FCD5CE;
+    --color: black;
+    width: 100%;
+    justify-content: center;
+}
+
+ion-footer{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    bottom: 0%;
+}
+
+.iconFooter{
+    color:black;
+    display: flex;
+    position: relative;
+    width: 10%;
+}

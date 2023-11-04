@@ -43,6 +43,15 @@ const routes: Routes = [
     redirectTo: 'splash',
     pathMatch: 'full'
   },
+  {
+    path: 'homeClientes',
+    loadChildren: () => import('./home-clientes/home-clientes.module').then( m => m.HomeClientesPageModule)
+  },  {
+    path: 'home-metres',
+    loadChildren: () => import('./home-metres/home-metres.module').then( m => m.HomeMetresPageModule)
+  },
+
+
 ];
 
 @NgModule({

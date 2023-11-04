@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
         this.clave = '';
         setTimeout(()=>{
           this.mostrarSpinner = false;
-          this.router.navigate(['/inicio']);
+          this.router.navigate(['/homeClientes']);
         }, 2000);
         
       })

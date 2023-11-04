@@ -1,0 +1,17 @@
+<ion-content class="container-gral">
+  
+    <ion-content color="light">
+      <ion-list [inset]="true" *ngFor="let c of listaEspera">
+        <ion-item (click)="prueba(c)">
+          <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  
+
+</ion-content>
+<ion-footer class="ion-no-border" >
+  <ion-toolbar style="--background:#F6BD60">
+    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
+  </ion-toolbar>
+</ion-footer>

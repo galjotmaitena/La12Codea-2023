@@ -96,7 +96,7 @@ export class MesaPage implements OnInit {
         {
           this.qr = url2;
           let mesa = {numero : this.numero, cantidadComensales : this.cantidad, tipoMesa : this.tipoMesa, foto : this.foto, QR : this.qr, ocupada : this.ocupada, pedido : this.pedido};
-          FirestoreService.guardarFs('mesas', mesa, this.firestore);
+          FirestoreService.guardarFs('mesas', JSON.stringify(mesa), this.firestore);
         });
       });
     }
