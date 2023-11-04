@@ -34,9 +34,11 @@ export class HomeDuenioPage implements OnInit {
     this.observable.unsubscribe();
   }
 
-  send()
-  {
-    this.push.sendPushNotificationToAll('Prueba', 'desde todos');
+  send() {
+    // Obtén los tokens de dispositivos de los clientes en 'items'
+    //const tokens = this.items.map((cliente) => cliente.id);
+    //this.push.sendPushToMultipleDevices('Probando', 'andará?', tokens);
+    this.push.sendPush('Título de notificación', 'Cuerpo de notificación');
   }
   
 }
