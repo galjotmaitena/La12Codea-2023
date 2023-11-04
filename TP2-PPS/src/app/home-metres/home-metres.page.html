@@ -13,7 +13,7 @@
             <h1>Mesas Disponibles</h1>
     
             <ion-list lines="none" *ngFor="let m of listaMesas">
-              <ion-item button="true" detail="false" (click)="modal.dismiss()">
+              <ion-item button="true" detail="false" (click)="getMesa(m.numero)">
                 <ion-icon name="person-circle"></ion-icon>
                 <ion-label>{{m.numero}}</ion-label>
               </ion-item>

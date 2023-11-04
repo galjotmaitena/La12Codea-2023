@@ -25,7 +25,6 @@ export class HomeMetresPage implements OnInit {
   {
     this.observableEspera = FirestoreService.traerFs('listaEspera', this.firestore).subscribe((data)=>{
       this.listaEspera = data;
-      this.listaEspera.push({'nombre':'tomas', 'apellido':'gauna', 'dni':44457866});
 
     });
     this.observableMesas = FirestoreService.traerFs('mesas', this.firestore).subscribe((data)=>{
@@ -35,10 +34,9 @@ export class HomeMetresPage implements OnInit {
           this.listaMesas.push(mesa);
         }
       });
+      this.listaMesas.push({'numero':1}, {'numero':2}, {'numero':3});
+
     });
-
-
-
   }
 
   ngOnDestroy()
@@ -73,27 +71,12 @@ export class HomeMetresPage implements OnInit {
     console.log(obj);
   }
 
+  getMesa(mesa : string)
+  {
+    this.abierta = false;
+    this.mesa = mesa;
+    console.log(mesa);
+  }
 
 
-  canDismiss = async () => {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Yes',
-          role: 'confirm',
-        },
-        {
-          text: 'No',
-          role: 'cancel',
-        },
-      ],
-    });
-
-    actionSheet.present();
-
-    const { role } = await actionSheet.onWillDismiss();
-
-    return role === 'confirm';
-  };
 }
