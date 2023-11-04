@@ -29,28 +29,28 @@ Terminado 26/10
 
 Qr satisfaccion 'malo'
 
-![qr-malo](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/ce97cdcb-81da-440d-90ca-2eca0e5867af)
+![Captura desde 2023-11-03 21-02-25](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/55e31249-bc6d-4a36-8258-aa9ad7b85129)
 
 Qr satisfaccion 'regular'
 
-![qr-regular](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/aa431353-8715-47d1-b22e-42360e124b73)
+![Captura desde 2023-11-03 21-02-32](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/1bc9a78f-0604-4330-8702-f630e61dd567)
 
 Qr satisfaccion 'bueno'
 
-![qr-bueno](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/943aa6f4-9b99-4a9a-a0f6-a819234670b9)
+![Captura desde 2023-11-03 21-02-37](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/1b6bfe39-e843-49e2-aebd-98f03d6652f5)
 
 Qr satisfaccion 'muy bueno'
 
-![qr-muy bueno](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/8647818f-01fa-41e4-85eb-2c89dd953eff)
+![Captura desde 2023-11-03 21-02-43](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/5668b5d0-1d2f-48ae-8f06-0f703446ad77)
 
 Qr satisfaccion 'excelente'
 
-![qr-excelente](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/bbc7e1c5-5f0e-4aa7-8245-992cc2322e6a)
+![Captura desde 2023-11-03 21-02-46](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/0c7d5938-745f-4a44-98b2-309036d43025)
 
 ### Galjot Maitena Camila
 * QR de ingreso al local | Terminado 02/11
 
-![qr-ingreso](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/9a7130cd-bcd8-45d5-9a63-39abd6571892)
+![Captura desde 2023-11-03 21-02-50](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/ec26a4fc-2425-4b80-af77-9d298f634771)
 
 * QR de la mesa | Terminado 02/11
 
