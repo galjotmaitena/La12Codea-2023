@@ -42,7 +42,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'
+  },  {
+    path: 'home-duenio',
+    loadChildren: () => import('./home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
   },
+
 ];
 
 @NgModule({

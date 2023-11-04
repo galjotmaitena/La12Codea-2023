@@ -220,11 +220,11 @@ export class ClientePage {
         this.auth.signup(this.email, this.clave).then(()=>{
           if(this.perfil === 'anonimo')
           {
-            obj = {nombre: this.nombre, perfil: this.perfil, mesa: ''};
+            obj = {nombre: this.nombre, perfil: this.perfil, email: this.email, mesa: ''};
           }
           else
           {
-            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, mesa: ''};
+            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: ''};
           }
 
           this.subir(obj);
