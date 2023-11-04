@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActionPerformed,
   PushNotifications,
@@ -18,7 +18,7 @@ import { FirestoreService } from './firestore.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PushService{
+export class PushService implements OnDestroy{
   token:any;
   user:any;
   tokens:any[]=[];
@@ -76,18 +76,17 @@ export class PushService{
         alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
-  }
-//////////////////////////////////////////
-  ngOnInit()
-  {
+///////////////////////////////////////////////////////////////////////////////
     this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
-/*       data.forEach(token => {
-        this.tokens.push(token.value);
-      }); */
-      this.tokens = data;
-    });
+      /*       data.forEach(token => {
+              this.tokens.push(token.value);
+            }); */
+            this.tokens = data;
+            alert(JSON.stringify(data))
+          });
   }
 
+  ///////////////////////////////////////////////////
   ngOnDestroy()
   {
     this.observable.unsubscribe();
@@ -147,7 +146,7 @@ export class PushService{
 
   sendPush(title:string, body:string) 
   {
-    if (this.token /* && this.user */) {//////////////descomentar
+    /* if (this.token && this.user) { *///////////////descomentar
       this.tokens.forEach(token => {
         const notificationData = {
           title: title,
@@ -170,10 +169,10 @@ export class PushService{
           }
         );
       });
-    } 
+/*     } 
     else 
     {
       alert('El token aún no está disponible. Espera a que se registre el dispositivo.');
-    }
+    } */
   }
 }
