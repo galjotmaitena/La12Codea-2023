@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ToastController } from '@ionic/angular';
+import { Firestore } from '@angular/fire/firestore';
+import { FirestoreService } from '../services/firestore.service';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +12,78 @@ import { ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
   isPickerOpen = false;
-  correo = '';
+  email = '';
   clave = '';
   mostrarSpinner = false;
   mensajeError = '';
+  usuarios: any[] = [];
+  observable:any;
 
-  constructor(private router: Router, private auth: AuthService, private toastController: ToastController) { }
+  constructor(private firestore: Firestore, private router: Router, private auth: AuthService) { }
 
-  ngOnInit(){}
+  ngOnInit()
+  {
+    this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+      this.usuarios = data;
+    });
+  }
+
+  ngOnDestroy()
+  {
+    this.observable.unsubscribe();
+  }
 
   ingresar()
   {
     this.mostrarSpinner = true;
-    this.auth.login(this.correo, this.clave)
+    this.auth.login(this.email, this.clave)
       ?.then(response =>
       {
-        console.log("redireccionando...");
-        this.correo = '';
-        this.clave = '';
-        setTimeout(()=>{
-          this.mostrarSpinner = false;
-          this.router.navigate(['/homeClientes']);
-        }, 2000);
-        
+        let user:any;
+
+        this.usuarios.forEach((u)=>{
+          if(u.email === this.email)
+          {
+            user = u;
+          }
+        });
+
+        if(user.tipo === 'anonimo')
+        {
+          this.auth.mostrarToastExito('Ingresando...');
+          this.email = '';
+          this.clave = '';
+          setTimeout(()=>{
+            this.mostrarSpinner = false;
+            this.router.navigate(['/home']);
+          }, 2000);
+        }
+        else
+        {
+          if(user.aprobado == 'espera')
+          {
+            this.auth.mostrarToastError('Su usuario se encuentra en evaluación');
+            this.auth.logout();
+          }
+          else
+          {
+            if(!user.aprobado)
+            {
+              this.auth.mostrarToastError('Su usuario ha sido rechazado');
+              this.auth.logout();
+            }
+            else
+            {
+              this.auth.mostrarToastExito('Ingresando...');
+              this.email = '';
+              this.clave = '';
+              setTimeout(()=>{
+                this.mostrarSpinner = false;
+                this.router.navigate(['/home']);
+              }, 2000);
+            }
+          }
+        }
       })
       .catch(error =>
       {
@@ -42,16 +93,16 @@ export class LoginPage implements OnInit {
           switch(error.code)
           {
             case 'auth/invalid-email':
-              this.mensajeError =  "Correo inválido.";
+              this.mensajeError =  "email inválido.";
             break;
             case 'auth/missing-password':
               this.mensajeError = "Contraseña inválida.";
             break;
             case 'auth/invalid-login-credentials':
-              this.mensajeError = 'Correo y/o contraseña incorrectos.';
+              this.mensajeError = 'email y/o contraseña incorrectos.';
             break;
           }
-          this.mostrarError(this.mensajeError);
+          this.auth.mostrarToastError(this.mensajeError);
           console.log(error);
         }, 2000);
       });
@@ -62,23 +113,23 @@ export class LoginPage implements OnInit {
     switch(usuarioElegido)
     {
       case 'admin':
-        this.correo = 'admin@admin.com';
+        this.email = 'admin@admin.com';
         this.clave = '111111'; 
       break;
       case 'invitado':
-        this.correo = 'invitado@invitado.com';
+        this.email = 'invitado@invitado.com';
         this.clave = '222222'; 
       break;
       case 'usuario':
-        this.correo = 'usuario@usuario.com';
+        this.email = 'usuario@usuario.com';
         this.clave = '333333'; 
       break;
       case 'tester':
-        this.correo = 'tester@tester.com';
+        this.email = 'tester@tester.com';
         this.clave = '555555'; 
       break;
       case 'anonimo':
-        this.correo = 'anonimo@anonimo.com';
+        this.email = 'anonimo@anonimo.com';
         this.clave = '444444'; 
       break;
     }
@@ -132,17 +183,7 @@ export class LoginPage implements OnInit {
 
   limpiarCampos()
   {
-    this.correo = '';
+    this.email = '';
     this.clave = '';
-  }
-
-  async mostrarError(mensaje: string) {
-    const toast = await this.toastController.create({
-      message: mensaje,
-      duration: 2000,
-      position: 'bottom',
-    });
-
-    await toast.present();
   }
 }

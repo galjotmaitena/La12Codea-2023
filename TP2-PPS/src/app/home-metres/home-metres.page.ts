@@ -15,35 +15,35 @@ export class HomeMetresPage implements OnInit {
   listaMesas : any[] = [];
   clienteEspera : string = '';
   mesa : string = '';
+  observableEspera : any;
+  observableMesas : any;
 
   constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() 
   {
-    FirestoreService.traerFs('listaEspera', this.firestore).then((data)=>{
+    this.observableEspera = FirestoreService.traerFs('listaEspera', this.firestore).subscribe((data)=>{
       this.listaEspera = data;
       this.listaEspera.push({'nombre':'tomas', 'apellido':'gauna', 'dni':44457866});
 
-    })
-    .catch((error) => 
-    {
-      console.log("Error al traer los mensajes de fs...");
     });
-    FirestoreService.traerFs('mesas', this.firestore).then((data)=>{
+    this.observableMesas = FirestoreService.traerFs('mesas', this.firestore).subscribe((data)=>{
       data.forEach(mesa => {
         if(!mesa.ocupada)
         {
           this.listaMesas.push(mesa);
         }
       });
-    })
-    .catch((error) => 
-    {
-      console.log("Error al traer los mensajes de fs...");
     });
 
 
 
+  }
+
+  ngOnDestroy()
+  {
+    this.observableEspera.unsubscribe();
+    this.observableMesas.unsubscribe();
   }
 
   asignarMesas()

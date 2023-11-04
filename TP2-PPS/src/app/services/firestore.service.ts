@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, query, orderBy, getDocs, doc, updateDoc, onSnapshot } from '@angular/fire/firestore';
-import { BehaviorSubject } from 'rxjs';
+import { Firestore, addDoc, collection, doc, updateDoc, collectionData } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,27 +17,10 @@ export class FirestoreService {
     return params;
   }
 
-  static async traerFs(col: string, firestore: Firestore)
+  static traerFs(col: string, firestore: Firestore): Observable<any[]>
   {
-      const colRef = collection(firestore, col);
-      const q = query(colRef);
-
-      try 
-      {
-          const querySnapshot = await getDocs(q);
-          const data: any[] = [];
-
-          querySnapshot.forEach((doc) => {
-              data.push({id: doc.id, ...doc.data()});
-          });
-
-          return data;
-      } 
-      catch (error) 
-      {
-          console.error('Error al obtener datos de Firestore:', error);
-          throw error;
-      }
+    const colRef = collection(firestore, col);
+    return collectionData(colRef, {idField: 'id'}) as Observable<any[]>;
   }
 
 
@@ -61,10 +44,13 @@ export class FirestoreService {
   static buscarFs(col : string, email : any, firestore : Firestore)
   {
     return new Promise((resolve, reject) => {
-      FirestoreService.traerFs(col, firestore).then((data) => {
+      let promesa = FirestoreService.traerFs(col, firestore).toPromise();
+      
+      
+      promesa.then((data : any) => {
         let usuario = null;
   
-        data.forEach((obj) => {
+        data.forEach((obj : any) => {
           if (obj.email === email) {
             usuario = obj;
           }
@@ -75,5 +61,7 @@ export class FirestoreService {
     });
   }
 
+  
 
 }
+

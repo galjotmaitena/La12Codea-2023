@@ -4,13 +4,15 @@
   </div>
 
   <div class="inputs">
-      <ion-input type="email" [(ngModel)]="correo" label="Correo electrónico" label-placement="floating" fill="outline" errorText="Correo electrónico inválido!" ngModel email></ion-input>
+      <ion-input type="email" [(ngModel)]="email" label="Correo electrónico" label-placement="floating" fill="outline" errorText="Correo electrónico inválido!" ngModel email></ion-input>
       <ion-input type="password" [(ngModel)]="clave" label="Contraseña" label-placement="floating" fill="outline" errorText="Contraseña inválida!" ngModel [minlength]=6></ion-input>
       <div class="btns">
           <ion-button id="limpiar" fill="outline" (click)="limpiarCampos()">Limpiar</ion-button>
           <ion-button id="ingresar" fill="outline" (click)="ingresar()">Ingresar</ion-button>
       </div>
   </div>
+
+  <!-- HACER VALIDACIONES DE FORMS VALIDATORS -->
 
   <div class="divBtnPick">
       <ion-button class="button-pick" (click)="setOpen(true)">Usuarios</ion-button>

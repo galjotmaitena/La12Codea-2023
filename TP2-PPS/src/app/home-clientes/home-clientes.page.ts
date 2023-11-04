@@ -19,11 +19,13 @@ export class HomeClientesPage implements OnInit {
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
   mensaje : string = '';
 
+  observable : any;
+
   constructor(private authService : AuthService, private firestore : Firestore, private firestoreService : FirestoreService) { }
 
   ngOnInit() 
   {
-    FirestoreService.traerFs('clientes', this.firestore).then((data)=>{
+    this.observable=FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       console.log(data);
     });
   }
@@ -31,6 +33,7 @@ export class HomeClientesPage implements OnInit {
   ngOnDestroy(): void 
   {
     this.stopScan();
+    this.observable.unsubscribe();
   }
 
   async checkPermission()

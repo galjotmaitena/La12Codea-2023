@@ -46,11 +46,15 @@ const routes: Routes = [
   {
     path: 'homeClientes',
     loadChildren: () => import('./home-clientes/home-clientes.module').then( m => m.HomeClientesPageModule)
-  },  {
+  },
+  {
     path: 'home-metres',
     loadChildren: () => import('./home-metres/home-metres.module').then( m => m.HomeMetresPageModule)
   },
-
+  {
+    path: 'home-duenio',
+    loadChildren: () => import('./home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
+  },
 
 ];
 
