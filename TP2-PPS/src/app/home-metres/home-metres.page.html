@@ -2,7 +2,7 @@
   
     <ion-content color="light">
       <ion-list [inset]="true" >
-        <ion-item (click)="abierta = true" expand="block" *ngFor="let c of listaEspera">
+        <ion-item (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
           <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
         </ion-item>
       </ion-list>
@@ -21,6 +21,8 @@
           </div>
         </ng-template>
       </ion-modal>
+
+      <ion-button (click)="asignarMesas()">asig</ion-button>
     </ion-content>
   
 

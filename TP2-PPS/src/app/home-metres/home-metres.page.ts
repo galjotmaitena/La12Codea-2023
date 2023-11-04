@@ -13,7 +13,7 @@ export class HomeMetresPage implements OnInit {
 
   listaEspera : any[] = [];
   listaMesas : any[] = [];
-  clienteEspera : string = '';
+  clienteEspera : any = '';
   mesa : string = '';
   observableEspera : any;
   observableMesas : any;
@@ -48,20 +48,31 @@ export class HomeMetresPage implements OnInit {
   asignarMesas()
   {
     this.listaEspera.forEach(cliente => {
-      if(cliente.dni === parseInt(this.clienteEspera) && cliente.mesa === '')          ///////busco por nombre     DNI
+      if((cliente.dni === parseInt(this.clienteEspera.dni) || cliente.nombre === this.clienteEspera.nombre) && cliente.mesa === '')          ///////busco por nombre     DNI
       {
         this.listaMesas.forEach(mesa => {
           if(parseInt(this.mesa) === mesa.numero && mesa.ocupada === false)
           {
             mesa.ocupada = true;
-            FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
-              cliente.mesa = this.mesa;         /////////update cliente n° mesa y mesa ocupada true
-              FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
-                this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
-              });
-            });
+
+            console.log(mesa.numero);
+            console.log(cliente.nombre);
+            // FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
+            //   cliente.mesa = this.mesa;         /////////update cliente n° mesa y mesa ocupada true
+            //   FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
+            //     this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
+            //   });
+            // });
+          }
+          else
+          {
+            console.log('nop2');
           }
         });
+      }
+      else
+      {
+        console.log('nop 1');
       }
     });
   }
@@ -78,5 +89,10 @@ export class HomeMetresPage implements OnInit {
     console.log(mesa);
   }
 
-
+  getCliente(cliente : any)
+  {
+    this.clienteEspera = cliente;
+    this.abierta = true;
+    console.log(cliente);
+  }
 }
