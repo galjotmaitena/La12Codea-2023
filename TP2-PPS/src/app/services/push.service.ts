@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
+import { FirestoreService } from './firestore.service';
 
 
 @Injectable({
@@ -21,6 +22,7 @@ export class PushService{
   token:any;
   user:any;
   tokens:any[]=[];
+  observable:any;
 
   constructor(private firestore: Firestore, private http: HttpClient, private angularFireMessaging: AngularFireMessaging, private functions: AngularFireFunctions)
   {
@@ -38,7 +40,7 @@ export class PushService{
     PushNotifications.addListener('registration', (token: Token) => {
       alert('Push registration success, token: ' + token.value);
       this.token = token;
-      this.tokens.push(this.token);
+      this.guardarToken(this.token);
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
@@ -49,7 +51,7 @@ export class PushService{
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
         //Este evento solo se activa cuando tenemos la app en primer plano
-        alert('Push notification received: '+ notification);
+        alert('Push notification received: '+ JSON.stringify(notification));
         alert('data: ' + notification.data);
         //Esto se hace en el caso de que querramos que nos aparezca la notificacion en la task bar del celular ya que por
         //defecto las push en primer plano no lo hacen, de no ser necesario esto se puede sacar.
@@ -75,6 +77,27 @@ export class PushService{
       },
     );
   }
+//////////////////////////////////////////
+  ngOnInit()
+  {
+    this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
+/*       data.forEach(token => {
+        this.tokens.push(token.value);
+      }); */
+      this.tokens = data;
+    });
+  }
+
+  ngOnDestroy()
+  {
+    this.observable.unsubscribe();
+  }
+
+  guardarToken(token:Token)
+  {
+    FirestoreService.guardarFs('tokensPush', token, this.firestore);
+  }
+///////////////////////////////////////////
 
   getUser(): void {
     const aux = doc(this.firestore, 'aux/tOzYdo74J1YKRD7VsHvL');
@@ -86,9 +109,7 @@ export class PushService{
   private sendPushNotification(req:any): Observable<any> {
     return this.http.post<Observable<any>>(environment.fcmUrl, req, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         Authorization: `key=${environment.fcmServerKey}`,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Content-Type': 'application/json',
       },
     });
@@ -126,7 +147,7 @@ export class PushService{
 
   sendPush(title:string, body:string) 
   {
-    if (this.token && this.user) {
+    if (this.token /* && this.user */) {//////////////descomentar
       this.tokens.forEach(token => {
         const notificationData = {
           title: title,
