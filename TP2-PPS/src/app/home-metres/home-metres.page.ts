@@ -17,7 +17,8 @@ export class HomeMetresPage implements OnInit {
   mesa : string = '';
   observableEspera : any;
   observableMesas : any;
-
+  
+  abierta = false;
   constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() 
