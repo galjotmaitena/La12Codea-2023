@@ -2,6 +2,7 @@
 import { FirestoreService } from '../services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
+import { PushService } from '../services/push.service';
 
 @Component({
   selector: 'app-home-duenio',
@@ -12,11 +13,12 @@ export class HomeDuenioPage implements OnInit {
   items: any[] = [];
   observable:any;
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private push: PushService) { }
 
   ngOnInit() 
   {
     this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+      this.items = [];
       data.forEach((u) => {
         if(u.aprobado === 'espera')
         {
@@ -32,5 +34,9 @@ export class HomeDuenioPage implements OnInit {
     this.observable.unsubscribe();
   }
 
+  send()
+  {
+    this.push.sendPushNotificationToAll('Prueba', 'desde todos');
+  }
   
 }

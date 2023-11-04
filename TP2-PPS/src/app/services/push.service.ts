@@ -10,6 +10,8 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 
 @Injectable({
@@ -19,10 +21,22 @@ export class PushService{
   token:any;
   user:any;
 
-  constructor(private firestore: Firestore, private http: HttpClient)
+  constructor(private firestore: Firestore, private http: HttpClient, private angularFireMessaging: AngularFireMessaging, private functions: AngularFireFunctions)
   {
     this.getUser();
-
+///////////////////////////////////
+    this.angularFireMessaging.requestToken.subscribe(
+      (token:any) => {
+        // Token de dispositivo obtenido
+        console.log('Device token:', token);
+        // Registra el token en tu servidor
+        this.registerDeviceToken(token);
+      },
+      (error) => {
+        console.error('Error al solicitar token:', error);
+      }
+    );
+////////////////////////////////////////////////////
     console.log('Initializing HomePage');
     PushNotifications.requestPermissions().then(result => {
       if (result.receive === 'granted') {
@@ -41,12 +55,6 @@ export class PushService{
       alert('Error on registration: ' + JSON.stringify(error));
     });
 
-    // PushNotifications.addListener(
-    //   'pushNotificationReceived',
-    //   (notification: PushNotificationSchema) => {
-    //     alert('Push received: ' + JSON.stringify(notification));
-    //   },
-    // );
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
@@ -139,8 +147,30 @@ export class PushService{
           console.error(error);
         }
       );
-    } else {
+    } 
+    else 
+    {
       alert('El token aún no está disponible. Espera a que se registre el dispositivo.');
     }
+  }
+
+  /////////////////////////////////////////////
+
+  // Registra el token del dispositivo en tu servidor
+  private registerDeviceToken(token: string) {
+    // Envía el token a tu backend para su almacenamiento
+    const registerDeviceToken = this.functions.httpsCallable('registerDeviceToken');
+    registerDeviceToken({ token }).subscribe((result) => {
+      console.log('Token registrado en el servidor:', result);
+    });
+  }
+
+  // Envia una notificación push a todos los dispositivos
+  sendPushNotificationToAll(title: string, body: string) {
+    // Envia la notificación al backend
+    const sendPushNotificationToAll = this.functions.httpsCallable('sendPushNotificationToAll');
+    sendPushNotificationToAll({ title, body }).subscribe((result) => {
+      console.log('Notificación push enviada a todos los dispositivos:', result);
+    });
   }
 }
