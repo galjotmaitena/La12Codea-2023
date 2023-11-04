@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
+import { PushService } from 'src/app/services/push.service';
 
 @Component({
   selector: 'app-cliente',
@@ -29,7 +30,7 @@ export class ClientePage {
   rClave = '';
   perfil = '';
 
-  constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore) 
+  constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore, private push: PushService) 
   {
     this.form = this.formBuilder.group(
       {
@@ -229,6 +230,7 @@ export class ClientePage {
 
           this.subir(obj);
           this.auth.mostrarToastExito('Alta realizada con exito.');
+          this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';

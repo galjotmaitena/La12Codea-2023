@@ -16,15 +16,6 @@ export class HomeDuenioPage implements OnInit {
 
   ngOnInit() 
   {
-    // FirestoreService.traerFs('clientes', this.firestore).then((data)=>{
-    //   data.forEach((u) => {
-    //     if(u.aprobado === 'espera')
-    //     {
-    //       this.items.push(u);
-    //     }
-    //   });
-    // });
-
     this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       data.forEach((u) => {
         if(u.aprobado === 'espera')
@@ -40,4 +31,6 @@ export class HomeDuenioPage implements OnInit {
   {
     this.observable.unsubscribe();
   }
+
+  
 }
