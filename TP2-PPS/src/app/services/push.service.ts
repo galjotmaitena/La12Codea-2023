@@ -82,7 +82,7 @@ export class PushService implements OnDestroy{
               this.tokens.push(token.value);
             }); */
             this.tokens = data;
-            alert(JSON.stringify(data))
+            // alert(JSON.stringify(data))
           });
   }
 

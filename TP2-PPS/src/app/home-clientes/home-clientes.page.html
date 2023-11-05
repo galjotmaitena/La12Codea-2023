@@ -5,12 +5,24 @@
     </ion-fab-button>
   </ion-fab>
 
-  <div *ngIf="ingreso">
+  <div *ngIf="ingreso">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
     <label>{{mensaje}}</label>
 
     <div style="background-color: #fff; position: relative; display: flex;">
-<label>encuestas</label>
+    <label>encuestas</label>
     </div>
+  </div>
+
+  <div *ngIf="tieneMesa" >                           <!-- escaneo mesa, funcionalidad 6 y 7 -->
+    <div *ngFor="let p of listaProductos">
+<!-- SLIDE imagenes, precio, descripcion, tiempo de elaboracion -->
+    </div>
+
+    <ion-fab>
+      <ion-fab-button (click)="asignarEscan()">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>   <!-- chat????? -->   
+      </ion-fab-button>
+    </ion-fab>
   </div>
 
 </ion-content>

@@ -14,7 +14,7 @@ export class HomeMetresPage implements OnInit {
   listaEspera : any[] = [];
   listaMesas : any[] = [];
   clienteEspera : any = '';
-  mesa : string = '';
+  mesa : any = '';
   observableEspera : any;
   observableMesas : any;
   
@@ -23,10 +23,16 @@ export class HomeMetresPage implements OnInit {
 
   ngOnInit() 
   {
-    this.observableEspera = FirestoreService.traerFs('listaEspera', this.firestore).subscribe((data)=>{
-      this.listaEspera = data;
-
+    this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+      //this.listaEspera = data;
+      data.forEach(cliente => {
+        if(cliente.espera)
+        {
+          this.listaEspera.push(cliente);
+        }
+      });
     });
+
     this.observableMesas = FirestoreService.traerFs('mesas', this.firestore).subscribe((data)=>{
       data.forEach(mesa => {
         if(!mesa.ocupada)
@@ -34,8 +40,6 @@ export class HomeMetresPage implements OnInit {
           this.listaMesas.push(mesa);
         }
       });
-      this.listaMesas.push({'numero':1}, {'numero':2}, {'numero':3});
-
     });
   }
 
@@ -51,48 +55,36 @@ export class HomeMetresPage implements OnInit {
       if((cliente.dni === parseInt(this.clienteEspera.dni) || cliente.nombre === this.clienteEspera.nombre) && cliente.mesa === '')          ///////busco por nombre     DNI
       {
         this.listaMesas.forEach(mesa => {
-          if(parseInt(this.mesa) === mesa.numero && mesa.ocupada === false)
+          if(this.mesa === mesa.numero && mesa.ocupada === false)
           {
             mesa.ocupada = true;
 
-            console.log(mesa.numero);
-            console.log(cliente.nombre);
-            // FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
-            //   cliente.mesa = this.mesa;         /////////update cliente n° mesa y mesa ocupada true
-            //   FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
-            //     this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
-            //   });
-            // });
-          }
-          else
-          {
-            console.log('nop2');
+            FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
+              cliente.mesa = this.mesa;     
+              FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
+                this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
+
+                this.listaEspera=[];
+              });
+
+              
+              this.listaMesas=[];
+            });
           }
         });
-      }
-      else
-      {
-        console.log('nop 1');
       }
     });
   }
 
-  prueba(obj : any)
-  {
-    console.log(obj);
-  }
-
-  getMesa(mesa : string)
+  getMesa(mesa : any)
   {
     this.abierta = false;
     this.mesa = mesa;
-    console.log(mesa);
   }
 
   getCliente(cliente : any)
   {
     this.clienteEspera = cliente;
     this.abierta = true;
-    console.log(cliente);
   }
 }
