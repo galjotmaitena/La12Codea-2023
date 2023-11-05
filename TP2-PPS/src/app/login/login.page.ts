@@ -17,20 +17,27 @@ export class LoginPage implements OnInit {
   mostrarSpinner = false;
   mensajeError = '';
   usuarios: any[] = [];
-  observable:any;
+  duenios: any[] = [];
+  observableUsuario:any;
+  observableDuenios:any;
 
   constructor(private firestore: Firestore, private router: Router, private auth: AuthService) { }
 
   ngOnInit()
   {
-    this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+    this.observableUsuario = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       this.usuarios = data;
+    });
+
+    this.observableDuenios = FirestoreService.traerFs('duenios', this.firestore).subscribe((data)=>{
+      this.duenios = data;
     });
   }
 
   ngOnDestroy()
   {
-    this.observable.unsubscribe();
+    this.observableUsuario.unsubscribe();
+    this.observableDuenios.unsubscribe();
   }
 
   ingresar()
@@ -40,6 +47,7 @@ export class LoginPage implements OnInit {
       ?.then(response =>
       {
         let user:any;
+        let duenio:any;
 
         this.usuarios.forEach((u)=>{
           if(u.email === this.email)
@@ -48,40 +56,63 @@ export class LoginPage implements OnInit {
           }
         });
 
-        if(user.tipo === 'anonimo')
-        {
-          this.auth.mostrarToastExito('Ingresando...');
-          this.email = '';
-          this.clave = '';
-          setTimeout(()=>{
-            this.mostrarSpinner = false;
-            this.router.navigate(['/home']);
-          }, 2000);
-        }
-        else
-        {
-          if(user.aprobado == 'espera')
+        this.duenios.forEach((u)=>{
+          if(u.email === this.email)
           {
-            this.auth.mostrarToastError('Su usuario se encuentra en evaluación');
-            this.auth.logout();
+            duenio = u;
+          }
+        });
+
+        if(user)
+        {
+          if(user.tipo === 'anonimo')
+          {
+            this.auth.mostrarToastExito('Ingresando...');
+            this.email = '';
+            this.clave = '';
+            setTimeout(()=>{
+              this.mostrarSpinner = false;
+              this.router.navigate(['/home']);
+            }, 2000);
           }
           else
           {
-            if(!user.aprobado)
+            if(user.aprobado == 'espera')
             {
-              this.auth.mostrarToastError('Su usuario ha sido rechazado');
+              this.auth.mostrarToastError('Su usuario se encuentra en evaluación');
               this.auth.logout();
             }
             else
             {
-              this.auth.mostrarToastExito('Ingresando...');
-              this.email = '';
-              this.clave = '';
-              setTimeout(()=>{
-                this.mostrarSpinner = false;
-                this.router.navigate(['/home']);
-              }, 2000);
+              if(!user.aprobado)
+              {
+                this.auth.mostrarToastError('Su usuario ha sido rechazado');
+                this.auth.logout();
+              }
+              else
+              {
+                this.auth.mostrarToastExito('Ingresando...');
+                this.email = '';
+                this.clave = '';
+                setTimeout(()=>{
+                  this.mostrarSpinner = false;
+                  this.router.navigate(['/home']);
+                }, 2000);
+              }
             }
+          }
+        }
+        else
+        {
+          if(duenio)
+          {
+            this.auth.mostrarToastExito('Ingresando...');
+            this.email = '';
+            this.clave = '';
+            setTimeout(()=>{
+              this.mostrarSpinner = false;
+              this.router.navigate(['/home-duenio']);
+            }, 2000);
           }
         }
       })

@@ -19,14 +19,20 @@ import { FirestoreService } from './firestore.service';
   providedIn: 'root'
 })
 export class PushService implements OnDestroy{
-  token:any;
-  user:any;
-  tokens:any[]=[];
-  observable:any;
+  private token:any;
+  private user:any;
+  private tokens:any[]=[];
+  tokensPusheados:any[] = [];
+  private observable:any;
 
   constructor(private firestore: Firestore, private http: HttpClient, private angularFireMessaging: AngularFireMessaging, private functions: AngularFireFunctions)
   {
     this.getUser();
+
+    this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
+      this.tokens = data;
+      console.log(JSON.stringify(data))
+    });
 
     console.log('Initializing HomePage');
     PushNotifications.requestPermissions().then(result => {
@@ -76,6 +82,7 @@ export class PushService implements OnDestroy{
         alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
+<<<<<<< HEAD
 ///////////////////////////////////////////////////////////////////////////////
     this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
       /*       data.forEach(token => {
@@ -84,21 +91,20 @@ export class PushService implements OnDestroy{
             this.tokens = data;
             // alert(JSON.stringify(data))
           });
+=======
+>>>>>>> 53b4f742fb26397d02521e1216cdaf660b276c38
   }
 
-  ///////////////////////////////////////////////////
   ngOnDestroy()
   {
     this.observable.unsubscribe();
   }
-
-  guardarToken(token:Token)
+  private guardarToken(token:Token)
   {
     FirestoreService.guardarFs('tokensPush', token, this.firestore);
   }
-///////////////////////////////////////////
 
-  getUser(): void {
+  private getUser(): void {
     const aux = doc(this.firestore, 'aux/tOzYdo74J1YKRD7VsHvL');
     docData(aux, { idField: 'id' }).subscribe(async (user) => {
       this.user = user;
@@ -114,19 +120,19 @@ export class PushService implements OnDestroy{
     });
   }
 
-/*   sendPush(title:string, body:string) 
+  sendPush(title:string, body:string) 
   {
-    if (this.token && this.user) {
+    this.tokens.forEach(token => {
       const notificationData = {
         title: title,
         body: body,
       };
-  
+    
       const pushNotification = {
-        to: this.token.value,
+        to: token.value,
         notification: notificationData,
       };
-  
+      
       this.sendPushNotification(pushNotification).subscribe(
         (response: any) => {
           alert('Notificación enviada con éxito');
@@ -137,42 +143,6 @@ export class PushService implements OnDestroy{
           console.error(error);
         }
       );
-    } 
-    else 
-    {
-      alert('El token aún no está disponible. Espera a que se registre el dispositivo.');
-    }
-  } */
-
-  sendPush(title:string, body:string) 
-  {
-    /* if (this.token && this.user) { *///////////////descomentar
-      this.tokens.forEach(token => {
-        const notificationData = {
-          title: title,
-          body: body,
-        };
-    
-        const pushNotification = {
-          to: token.value,
-          notification: notificationData,
-        };
-    
-        this.sendPushNotification(pushNotification).subscribe(
-          (response: any) => {
-            alert('Notificación enviada con éxito');
-            console.log(response);
-          },
-          (error: any) => {
-            alert('Error al enviar la notificación');
-            console.error(error);
-          }
-        );
-      });
-/*     } 
-    else 
-    {
-      alert('El token aún no está disponible. Espera a que se registre el dispositivo.');
-    } */
+    });
   }
 }
