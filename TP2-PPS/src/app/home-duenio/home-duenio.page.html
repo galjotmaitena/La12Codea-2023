@@ -10,11 +10,11 @@
         <ion-item-option class="option-b" color="success">
           <ion-icon name="person-add-outline"></ion-icon>
         </ion-item-option>
-        <ion-item-option class="option" color="success">
+        <ion-item-option (click)="decidir(true, item)" class="option" color="success">
           <ion-icon name="person-add-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
-      <ion-item-options class="options" side="start">
+      <ion-item-options (click)="decidir(false, item)" class="options" side="start">
         <ion-item-option class="option" color="danger">
           <ion-icon name="person-remove-outline"></ion-icon>
         </ion-item-option>
