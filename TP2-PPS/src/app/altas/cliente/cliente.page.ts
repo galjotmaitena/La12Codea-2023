@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cliente',
@@ -30,7 +31,7 @@ export class ClientePage {
   rClave = '';
   perfil = '';
 
-  constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore, private push: PushService) 
+  constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore, private push: PushService, private router : Router) 
   {
     this.form = this.formBuilder.group(
       {
@@ -230,7 +231,13 @@ export class ClientePage {
 
           this.subir(obj);
           this.auth.mostrarToastExito('Alta realizada con exito.');
+<<<<<<< HEAD
           //this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
+=======
+          // this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
+          this.auth.logout();
+          this.router.navigate(['/login']);
+>>>>>>> 28998b25a2b66abca9b26187513bd27c0a0b0c68
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';

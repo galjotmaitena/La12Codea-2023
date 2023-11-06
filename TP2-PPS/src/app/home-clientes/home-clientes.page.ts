@@ -18,10 +18,14 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
   ingreso = true;           ////////////////////////////////////////poner en false
+  tieneMesa = false;          
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
   mensaje : string = '';
 
   observable : any;
+  observablePedidos : any;
+
+  listaProductos : any[] = [];
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
 
@@ -30,6 +34,10 @@ export class HomeClientesPage implements OnInit {
     this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       console.log(data);
       this.clientes = data;
+    });
+
+    this.observablePedidos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
+      this.listaProductos = data;
     });
   }
 
@@ -111,13 +119,28 @@ export class HomeClientesPage implements OnInit {
       console.log(this.user);
       // console.log(this.authService.get_user()?.email);
 
-      FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data)=>{
+
+
+
+      ///////////podria llevar el buscarFs al ngOnInit, y que aca solo ponga al cliente en espera, y evalue ese estado constantemente
+
+      FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data : any)=>{
 
         usuario = data;
+        usuario.espera = true;
 
-        FirestoreService.guardarFs('listaEspera', usuario, this.firestore).then(()=>{
+        // FirestoreService.guardarFs('listaEspera', usuario, this.firestore).then(()=>{
+        //   this.mensaje = 'Esta en la lista de espera';
+        // });
+
+        if(usuario.espera)
+        {
           this.mensaje = 'Esta en la lista de espera';
-        });
+        }
+        else
+        {
+          this.mensaje = 'Ya se le asigno la mesa';
+        }
 
         console.log(usuario);
       }).catch(()=>{
@@ -125,6 +148,7 @@ export class HomeClientesPage implements OnInit {
       });
     }
   }
+
 
   salir()
   {
@@ -159,5 +183,21 @@ export class HomeClientesPage implements OnInit {
 
     alert(JSON.stringify(cliente));
     this.push.sendPush('Título de notificación', 'Cuerpo de notificación', cliente); ////por ahoraaaaaaaaa
+  }
+
+  verificarMesaAsignada(usuario : any)
+  {
+    let mesaJSON = JSON.parse(this.escaneado);
+    let numeroMesa = mesaJSON.numero;
+
+    if(numeroMesa === usuario.mesa)
+    {
+      console.log('es tu mesaaa');
+      this.tieneMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+    }
+    else
+    {
+      console.log(`Esta no es su mesa, su mesa es la numero ${numeroMesa}`);
+    }
   }
 }

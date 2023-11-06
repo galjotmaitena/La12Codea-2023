@@ -1,13 +1,32 @@
 <ion-content class="container-gral">
   
     <ion-content color="light">
-      <ion-list [inset]="true" *ngFor="let c of listaEspera">
-        <ion-item (click)="prueba(c)">
+      <ion-list [inset]="true" >
+        <ion-item (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
           <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
         </ion-item>
       </ion-list>
+
+      <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog">
+        <ng-template>
+          <div class="wrapper">
+            <h1>Mesas Disponibles</h1>
+    
+            <ion-list lines="none" *ngFor="let m of listaMesas">
+              <ion-item button="true" detail="false" (click)="getMesa(m.numero)">
+                <ion-icon name="person-circle"></ion-icon>
+                <ion-label>{{m.numero}}</ion-label>
+              </ion-item>
+            </ion-list>
+          </div>
+        </ng-template>
+      </ion-modal>
+
+      <ion-button (click)="asignarMesas()">asig</ion-button>
     </ion-content>
   
+
+    
 
 </ion-content>
 <ion-footer class="ion-no-border" >
@@ -15,3 +34,4 @@
     <ion-icon class="iconFooter" name="person-outline"></ion-icon>
   </ion-toolbar>
 </ion-footer>
+

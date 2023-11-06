@@ -84,6 +84,7 @@ export class PushService{
         alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
+<<<<<<< HEAD
 
     PushNotifications.addListener('registration', (token: Token) => {
       alert('Push registration success, token: ' + token.value);
@@ -138,6 +139,19 @@ export class PushService{
         FirestoreService.actualizarFs('clientes', obj, firestore);
       }
     });
+=======
+<<<<<<< HEAD
+///////////////////////////////////////////////////////////////////////////////
+    this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
+      /*       data.forEach(token => {
+              this.tokens.push(token.value);
+            }); */
+            this.tokens = data;
+            // alert(JSON.stringify(data))
+          });
+=======
+>>>>>>> 53b4f742fb26397d02521e1216cdaf660b276c38
+>>>>>>> 28998b25a2b66abca9b26187513bd27c0a0b0c68
   }
 
   private getUser(): void

@@ -13,20 +13,26 @@ export class HomeMetresPage implements OnInit {
 
   listaEspera : any[] = [];
   listaMesas : any[] = [];
-  clienteEspera : string = '';
-  mesa : string = '';
+  clienteEspera : any = '';
+  mesa : any = '';
   observableEspera : any;
   observableMesas : any;
-
+  
+  abierta = false;
   constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController) { }
 
   ngOnInit() 
   {
-    this.observableEspera = FirestoreService.traerFs('listaEspera', this.firestore).subscribe((data)=>{
-      this.listaEspera = data;
-      this.listaEspera.push({'nombre':'tomas', 'apellido':'gauna', 'dni':44457866});
-
+    this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+      //this.listaEspera = data;
+      data.forEach(cliente => {
+        if(cliente.espera)
+        {
+          this.listaEspera.push(cliente);
+        }
+      });
     });
+
     this.observableMesas = FirestoreService.traerFs('mesas', this.firestore).subscribe((data)=>{
       data.forEach(mesa => {
         if(!mesa.ocupada)
@@ -35,9 +41,6 @@ export class HomeMetresPage implements OnInit {
         }
       });
     });
-
-
-
   }
 
   ngOnDestroy()
@@ -49,17 +52,23 @@ export class HomeMetresPage implements OnInit {
   asignarMesas()
   {
     this.listaEspera.forEach(cliente => {
-      if(cliente.dni === parseInt(this.clienteEspera) && cliente.mesa === '')          ///////busco por nombre     DNI
+      if((cliente.dni === parseInt(this.clienteEspera.dni) || cliente.nombre === this.clienteEspera.nombre) && cliente.mesa === '')          ///////busco por nombre     DNI
       {
         this.listaMesas.forEach(mesa => {
-          if(parseInt(this.mesa) === mesa.numero && mesa.ocupada === false)
+          if(this.mesa === mesa.numero && mesa.ocupada === false)
           {
             mesa.ocupada = true;
+
             FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
-              cliente.mesa = this.mesa;         /////////update cliente n° mesa y mesa ocupada true
+              cliente.mesa = this.mesa;     
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
                 this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
+
+                this.listaEspera=[];
               });
+
+              
+              this.listaMesas=[];
             });
           }
         });
@@ -67,32 +76,15 @@ export class HomeMetresPage implements OnInit {
     });
   }
 
-  prueba(obj : any)
+  getMesa(mesa : any)
   {
-    console.log(obj);
+    this.abierta = false;
+    this.mesa = mesa;
   }
 
-
-
-  canDismiss = async () => {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Yes',
-          role: 'confirm',
-        },
-        {
-          text: 'No',
-          role: 'cancel',
-        },
-      ],
-    });
-
-    actionSheet.present();
-
-    const { role } = await actionSheet.onWillDismiss();
-
-    return role === 'confirm';
-  };
+  getCliente(cliente : any)
+  {
+    this.clienteEspera = cliente;
+    this.abierta = true;
+  }
 }
