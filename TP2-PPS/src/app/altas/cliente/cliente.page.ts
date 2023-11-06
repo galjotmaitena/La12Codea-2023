@@ -230,7 +230,7 @@ export class ClientePage {
 
           this.subir(obj);
           this.auth.mostrarToastExito('Alta realizada con exito.');
-          this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
+          //this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';

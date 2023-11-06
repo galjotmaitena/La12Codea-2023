@@ -72,7 +72,7 @@ export class LoginPage implements OnInit {
             this.clave = '';
             setTimeout(()=>{
               this.mostrarSpinner = false;
-              this.router.navigate(['/home']);
+              this.router.navigate(['/homeClientes']);
             }, 2000);
           }
           else
@@ -96,7 +96,7 @@ export class LoginPage implements OnInit {
                 this.clave = '';
                 setTimeout(()=>{
                   this.mostrarSpinner = false;
-                  this.router.navigate(['/home']);
+                  this.router.navigate(['/homeClientes']);
                 }, 2000);
               }
             }

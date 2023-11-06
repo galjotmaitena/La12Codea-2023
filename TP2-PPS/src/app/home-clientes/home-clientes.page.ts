@@ -5,6 +5,8 @@ import { AuthService } from '../services/auth.service';
 import { FirestoreService } from '../services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
+import { PushService } from '../services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-clientes',
@@ -12,7 +14,7 @@ import { from } from 'rxjs';
   styleUrls: ['./home-clientes.page.scss'],
 })
 export class HomeClientesPage implements OnInit {
-
+  clientes:any[] = [];
   abierta = false;
   escaneado : any = '';
   ingreso = true;           ////////////////////////////////////////poner en false
@@ -21,12 +23,13 @@ export class HomeClientesPage implements OnInit {
 
   observable : any;
 
-  constructor(private authService : AuthService, private firestore : Firestore, private firestoreService : FirestoreService) { }
+  constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
 
   ngOnInit() 
   {
-    this.observable=FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+    this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       console.log(data);
+      this.clientes = data;
     });
   }
 
@@ -123,4 +126,38 @@ export class HomeClientesPage implements OnInit {
     }
   }
 
+  salir()
+  {
+    let usuario:any;
+
+    this.clientes.forEach((u:any) => {
+      if(this.user?.email === u.email)
+      {
+        usuario = u;
+      }
+    });
+
+    this.authService.logout()?.then(()=>{
+      this.push.cierreSesion(usuario, 'clientes');
+      this.router.navigateByUrl('login');
+    })
+    .catch((err)=>{
+      alert(JSON.stringify(err));
+    });
+  }
+
+  send() 
+  {
+    let cliente;
+
+    this.clientes.forEach((c:any) => {
+      if(this.user?.email === c.email)
+      {
+        cliente = c;
+      }
+    });
+
+    alert(JSON.stringify(cliente));
+    this.push.sendPush('Título de notificación', 'Cuerpo de notificación', cliente); ////por ahoraaaaaaaaa
+  }
 }

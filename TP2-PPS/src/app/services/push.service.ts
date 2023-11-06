@@ -10,29 +10,37 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-import { AngularFireFunctions } from '@angular/fire/compat/functions';
+import { AuthService } from './auth.service';
 import { FirestoreService } from './firestore.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class PushService implements OnDestroy{
-  private token:any;
+export class PushService{
   private user:any;
-  private tokens:any[]=[];
+  private usuarioAuth = this.auth.get_user();
   tokensPusheados:any[] = [];
-  private observable:any;
+  clientes:any[] = [];
+  empleados:any[] = [];
+  duenios:any[] = [];
 
-  constructor(private firestore: Firestore, private http: HttpClient, private angularFireMessaging: AngularFireMessaging, private functions: AngularFireFunctions)
+
+  constructor(private firestore: Firestore, private http: HttpClient, private auth: AuthService)
   {
-    this.getUser();
-
-    this.observable = FirestoreService.traerFs('tokensPush', this.firestore).subscribe((data)=>{
-      this.tokens = data;
-      console.log(JSON.stringify(data))
+    FirestoreService.traerFs('clientes', firestore).subscribe((data)=>{
+      this.clientes = data;
     });
+
+    FirestoreService.traerFs('duenios', firestore).subscribe((data)=>{
+      this.duenios = data;
+    });
+
+    FirestoreService.traerFs('empleados', firestore).subscribe((data)=>{
+      this.empleados = data;
+    });
+
+    this.getUser();
 
     console.log('Initializing HomePage');
     PushNotifications.requestPermissions().then(result => {
@@ -41,12 +49,6 @@ export class PushService implements OnDestroy{
       } else {
         alert("error");
       }
-    });
-
-    PushNotifications.addListener('registration', (token: Token) => {
-      alert('Push registration success, token: ' + token.value);
-      this.token = token;
-      this.guardarToken(this.token);
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
@@ -82,22 +84,76 @@ export class PushService implements OnDestroy{
         alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
+
+    PushNotifications.addListener('registration', (token: Token) => {
+      alert('Push registration success, token: ' + token.value);
+
+      let u:any;
+      let e:any;
+      let d:any;
+
+      this.clientes.forEach((usuario:any) => {
+        if(usuario.email === this.usuarioAuth?.email)
+        {
+          u = usuario;
+        }
+      });
+
+      if(!u)
+      {
+        this.duenios.forEach((duenio:any) => {
+          if(duenio.email === this.usuarioAuth?.email)
+          {
+            d = duenio;
+          }
+        });
+
+        if(!d)
+        {
+          this.empleados.forEach((empleado:any) => {
+            if(empleado.email === this.usuarioAuth?.email)
+            {
+              e = empleado;
+            }
+          });
+
+          if(e)
+          {
+            let obj = {...e};
+            obj.token = token;
+            FirestoreService.actualizarFs('empleados', obj, firestore);
+          }
+        }
+        else
+        {
+          let obj = {...d};
+          obj.token = token;
+          FirestoreService.actualizarFs('duenios', obj, firestore);
+        }
+      }
+      else
+      {
+        let obj = {...u};
+        obj.token = token;
+        FirestoreService.actualizarFs('clientes', obj, firestore);
+      }
+    });
   }
 
-  ngOnDestroy()
+  private getUser(): void
   {
-    this.observable.unsubscribe();
-  }
-  private guardarToken(token:Token)
-  {
-    FirestoreService.guardarFs('tokensPush', token, this.firestore);
-  }
-
-  private getUser(): void {
     const aux = doc(this.firestore, 'aux/tOzYdo74J1YKRD7VsHvL');
-    docData(aux, { idField: 'id' }).subscribe(async (user) => {
+    docData(aux, { idField: 'id' }).subscribe(async (user) => 
+    {
       this.user = user;
     });
+  }
+
+  cierreSesion(usuario:any, col:string)
+  {
+    let obj = {...usuario};
+    obj.token = '';
+    FirestoreService.actualizarFs(col, obj, this.firestore);
   }
 
   private sendPushNotification(req:any): Observable<any> {
@@ -109,29 +165,27 @@ export class PushService implements OnDestroy{
     });
   }
 
-  sendPush(title:string, body:string) 
+  sendPush(title:string, body:string, usuario:any) 
   {
-    this.tokens.forEach(token => {
-      const notificationData = {
-        title: title,
-        body: body,
-      };
+    const notificationData = {
+      title: title,
+      body: body,
+    };
     
-      const pushNotification = {
-        to: token.value,
-        notification: notificationData,
-      };
+    const pushNotification = {
+      to: usuario.token.value,
+      notification: notificationData,
+    };
       
-      this.sendPushNotification(pushNotification).subscribe(
-        (response: any) => {
-          alert('Notificación enviada con éxito');
-          console.log(response);
-        },
-        (error: any) => {
-          alert('Error al enviar la notificación');
-          console.error(error);
-        }
-      );
-    });
+    this.sendPushNotification(pushNotification).subscribe(
+      (response: any) => {
+        alert('Notificación enviada con éxito');
+        console.log(response);
+      },
+      (error: any) => {
+        alert('Error al enviar la notificación');
+        console.error(error);
+      }
+    );
   }
 }

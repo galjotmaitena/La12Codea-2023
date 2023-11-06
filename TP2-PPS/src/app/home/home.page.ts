@@ -33,6 +33,6 @@ export class HomePage implements OnInit {
 
   sendPush()
   {
-    this.push.sendPush('Probando', 'desde Servicio')
+    //this.push.sendPush('Probando', 'desde Servicio')
   }
 }
