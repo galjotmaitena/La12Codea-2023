@@ -3,6 +3,7 @@ import { FirestoreService } from '../services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../services/auth.service';
 import { ActionSheetController } from '@ionic/angular';
+import { PushService } from '../services/push.service';
 
 @Component({
   selector: 'app-home-metres',
@@ -19,10 +20,11 @@ export class HomeMetresPage implements OnInit {
   observableMesas : any;
   
   abierta = false;
-  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push : PushService) { }
 
   ngOnInit() 
   {
+    this.authService.login('1@1.com', '123456');
     this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       //this.listaEspera = data;
       data.forEach(cliente => {
@@ -61,11 +63,12 @@ export class HomeMetresPage implements OnInit {
 
             FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
               cliente.mesa = this.mesa;    
+              
+              cliente.espera = false;
 
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
                 this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
-                
-                cliente.espera = false;
+
                 this.listaEspera = [];
               });
 
