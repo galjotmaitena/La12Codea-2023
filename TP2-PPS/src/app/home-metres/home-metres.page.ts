@@ -24,6 +24,7 @@ export class HomeMetresPage implements OnInit {
 
   ngOnInit() 
   {
+    this.authService.login('1@1.com', '123456');
     this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       this.listaEspera = [];
       data.forEach(cliente => {
@@ -62,11 +63,12 @@ export class HomeMetresPage implements OnInit {
 
             FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
               cliente.mesa = this.mesa;    
+              
+              cliente.espera = false;
 
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
                 this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
-                
-                cliente.espera = false;
+
                 this.listaEspera = [];
               });
 

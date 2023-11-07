@@ -80,7 +80,7 @@ export class HomeDuenioPage implements OnInit {
         data.message = 'su usuario no ha sido aprobado. ¡Lo lamentamos!';
       }
 
-      this.emailService.sendEmail(data).then((data2)=>{
+      this.emailService.sendEmail(data).then((data2 : any)=>{
         console.log(JSON.stringify(data2));
       });
     });

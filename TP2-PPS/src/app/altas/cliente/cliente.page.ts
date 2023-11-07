@@ -226,7 +226,7 @@ export class ClientePage {
           }
           else
           {
-            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: ''};
+            obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false};
           }
 
           this.subir(obj);
