@@ -189,11 +189,11 @@ export class EmpleadoPage implements OnInit {
       if(this.password === this.password2)
       {
         this.authService.mostrarToastExito('Alta exitosa');
-        let empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, email : this.correo, foto : ''};
+        let empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, email : this.correo, foto : '', tipoEmpleado : this.tipoEmpleado};
 
         if(this.foto !== "assets/user.png")
         {
-          empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, email : this.correo, foto : this.foto};
+          empleado = {nombre : this.nombre, apellido : this.apellido, dni : this.dni, cuil : this.cuil, email : this.correo, foto : this.foto, tipoEmpleado : this.tipoEmpleado};
         }
 
         this.authService.signup(this.correo, this.password).catch((error)=>{

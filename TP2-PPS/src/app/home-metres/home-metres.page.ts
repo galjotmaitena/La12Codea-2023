@@ -60,14 +60,15 @@ export class HomeMetresPage implements OnInit {
             mesa.ocupada = true;
 
             FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
-              cliente.mesa = this.mesa;     
+              cliente.mesa = this.mesa;    
+
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
                 this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
-
-                this.listaEspera=[];
+                
+                cliente.espera = false;
+                this.listaEspera = [];
               });
 
-              
               this.listaMesas=[];
             });
           }
