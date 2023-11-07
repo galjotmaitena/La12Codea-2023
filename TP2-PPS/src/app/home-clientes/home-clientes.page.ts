@@ -251,7 +251,7 @@ export class HomeClientesPage implements OnInit {
     });
   }
 
-  send() 
+  /* send() 
   {
     let cliente;
 
@@ -264,5 +264,5 @@ export class HomeClientesPage implements OnInit {
 
     alert(JSON.stringify(cliente));
     this.push.sendPush('Título de notificación', 'Cuerpo de notificación', cliente); ////por ahoraaaaaaaaa
-  }
+  } */
 }
