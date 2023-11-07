@@ -54,7 +54,11 @@ const routes: Routes = [
   {
     path: 'home-duenio',
     loadChildren: () => import('./home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
+  },  {
+    path: 'chat',
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
+
 
 ];
 

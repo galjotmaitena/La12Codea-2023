@@ -14,18 +14,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./home-clientes.page.scss'],
 })
 export class HomeClientesPage implements OnInit {
+
+  //listas que traigo de firebase
   clientes:any[] = [];
-  abierta = false;
-  escaneado : any = '';
-  ingreso = true;           ////////////////////////////////////////poner en false
-  tieneMesa = false;          
-  user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
-  mensaje : string = '';
+  listaProductos : any[] = [];
 
   observable : any;
   observablePedidos : any;
 
-  listaProductos : any[] = [];
+  //////////////////////////////////
+
+  abierta = false;
+  escaneado : any = '';
+
+  ingreso = true;           ////////////////////////////////////////poner en false
+  enMesa = false; 
+  yaPidio = false; 
+
+  user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
+  mensaje : string = '';
+
+  pedido : any[] = [];
+  totalPrecio = 0;
+  totalTiempo = 0;
+
+  cliente : any;
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
 
@@ -38,6 +51,10 @@ export class HomeClientesPage implements OnInit {
 
     this.observablePedidos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
       this.listaProductos = data;
+    });
+
+    FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data : any)=>{
+      this.cliente = data;
     });
   }
 
@@ -109,46 +126,64 @@ export class HomeClientesPage implements OnInit {
 
   asignarEscan()
   {
-    // let ingresoJSON = JSON.parse(this.escaneado);                               SRIVEEEEEEEEEEEEE
-    // this.ingreso = ingresoJSON.ingresarAlLocal;
-
-    if(this.ingreso)
+    if(!this.ingreso)
     {
-      let usuario;
+      let ingresoJSON = JSON.parse(this.escaneado);                             
+      this.ingreso = ingresoJSON.ingresarAlLocal;
+      this.cliente.espera = true;
 
-      console.log(this.user);
-      // console.log(this.authService.get_user()?.email);
-
-
-
-
-      ///////////podria llevar el buscarFs al ngOnInit, y que aca solo ponga al cliente en espera, y evalue ese estado constantemente
-
-      FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data : any)=>{
-
-        usuario = data;
-        usuario.espera = true;
-
-        // FirestoreService.guardarFs('listaEspera', usuario, this.firestore).then(()=>{
-        //   this.mensaje = 'Esta en la lista de espera';
-        // });
-
-        if(usuario.espera)
+      if(this.cliente.espera)
+      {
+        alert('Usted esta en lista de espera');                       //////////////////////metre
+      }
+      else
+      {
+        alert(`Su mesa es la ${this.cliente.mesa}`);
+      }
+    }
+    else
+    {
+      if(!this.enMesa)
+      {
+        this.verificarMesaAsignada();
+      }
+      else
+      {
+        if(!this.yaPidio)
         {
-          this.mensaje = 'Esta en la lista de espera';
+          this.yaPidio = true;
         }
-        else
-        {
-          this.mensaje = 'Ya se le asigno la mesa';
-        }
-
-        console.log(usuario);
-      }).catch(()=>{
-        console.log('No se encontro');
-      });
+      }
     }
   }
 
+  verificarMesaAsignada()
+  {
+    let mesaJSON = JSON.parse(this.escaneado);
+    let numeroMesa = mesaJSON.numero;
+
+    if(numeroMesa === this.cliente.mesa)
+    {
+      console.log('es tu mesaaa');
+      this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+    }
+    else
+    {
+      console.log(`Esta no es su mesa, su mesa es la numero ${numeroMesa}`);
+    }
+  }
+
+  tomarPedido(producto : any)
+  {
+    this.pedido.push(producto);
+    this.totalPrecio += producto.precio;
+    this.totalTiempo += producto.tiempo;
+  }
+
+
+
+
+  
 
   salir()
   {
@@ -183,21 +218,5 @@ export class HomeClientesPage implements OnInit {
 
     alert(JSON.stringify(cliente));
     this.push.sendPush('Título de notificación', 'Cuerpo de notificación', cliente); ////por ahoraaaaaaaaa
-  }
-
-  verificarMesaAsignada(usuario : any)
-  {
-    let mesaJSON = JSON.parse(this.escaneado);
-    let numeroMesa = mesaJSON.numero;
-
-    if(numeroMesa === usuario.mesa)
-    {
-      console.log('es tu mesaaa');
-      this.tieneMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
-    }
-    else
-    {
-      console.log(`Esta no es su mesa, su mesa es la numero ${numeroMesa}`);
-    }
   }
 }
