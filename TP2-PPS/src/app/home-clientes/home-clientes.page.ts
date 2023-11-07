@@ -18,6 +18,7 @@ export class HomeClientesPage implements OnInit {
   //listas que traigo de firebase
   clientes:any[] = [];
   listaProductos : any[] = [];
+  metres: any[] = [];
 
   observable : any;
   observablePedidos : any;
@@ -27,7 +28,7 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = true;           ////////////////////////////////////////poner en false
+  ingreso = false;           ////////////////////////////////////////poner en true para probar
   enMesa = false; 
   yaPidio = false; 
 
@@ -44,6 +45,15 @@ export class HomeClientesPage implements OnInit {
 
   ngOnInit() 
   {
+    this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
+      data.forEach((e)=>{
+        if(e.tipoEmpleado == "metre")
+        {
+          this.metres.push(e);
+        }
+      })
+    });
+
     this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       console.log(data);
       this.clientes = data;
@@ -135,6 +145,9 @@ export class HomeClientesPage implements OnInit {
       if(this.cliente.espera)
       {
         alert('Usted esta en lista de espera');                       //////////////////////metre
+        this.metres.forEach((m) => {
+          this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+        });
       }
       else
       {
