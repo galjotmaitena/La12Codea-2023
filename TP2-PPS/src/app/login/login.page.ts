@@ -18,8 +18,10 @@ export class LoginPage implements OnInit {
   mensajeError = '';
   usuarios: any[] = [];
   duenios: any[] = [];
+  empleados: any[] = [];
   observableUsuario:any;
   observableDuenios:any;
+  observableEmpleados:any;
 
   constructor(private firestore: Firestore, private router: Router, private auth: AuthService) { }
 
@@ -31,6 +33,10 @@ export class LoginPage implements OnInit {
 
     this.observableDuenios = FirestoreService.traerFs('duenios', this.firestore).subscribe((data)=>{
       this.duenios = data;
+    });
+
+    this.observableEmpleados = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
+      this.empleados = data;
     });
   }
 
@@ -48,6 +54,7 @@ export class LoginPage implements OnInit {
       {
         let user:any;
         let duenio:any;
+        let empleado:any;
 
         this.usuarios.forEach((u)=>{
           if(u.email === this.email)
@@ -60,6 +67,13 @@ export class LoginPage implements OnInit {
           if(u.email === this.email)
           {
             duenio = u;
+          }
+        });
+
+        this.empleados.forEach((e)=>{
+          if(e.email === this.email)
+          {
+            empleado = e;
           }
         });
 
@@ -113,6 +127,22 @@ export class LoginPage implements OnInit {
               this.mostrarSpinner = false;
               this.router.navigate(['/home-duenio']);
             }, 2000);
+          }
+          else
+          {
+            if(empleado)/////////////////////////
+            {
+              if(empleado.tipoEmpleado === "metre")
+              {
+                this.auth.mostrarToastExito('Ingresando...');
+                this.email = '';
+                this.clave = '';
+                setTimeout(()=>{
+                  this.mostrarSpinner = false;
+                  this.router.navigate(['/home-metres']);
+                }, 2000);
+              }
+            }
           }
         }
       })

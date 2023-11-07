@@ -31,8 +31,14 @@ export class ClientePage {
   rClave = '';
   perfil = '';
 
+  duenios:any[] = [];
+
   constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore, private push: PushService, private router : Router) 
   {
+    FirestoreService.traerFs('duenios', firestore).subscribe((data)=>{
+      this.duenios = data;
+    });
+
     this.form = this.formBuilder.group(
       {
         nombre: ['', [Validators.required, this.letrasValidator()]],
@@ -231,10 +237,6 @@ export class ClientePage {
 
           this.subir(obj);
           this.auth.mostrarToastExito('Alta realizada con exito.');
-
-          // this.push.sendPush('¡Atencion!', 'Un nuevo cliente se registró')
-          this.auth.logout();
-          this.router.navigate(['/login']);
           this.urlFoto = 'assets/perfil.png';
           this.fotoCapturada = null;
           this.nombre = '';
@@ -243,6 +245,12 @@ export class ClientePage {
           this.email = '';
           this.clave = '';
           this.perfil = '';
+
+          this.duenios.forEach((d) => {
+            this.push.sendPush('Alta cliente - La12Codea', "¡Se ha registrado un nuevo cliente!", d);
+          });
+
+          this.router.navigateByUrl('homeClientes');
         })
         .catch((error)=>{
           if(error === 'auth/email-already-in-use')

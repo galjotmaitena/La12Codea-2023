@@ -20,13 +20,13 @@ export class HomeMetresPage implements OnInit {
   observableMesas : any;
   
   abierta = false;
-  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push : PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService) { }
 
   ngOnInit() 
   {
     this.authService.login('1@1.com', '123456');
     this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
-      //this.listaEspera = data;
+      this.listaEspera = [];
       data.forEach(cliente => {
         if(cliente.espera)
         {

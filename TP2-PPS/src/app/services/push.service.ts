@@ -42,24 +42,24 @@ export class PushService{
 
     this.getUser();
 
-    console.log('Initializing HomePage');
+    alert('Initializing HomePage');
     PushNotifications.requestPermissions().then(result => {
       if (result.receive === 'granted') {
         PushNotifications.register();
       } else {
-        console.log("error");
+        alert("error");
       }
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
-      console.log('Error on registration: ' + JSON.stringify(error));
+      alert('Error on registration: ' + JSON.stringify(error));
     });
 
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
-        console.log('Push notification received: '+ JSON.stringify(notification));
-        console.log('data: ' + notification.data);
+        alert('Push notification received: '+ JSON.stringify(notification));
+        alert('data: ' + notification.data);
         LocalNotifications.schedule({
           notifications: [
             {
@@ -78,19 +78,26 @@ export class PushService{
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        console.log('Push action performed: ' + JSON.stringify(notification));
+        alert('Push action performed: ' + JSON.stringify(notification));
       },
     );
+
     PushNotifications.addListener('registration', (token: Token) => {
-      console.log('Push registration success, token: ' + token.value);
+      alert('Push registration success, token: ' + token.value);
 
       let u:any;
       let e:any;
       let d:any;
 
+      alert(JSON.stringify(this.clientes));
+      alert(JSON.stringify(this.empleados));
+      alert(JSON.stringify(this.duenios));
+
       this.clientes.forEach((usuario:any) => {
+        alert(usuario);
         if(usuario.email === this.usuarioAuth?.email)
         {
+          alert(usuario);
           u = usuario;
         }
       });
@@ -100,6 +107,7 @@ export class PushService{
         this.duenios.forEach((duenio:any) => {
           if(duenio.email === this.usuarioAuth?.email)
           {
+            alert(duenio);
             d = duenio;
           }
         });
@@ -107,8 +115,10 @@ export class PushService{
         if(!d)
         {
           this.empleados.forEach((empleado:any) => {
+            alert(empleado);
             if(empleado.email === this.usuarioAuth?.email)
             {
+              alert(empleado);
               e = empleado;
             }
           });
