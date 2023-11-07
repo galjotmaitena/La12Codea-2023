@@ -45,13 +45,12 @@ export class HomeClientesPage implements OnInit {
 
   ngOnInit() 
   {
-    this.observable = FirestoreService.traerFs('duenios', this.firestore).subscribe((data)=>{
+    this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       data.forEach((e)=>{
-        // if(e.tipoEmpleado == "metre")
-        // {
-        //   this.metres.push(e);
-        // }
-        this.metres.push(e);
+         if(e.tipoEmpleado == "metre")
+         {
+           this.metres.push(e);
+        }
       })
     });
 
