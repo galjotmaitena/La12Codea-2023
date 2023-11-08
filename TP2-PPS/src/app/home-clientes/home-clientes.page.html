@@ -6,7 +6,8 @@
   </ion-fab>
 
   <div *ngIf="ingreso">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
-    <label>{{mensaje}}</label>
+    <label *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</label>
+    <label *ngIf="cliente.espera">Usted se encuentra en lista de espera...</label>
 
     <div style="background-color: #fff; position: relative; display: flex;">
     <label>encuestas</label>
