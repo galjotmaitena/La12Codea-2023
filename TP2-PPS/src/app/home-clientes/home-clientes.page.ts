@@ -51,7 +51,6 @@ export class HomeClientesPage implements OnInit {
         {
           this.metres.push(e);
         }
-        //this.metres.push(e);
       })
     });
 

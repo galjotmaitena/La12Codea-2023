@@ -62,7 +62,6 @@ export class HomeMetresPage implements OnInit {
 
             FirestoreService.actualizarFs('mesas', mesa, this.firestore).then(()=>{
               cliente.mesa = this.mesa;    
-              
               cliente.espera = false;
 
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
