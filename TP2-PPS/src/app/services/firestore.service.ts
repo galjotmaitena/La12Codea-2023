@@ -48,25 +48,5 @@ export class FirestoreService {
       })
     );
   }
-
-  static buscarFs(col : string, email : any, firestore : Firestore)
-  {
-    return new Promise((resolve, reject) => {
-      let promesa = FirestoreService.traerFs(col, firestore).toPromise();
-      
-      
-      promesa.then((data : any) => {
-        let usuario = null;
-  
-        data.forEach((obj : any) => {
-          if (obj.email === email) {
-            usuario = obj;
-          }
-        });
-  
-        resolve(usuario);
-      });
-    });
-  }
 }
 

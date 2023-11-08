@@ -250,7 +250,7 @@ export class ClientePage {
             this.push.sendPush('Alta cliente - La12Codea', "¡Se ha registrado un nuevo cliente!", d);
           });
 
-          this.router.navigateByUrl('homeClientes');
+          this.router.navigateByUrl('login');
         })
         .catch((error)=>{
           if(error === 'auth/email-already-in-use')

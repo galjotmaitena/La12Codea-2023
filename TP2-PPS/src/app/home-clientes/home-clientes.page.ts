@@ -45,13 +45,13 @@ export class HomeClientesPage implements OnInit {
 
   ngOnInit() 
   {
-    this.observable = FirestoreService.traerFs('duenios', this.firestore).subscribe((data)=>{
+    this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       data.forEach((e)=>{
-        // if(e.tipoEmpleado == "metre")
-        // {
-        //   this.metres.push(e);
-        // }
-        this.metres.push(e);
+        if(e.tipoEmpleado == "metre")
+        {
+          this.metres.push(e);
+        }
+        //this.metres.push(e);
       })
     });
 
@@ -69,10 +69,6 @@ export class HomeClientesPage implements OnInit {
 
     this.observablePedidos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
       this.listaProductos = data;
-    });
-
-    FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data : any)=>{
-      this.cliente = data;
     });
   }
 
@@ -152,11 +148,6 @@ export class HomeClientesPage implements OnInit {
 
   asignarEscan()
   {
-
-    // FirestoreService.buscarFs('clientes', this.user?.email, this.firestore).then((data : any)=>{
-    //   this.cliente = data;
-    // });
-
     if(!this.ingreso)
     {
       let ingresoJSON = JSON.parse(this.escaneado);                             
@@ -169,7 +160,7 @@ export class HomeClientesPage implements OnInit {
       FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
         if(this.cliente.espera)
         {
-          alert('Usted esta en lista de espera');                       //////////////////////metre
+          //alert('Usted esta en lista de espera');                       //////////////////////metre
           this.metres.forEach((m) => {
             this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
           });
@@ -179,8 +170,6 @@ export class HomeClientesPage implements OnInit {
           alert(`Su mesa es la ${this.cliente.mesa}`);
         }
       });
-
-      
     }
     else
     {

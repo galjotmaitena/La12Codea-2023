@@ -20,7 +20,6 @@ export class ChatPage implements OnInit {
   usuario : any;
 
   /////////////////get user? para los clientes, entonces valido que el numero de mesa del msj coincida con el numero de mesa del cliente
-  /////////////////para los mozos se puede asignar el numero de mesa cuando abre el push????
   ////////////el mozo podria tener una lista de mesas que esta atendiendo? y que en base a eso se generen los chats
 
   constructor(private firestore : Firestore, private authService : AuthService) { }
@@ -31,7 +30,7 @@ export class ChatPage implements OnInit {
       data.forEach(cliente => {
         if(cliente.email === this.usuarioAuth?.email)
         {
-          this.usuario = cliente;
+          this.usuario = cliente;// CORREGIR, SE EVALUA TODO EL TIEMPO CON EL SUBSCRIBE Y FRIZZEA EL PROGRAMA(YA ME PASÓ)
         }
       });
     });
@@ -40,7 +39,7 @@ export class ChatPage implements OnInit {
       data.forEach(empleado => {
         if(empleado.tipoEmpleado === 'mozo' && empleado.correo === this.usuarioAuth?.email)
         {
-          this.usuario = empleado;
+          this.usuario = empleado;//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         }
       });
     });
@@ -67,7 +66,7 @@ export class ChatPage implements OnInit {
       data.forEach(mensaje => {
         if(mensaje.numeroMesa === this.usuario.mesa)
         {
-          this.mensajes.push(mensaje);
+          this.mensajes.push(mensaje);//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         }
       });
     });

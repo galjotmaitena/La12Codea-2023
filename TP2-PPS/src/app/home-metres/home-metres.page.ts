@@ -24,7 +24,6 @@ export class HomeMetresPage implements OnInit {
 
   ngOnInit() 
   {
-    this.authService.login('1@1.com', '123456');
     this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       this.listaEspera = [];
       data.forEach(cliente => {
