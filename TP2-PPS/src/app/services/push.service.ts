@@ -62,17 +62,15 @@ export class PushService{
         alert('data: ' + notification.data);
         LocalNotifications.schedule({
           notifications: [
-            {
-              title: notification.title || '',
-              body: notification.body || '',
-              id: new Date().getMilliseconds(),
-              extra: {
-                data: notification.data,
-              },
+          {
+            title: notification.title || '',
+            body: notification.body || '',
+            id: new Date().getMilliseconds(),
+            extra: {data: notification.data,},
             },
           ],
         });
-      }
+      } 
     );
 
     PushNotifications.addListener(
@@ -185,11 +183,11 @@ export class PushService{
 
     this.sendPushNotification(pushNotification).subscribe(
       (response: any) => {
-        console.log('Notificación enviada con éxito');
-        console.log(response);
+        alert('Notificación enviada con éxito');
+        alert(response);
       },
       (error: any) => {
-        console.log('Error al enviar la notificación');
+        alert('Error al enviar la notificación');
         console.error(error);
       }
     );
