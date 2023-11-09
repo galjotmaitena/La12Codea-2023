@@ -155,13 +155,6 @@ export class HomeClientesPage implements OnInit {
   asignarEscan()
   {
     if(!this.ingreso && this.cliente.mesa === '')
-    { 
-      let ingresoJSON = JSON.parse(this.escaneado);                             
-        this.ingreso = ingresoJSON.ingresarAlLocal;
-        this.cliente.espera = true;
-      
-    
-      if(!this.ingreso)
       {
         let ingresoJSON = JSON.parse(this.escaneado);                             
             this.ingreso = ingresoJSON.ingresarAlLocal;
@@ -215,7 +208,6 @@ export class HomeClientesPage implements OnInit {
           this.authService.mostrarToastError('Tiene que escanear el QR respectivo, para ingresar a la lista de espera');
         }
       }
-    }
   }
 
   verificarMesaAsignada() : boolean
