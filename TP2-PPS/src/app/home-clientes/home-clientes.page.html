@@ -1,9 +1,9 @@
 <ion-content class="container-gral" *ngIf="!abierta">
-  <!-- <ion-fab>
+  <ion-fab>
     <ion-fab-button (click)="startScan()">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>
 
   <div *ngIf="ingreso">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
     <label *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</label>
@@ -127,11 +127,11 @@
       </div>
     </div> -->
 
-    <!-- <ion-fab>
+    <ion-fab>
       <ion-fab-button (click)="asignarEscan()">
-        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>   <!-- chat?????
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>   <!-- chat?????-->
       </ion-fab-button>
-    </ion-fab> -->
+    </ion-fab>
   </div>
 </ion-content>
 <ion-footer class="ion-no-border" >

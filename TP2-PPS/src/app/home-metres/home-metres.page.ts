@@ -35,6 +35,7 @@ export class HomeMetresPage implements OnInit {
     });
 
     this.observableMesas = FirestoreService.traerFs('mesas', this.firestore).subscribe((data)=>{
+      this.listaMesas = [];
       data.forEach(mesa => {
         if(!mesa.ocupada)
         {

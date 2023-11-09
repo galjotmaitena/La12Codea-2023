@@ -50,7 +50,19 @@
         El precio es requerido.
       </span>
 
-      <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+      <ion-item class="input">
+        <ion-select [(ngModel)]="tipo" formControlName="tipo" name="n" label="Tipo de producto" labelPlacement="floating">
+          <ion-select-option value="comida">Comida</ion-select-option>
+          <ion-select-option value="bebida">Bebida</ion-select-option>
+          <ion-select-option value="postre">Postre</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <span *ngIf="form.controls['tipo'].touched && form.controls['tipo'].hasError('required')">
+        El tipo es requerido.
+      </span>
+      <!--ACA VA EL TIPO-->
+      <swiper-container navigation="true" pagination="true" loop="true" class="py-4">
         <swiper-slide>
           <img [src]="fotoCapturadas[0] == null ? 'assets/sin-fotos.png' : fotoCapturadas[0]">
         </swiper-slide>  
@@ -68,10 +80,9 @@
           </swiper-slide>
         </swiper-container>
       </div> -->
+      <div class="divBoton py-1">
+        <ion-button (click)="subirTodo()" [disabled]="!form.valid || fotosRestantes !== 0" id="btn">ALTA</ion-button>
+      </div>
     </form>
-  </div>
-  
-  <div class="divBoton">
-    <ion-button (click)="subirTodo()" [disabled]="!form.valid || fotosRestantes !== 0" id="btn">ALTA</ion-button>
   </div>
 </ion-content>

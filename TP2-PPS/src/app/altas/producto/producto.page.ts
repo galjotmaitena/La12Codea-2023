@@ -27,6 +27,7 @@ export class ProductoPage implements OnInit {
   descripcion = '';
   tiempo = '';
   precio = '';
+  tipo = '';
 
   constructor(private push: PushService, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
   {
@@ -36,6 +37,7 @@ export class ProductoPage implements OnInit {
         descripcion: ['', [Validators.required, this.letrasValidator()]],
         tiempo: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
         precio: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+        tipo: ['', [Validators.required]],
       }
     );
   }
@@ -45,7 +47,7 @@ export class ProductoPage implements OnInit {
 
   subirTodo()
   {
-    let obj = {nombre: this.nombre, descripcion: this.descripcion, tiempo: this.tiempo, precio: this.precio};
+    let obj = {nombre: this.nombre, descripcion: this.descripcion, tiempo: this.tiempo, precio: this.precio, tipo: this.tipo};
     this.urlQr = this.qr.generarCodigoQR(JSON.stringify(obj));
     let url = this.urlQr;
 
