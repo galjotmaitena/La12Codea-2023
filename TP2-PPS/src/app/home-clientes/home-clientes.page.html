@@ -133,6 +133,12 @@
       </ion-fab-button>
     </ion-fab>
   </div>
+
+  <div *ngIf="yaPidio">
+    <label>{{estadoPedido}}</label>
+    <ion-button routerLink="/juegos">Juegos</ion-button>
+    <ion-button>Encuestas</ion-button>
+  </div>
 </ion-content>
 <ion-footer class="ion-no-border" >
   <ion-toolbar style="--background:#F6BD60">

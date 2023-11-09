@@ -39,6 +39,8 @@ export class HomeClientesPage implements OnInit {
   totalPrecio = 0;
   totalTiempo = 0;
 
+  estadoPedido = '';//////////////////////////////////////////////////
+
   cliente : any;
 
 
@@ -151,43 +153,66 @@ export class HomeClientesPage implements OnInit {
 
   asignarEscan()
   {
-    if(!this.ingreso)
-    {
-      let ingresoJSON = JSON.parse(this.escaneado);                             
-      this.ingreso = ingresoJSON.ingresarAlLocal;
-      this.cliente.espera = true;
-
-      alert(this.cliente);
-      alert(this.user?.email);
-
-      FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-        if(this.cliente.espera)
-        {
-          //alert('Usted esta en lista de espera');                       //////////////////////metre
-          this.metres.forEach((m) => {
-            this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
-          });
-        }
-        else
-        {
-          alert(`Su mesa es la ${this.cliente.mesa}`);
-        }
-      });
-    }
-    else
-    {
-      if(!this.enMesa)
+    
+      if(!this.ingreso && this.escaneado === '{"ingresarAlLocal":true}')
       {
-        this.verificarMesaAsignada();
+
+        
+          let ingresoJSON = JSON.parse(this.escaneado);                             
+          this.ingreso = ingresoJSON.ingresarAlLocal;
+          this.cliente.espera = true;
+    
+          alert(this.cliente);
+          alert(this.user?.email);
+    
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+            if(this.cliente.espera)
+            {
+              //alert('Usted esta en lista de espera');                       //////////////////////metre
+              this.metres.forEach((m) => {
+                this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+              });
+            }
+            else
+            {
+              alert(`Su mesa es la ${this.cliente.mesa}`);
+            }
+          });
+        
+
       }
       else
       {
-        if(!this.yaPidio)
+        if(!this.enMesa && this.cliente.espera)
         {
-          this.yaPidio = true;
+          this.verificarMesaAsignada();
+        }
+        else
+        {
+          if(!this.yaPidio && this.cliente.mesa !== '')
+          {
+            this.yaPidio = true;
+            /////////////////////////se pondria el estadoPedido del cliente en 'en preparacion'
+          }
+          else
+          {
+            if(this.yaPidio)
+            {
+              //////////////////////////funcionalidad 8
+            }
+            else
+            {
+              if(!this.cliente.espera)
+              {
+                alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
+              }
+            }
+
+          }
         }
       }
-    }
+    
+    
   }
 
   verificarMesaAsignada()
