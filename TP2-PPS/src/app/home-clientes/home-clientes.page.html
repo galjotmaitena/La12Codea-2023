@@ -1,6 +1,6 @@
 <ion-toolbar class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
   <!-- <ion-icon class="iconFooter" name="person-outline"></ion-icon> -->
-  <h1>${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+  <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
 </ion-toolbar>
 
 <ion-content class="container-gral" *ngIf="!abierta">
@@ -129,8 +129,3 @@
     <ion-button>Encuestas</ion-button>
   </div>
 </ion-content>
-<ion-footer class="ion-no-border" >
-  <ion-toolbar style="--background:#F6BD60">
-    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-  </ion-toolbar>
-</ion-footer>
