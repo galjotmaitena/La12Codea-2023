@@ -29,7 +29,7 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; 
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -194,8 +194,6 @@ export class HomeClientesPage implements OnInit {
   {
     let mesaJSON = JSON.parse(this.escaneado);
     let numeroMesa = mesaJSON.numero;
-
-
 
     if(numeroMesa === this.cliente.mesa)
     {
