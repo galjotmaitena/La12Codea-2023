@@ -62,9 +62,6 @@ const routes: Routes = [
   {/////////////////////////encuestas
     path: 'clientes',
     loadChildren: () => import('./encuestas/clientes/clientes.module').then( m => m.ClientesPageModule)
-  },  {
-    path: 'juegos',
-    loadChildren: () => import('./juegos/juegos.module').then( m => m.JuegosPageModule)
   },
 
 
