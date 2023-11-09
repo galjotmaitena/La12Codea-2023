@@ -19,6 +19,7 @@ export class HomeClientesPage implements OnInit {
   clientes:any[] = [];
   listaProductos : any[] = [];
   metres: any[] = [];
+  mesas : any[] = [];
 
   observable : any;
   observablePedidos : any;
@@ -36,7 +37,7 @@ export class HomeClientesPage implements OnInit {
   mensaje : string = '';
 
   pedido : any[] = [];
-  totalPrecio = 0;
+  importe = 0;
   totalTiempo = 0;
 
   estadoPedido = '';//////////////////////////////////////////////////
@@ -154,89 +155,127 @@ export class HomeClientesPage implements OnInit {
   asignarEscan()
   {
     if(!this.ingreso && this.cliente.mesa === '')
-        {let ingresoJSON = JSON.parse(this.escaneado);                             
-      this.ingreso = ingresoJSON.ingresarAlLocal;
-      this.cliente.espera = true;
+    { 
+      let ingresoJSON = JSON.parse(this.escaneado);                             
+        this.ingreso = ingresoJSON.ingresarAlLocal;
+        this.cliente.espera = true;
+      
     
-      alert(this.cliente);
-      alert(this.user?.email);
-    
-      FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-        if(this.cliente.espera)
-        {
-          //alert('Usted esta en lista de espera');                       //////////////////////metre
-          this.metres.forEach((m) => {
-            this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
-          });
-        }
-        else
-        {
-          alert(`Su mesa es la ${this.cliente.mesa}`);
-        }
-      });
-    }
-    else
-    {
-      if(!this.enMesa && this.cliente.espera)
+      if(!this.ingreso)
       {
-        this.verificarMesaAsignada();
+        let ingresoJSON = JSON.parse(this.escaneado);                             
+            this.ingreso = ingresoJSON.ingresarAlLocal;
+            this.cliente.espera = true;
+      
+            FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+              if(this.cliente.espera)
+              {
+                this.metres.forEach((m) => {
+                  this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+                });
+              }
+              else
+              {
+                alert(`Su mesa es la ${this.cliente.mesa}`);
+              }
+            });
       }
       else
       {
-        if(!this.yaPidio && this.cliente.mesa !== '')
+        if(this.cliente.mesa !== '')
         {
-          this.yaPidio = true;
-            /////////////////////////se pondria el estadoPedido del cliente en 'en preparacion'
-        }
-        else
-        {
-          if(this.yaPidio)
+          if(this.verificarMesaAsignada())
           {
-            //////////////////////////funcionalidad 8
+            this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+            let mesa : any;
+
+            this.mesas.forEach(m => {
+              if(m.numero === this.cliente.mesa)
+              {
+                mesa = m;
+              }
+            });
+
+            if(this.yaPidio)
+            {
+              this.estadoPedido = mesa.estadoPedido;
+            }
+            else
+            {
+              this.authService.mostrarToastError('Aún no realizó el pedido');
+            }
           }
           else
           {
-            if(!this.cliente.espera)
-            {
-              alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
-            }
+            this.authService.mostrarToastError(`Esta no es su mesa, su mesa es la número ${this.cliente.mesa}`);
           }
+        }
+        else
+        {
+          this.authService.mostrarToastError('Tiene que escanear el QR respectivo, para ingresar a la lista de espera');
         }
       }
     }
   }
 
-  verificarMesaAsignada()
+  verificarMesaAsignada() : boolean
   {
+    let retorno = false;
     let mesaJSON = JSON.parse(this.escaneado);
     let numeroMesa = mesaJSON.numero;
 
     if(numeroMesa === this.cliente.mesa)
     {
-      console.log('es tu mesaaa');
-      this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+      retorno = true;
+    }
+
+    return retorno;
+  }
+
+  elegirProducto(accion: boolean, p: any)
+  {
+    if(accion)
+    {
+      this.pedido.push(p);
+      this.authService.mostrarToastExito(p.nombre + " ha agregado a su pedido.");
+      this.importe += p.precio;
     }
     else
     {
-      console.log(`Esta no es su mesa, su mesa es la numero ${numeroMesa}`);
+      let index = this.pedido.indexOf(p);
+      let esta = index !== -1 ? true : false;
+
+      if(!esta)
+      {
+        this.authService.mostrarToastError(p.nombre + " no se encuentra en su pedido.");
+      }
+      else
+      {
+        this.pedido.splice(index, 1);
+        this.importe -= p.precio;
+        this.authService.mostrarToastExito(p.nombre + " ha sido eliminado de su pedido.");
+      }
     }
+
+/*     if(this.pedido.length === 1)
+    {
+      this.totalTiempo = this.pedido[0].tiempo;
+    }
+    else
+    {
+      let tiempo = 0;
+
+      this.pedido.forEach((pr)=>{
+        if(pr.tiempo > tiempo)
+        {
+          tiempo = pr.tiempo;
+        }
+      });
+
+      this.totalTiempo = tiempo;
+    } */
   }
 
-  tomarPedido(producto : any)
-  {
-    this.pedido.push(producto);
-    this.totalPrecio += producto.precio;
-    this.totalTiempo += producto.tiempo;
-  }
-
-
-
-
-
-
-
-
-  
   salir()
   {
     let usuario:any;
@@ -257,3 +296,4 @@ export class HomeClientesPage implements OnInit {
     });
   }
 }
+

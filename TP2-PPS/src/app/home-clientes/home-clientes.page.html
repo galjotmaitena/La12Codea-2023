@@ -14,120 +14,103 @@
   </div>
   
   <div *ngIf="enMesa">                      <!-- escaneo mesa, funcionalidad 6 y 7 -->
-      <ion-segment slot="top" [(ngModel)]="selectedTab">
-        <ion-segment-button class="segment-button" value="tab1">COMIDAS</ion-segment-button>
-        <ion-segment-button class="segment-button" value="tab2">BEBIDAS</ion-segment-button>
-        <ion-segment-button class="segment-button" value="tab3">POSTRES</ion-segment-button>
-        <!-- Agrega más tabs según sea necesario -->
-      </ion-segment>
+    <ion-segment vertical="bottom" slot="bottom" [(ngModel)]="selectedTab">
+      <ion-segment-button class="segment-button" value="tab1">COMIDAS</ion-segment-button>
+      <ion-segment-button class="segment-button" value="tab2">BEBIDAS</ion-segment-button>
+      <ion-segment-button class="segment-button" value="tab3">POSTRES</ion-segment-button>
+    </ion-segment>
 
-      <div *ngIf="selectedTab === 'tab1'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'comida'" class="contenedor-productos">
-            <div>
-              <h1>{{p.nombre}}</h1>
-            </div>
-            <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
-                <swiper-slide>
-                  <img [src]="p.fotos[0]">
-                </swiper-slide>  
-                <swiper-slide>
-                  <img [src]="p.fotos[1]">
-                </swiper-slide> 
-                <swiper-slide>
-                  <img [src]="p.fotos[2]">
-                </swiper-slide> 
-              </swiper-container>
-            </div>
-            <div>
-              <h1>{{p.precio}}</h1>
-            </div>
+    <div *ngIf="selectedTab === 'tab1'" >
+      <div *ngFor="let p of listaProductos">
+        <div *ngIf="p.tipo == 'comida'" class="contenedor-productos">
+          <div>
+            <h1>{{p.nombre}}</h1>
+          </div>
+          <div>
+            <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-slide>
+                <img [src]="p.fotos[0]">
+              </swiper-slide>  
+              <swiper-slide>
+                <img [src]="p.fotos[1]">
+              </swiper-slide> 
+              <swiper-slide>
+                <img [src]="p.fotos[2]">
+              </swiper-slide> 
+            </swiper-container>
+          </div>
+          <div>
+            <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+          </div>
+          <div>
+            <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
+            <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div *ngIf="selectedTab === 'tab2'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'bebida'" class="contenedor-productos">
-            <div>
-              <h1>{{p.nombre}}</h1>
-            </div>
-            <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
-                <swiper-slide>
-                  <img [src]="p.fotos[0]">
-                </swiper-slide>  
-                <swiper-slide>
-                  <img [src]="p.fotos[1]">
-                </swiper-slide> 
-                <swiper-slide>
-                  <img [src]="p.fotos[2]">
-                </swiper-slide> 
-              </swiper-container>
-            </div>
-            <div>
-              <h1>{{p.precio}}</h1>
-            </div>
+    <div *ngIf="selectedTab === 'tab2'" >
+      <div *ngFor="let p of listaProductos">
+        <div *ngIf="p.tipo == 'bebida'" class="contenedor-productos">
+          <div>
+            <h1>{{p.nombre}}</h1>
+          </div>
+          <div>
+            <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-slide>
+                <img [src]="p.fotos[0]">
+              </swiper-slide>  
+              <swiper-slide>
+                <img [src]="p.fotos[1]">
+              </swiper-slide> 
+              <swiper-slide>
+                <img [src]="p.fotos[2]">
+              </swiper-slide> 
+            </swiper-container>
+          </div>
+          <div>
+            <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+          </div>
+          <div>
+            <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
+            <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div *ngIf="selectedTab === 'tab3'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'postre'" class="contenedor-productos">
-            <div>
-              <h1>{{p.nombre}}</h1>
-            </div>
-            <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
-                <swiper-slide>
-                  <img [src]="p.fotos[0]">
-                </swiper-slide>  
-                <swiper-slide>
-                  <img [src]="p.fotos[1]">
-                </swiper-slide> 
-                <swiper-slide>
-                  <img [src]="p.fotos[2]">
-                </swiper-slide> 
-              </swiper-container>
-            </div>
-            <div>
-              <h1>{{p.precio}}</h1>
-            </div>
-            <div>
-              <ion-button><ion-icon name="add-outline"></ion-icon></ion-button>
-              <ion-button><ion-icon name="remove-outline"></ion-icon></ion-button>
-            </div>
+    <div *ngIf="selectedTab === 'tab3'" >
+      <div *ngFor="let p of listaProductos">
+        <div *ngIf="p.tipo == 'postre'" class="contenedor-productos">
+          <div>
+            <h1>{{p.nombre}}</h1>
+          </div>
+          <div>
+            <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-slide>
+                <img [src]="p.fotos[0]">
+              </swiper-slide>  
+              <swiper-slide>
+                <img [src]="p.fotos[1]">
+              </swiper-slide> 
+              <swiper-slide>
+                <img [src]="p.fotos[2]">
+              </swiper-slide> 
+            </swiper-container>
+          </div>
+          <div>
+            <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+          </div>
+          <div>
+            <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
+            <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
           </div>
         </div>
       </div>
+    </div>
 
-    <!-- <div *ngFor="let p of listaProductos">
-      <div class="contenedor-productos">
-        <div>
-          <h1>{{p.nombre}}</h1>
-        </div>
-        <div>
-          <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
-            <swiper-slide>
-              <img [src]="p.fotos[0]">
-            </swiper-slide>  
-            <swiper-slide>
-              <img [src]="p.fotos[1]">
-            </swiper-slide> 
-            <swiper-slide>
-              <img [src]="p.fotos[2]">
-            </swiper-slide> 
-          </swiper-container>
-        </div>
-        <div>
-          <h1>{{p.precio}}</h1>
-        </div>
-      </div>
-    </div> -->
-
-    <ion-fab>
+    <ion-fab horizontal="end" vertical="bottom">
       <ion-fab-button (click)="asignarEscan()">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>   <!-- chat?????-->
       </ion-fab-button>
