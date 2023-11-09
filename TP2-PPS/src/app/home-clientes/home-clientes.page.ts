@@ -153,66 +153,57 @@ export class HomeClientesPage implements OnInit {
 
   asignarEscan()
   {
+    if(!this.ingreso && this.cliente.mesa === '')
+        {let ingresoJSON = JSON.parse(this.escaneado);                             
+      this.ingreso = ingresoJSON.ingresarAlLocal;
+      this.cliente.espera = true;
     
-      if(!this.ingreso && this.escaneado === '{"ingresarAlLocal":true}')
-      {
-
-        
-          let ingresoJSON = JSON.parse(this.escaneado);                             
-          this.ingreso = ingresoJSON.ingresarAlLocal;
-          this.cliente.espera = true;
+      alert(this.cliente);
+      alert(this.user?.email);
     
-          alert(this.cliente);
-          alert(this.user?.email);
-    
-          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-            if(this.cliente.espera)
-            {
-              //alert('Usted esta en lista de espera');                       //////////////////////metre
-              this.metres.forEach((m) => {
-                this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
-              });
-            }
-            else
-            {
-              alert(`Su mesa es la ${this.cliente.mesa}`);
-            }
-          });
-        
-
-      }
-      else
-      {
-        if(!this.enMesa && this.cliente.espera)
+      FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+        if(this.cliente.espera)
         {
-          this.verificarMesaAsignada();
+          //alert('Usted esta en lista de espera');                       //////////////////////metre
+          this.metres.forEach((m) => {
+            this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+          });
         }
         else
         {
-          if(!this.yaPidio && this.cliente.mesa !== '')
-          {
-            this.yaPidio = true;
+          alert(`Su mesa es la ${this.cliente.mesa}`);
+        }
+      });
+    }
+    else
+    {
+      if(!this.enMesa && this.cliente.espera)
+      {
+        this.verificarMesaAsignada();
+      }
+      else
+      {
+        if(!this.yaPidio && this.cliente.mesa !== '')
+        {
+          this.yaPidio = true;
             /////////////////////////se pondria el estadoPedido del cliente en 'en preparacion'
+        }
+        else
+        {
+          if(this.yaPidio)
+          {
+            //////////////////////////funcionalidad 8
           }
           else
           {
-            if(this.yaPidio)
+            if(!this.cliente.espera)
             {
-              //////////////////////////funcionalidad 8
+              alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
             }
-            else
-            {
-              if(!this.cliente.espera)
-              {
-                alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
-              }
-            }
-
           }
         }
       }
-    
-    
+    }
   }
 
   verificarMesaAsignada()
