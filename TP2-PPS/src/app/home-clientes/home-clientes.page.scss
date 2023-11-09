@@ -23,3 +23,28 @@ ion-footer{
     position: relative;
     width: 10%;
 }
+
+swiper-container{
+    height: 40%;
+    width: 95%;
+}
+
+swiper-slide{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img{
+        width: 80%;
+    }
+}
+
+///////////
+.segment-button {
+    background-color: #0e1f0e;
+    color: #ff0000; /* Color de texto no seleccionado */
+}
+
+.segment-button-checked {
+  color: #00ff00; /* Color de texto seleccionado */
+}

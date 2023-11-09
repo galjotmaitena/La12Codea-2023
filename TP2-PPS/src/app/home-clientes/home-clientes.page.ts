@@ -29,7 +29,7 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; 
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; 
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -40,6 +40,10 @@ export class HomeClientesPage implements OnInit {
   totalTiempo = 0;
 
   cliente : any;
+
+
+  muestro = '';
+  selectedTab = '';
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
 
@@ -238,19 +242,4 @@ export class HomeClientesPage implements OnInit {
       alert(JSON.stringify(err));
     });
   }
-
-  /* send() 
-  {
-    let cliente;
-
-    this.clientes.forEach((c:any) => {
-      if(this.user?.email === c.email)
-      {
-        cliente = c;
-      }
-    });
-
-    alert(JSON.stringify(cliente));
-    this.push.sendPush('Título de notificación', 'Cuerpo de notificación', cliente); ////por ahoraaaaaaaaa
-  } */
 }
