@@ -19,6 +19,7 @@ export class HomeClientesPage implements OnInit {
   clientes:any[] = [];
   listaProductos : any[] = [];
   metres: any[] = [];
+  mesas : any[] = [];
 
   observable : any;
   observablePedidos : any;
@@ -154,21 +155,69 @@ export class HomeClientesPage implements OnInit {
   asignarEscan()
   {
     
-      if(!this.ingreso && this.escaneado === '{"ingresarAlLocal":true}')
-      {
+      // if(!this.ingreso && this.cliente.mesa === '')
+      // {
 
         
-          let ingresoJSON = JSON.parse(this.escaneado);                             
+      //     let ingresoJSON = JSON.parse(this.escaneado);                             
+      //     this.ingreso = ingresoJSON.ingresarAlLocal;
+      //     this.cliente.espera = true;
+    
+      //     FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+      //       if(this.cliente.espera)
+      //       {
+      //         this.metres.forEach((m) => {
+      //           this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+      //         });
+      //       }
+      //       else
+      //       {
+      //         alert(`Su mesa es la ${this.cliente.mesa}`);
+      //       }
+      //     });
+        
+
+      // }
+      // else
+      // {
+      //   if(!this.enMesa && this.cliente.mesa !== '')
+      //   {
+      //     this.verificarMesaAsignada();
+      //   }
+      //   else
+      //   {
+      //     if(!this.yaPidio)
+      //     {
+      //       this.yaPidio = true;
+      //       /////////////////////////se pondria el estadoPedido del cliente en 'en preparacion'
+      //     }
+      //     else
+      //     {
+      //       if(this.yaPidio)
+      //       {
+      //         //////////////////////////funcionalidad 8
+      //       }
+      //       else
+      //       {
+      //         if(!this.cliente.espera)
+      //         {
+      //           alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
+      //         }
+      //       }
+
+      //     }
+      //   }
+      // }
+    
+    if(!this.ingreso)
+    {
+      let ingresoJSON = JSON.parse(this.escaneado);                             
           this.ingreso = ingresoJSON.ingresarAlLocal;
           this.cliente.espera = true;
-    
-          alert(this.cliente);
-          alert(this.user?.email);
     
           FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
             if(this.cliente.espera)
             {
-              //alert('Usted esta en lista de espera');                       //////////////////////metre
               this.metres.forEach((m) => {
                 this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
               });
@@ -178,57 +227,58 @@ export class HomeClientesPage implements OnInit {
               alert(`Su mesa es la ${this.cliente.mesa}`);
             }
           });
-        
+    }
+    else
+    {
+      if(this.cliente.mesa !== '')
+      {
+        if(this.verificarMesaAsignada())
+        {
+          this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+          let mesa : any;
+
+          this.mesas.forEach(m => {
+            if(m.numero === this.cliente.mesa)
+            {
+              mesa = m;
+            }
+          });
+
+          if(this.yaPidio)
+          {
+            this.estadoPedido = mesa.estadoPedido;
+          }
+          else
+          {
+            this.authService.mostrarToastError('Aún no realizó el pedido');
+          }
+        }
+        else
+        {
+          this.authService.mostrarToastError(`Esta no es su mesa, su mesa es la número ${this.cliente.mesa}`);
+        }
 
       }
       else
       {
-        if(!this.enMesa && this.cliente.espera)
-        {
-          this.verificarMesaAsignada();
-        }
-        else
-        {
-          if(!this.yaPidio && this.cliente.mesa !== '')
-          {
-            this.yaPidio = true;
-            /////////////////////////se pondria el estadoPedido del cliente en 'en preparacion'
-          }
-          else
-          {
-            if(this.yaPidio)
-            {
-              //////////////////////////funcionalidad 8
-            }
-            else
-            {
-              if(!this.cliente.espera)
-              {
-                alert('primero debe estar en la lista de espera');////////////////////////////////////////////////
-              }
-            }
-
-          }
-        }
+        this.authService.mostrarToastError('Tiene que escanear el QR respectivo, para ingresar a la lista de espera');
       }
-    
+    }
     
   }
 
-  verificarMesaAsignada()
+  verificarMesaAsignada() : boolean
   {
+    let retorno = false;
     let mesaJSON = JSON.parse(this.escaneado);
     let numeroMesa = mesaJSON.numero;
 
     if(numeroMesa === this.cliente.mesa)
     {
-      console.log('es tu mesaaa');
-      this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
+      retorno = true;
     }
-    else
-    {
-      console.log(`Esta no es su mesa, su mesa es la numero ${numeroMesa}`);
-    }
+
+    return retorno;
   }
 
   tomarPedido(producto : any)
