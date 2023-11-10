@@ -7,10 +7,6 @@ const routes: Routes = [
     path: 'splash', component: SplashScreenComponent
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
@@ -45,24 +41,33 @@ const routes: Routes = [
   },
   {
     path: 'homeClientes',
-    loadChildren: () => import('./home-clientes/home-clientes.module').then( m => m.HomeClientesPageModule)
+    loadChildren: () => import('./homes/home-clientes/home-clientes.module').then( m => m.HomeClientesPageModule)
   },
   {
     path: 'home-metres',
-    loadChildren: () => import('./home-metres/home-metres.module').then( m => m.HomeMetresPageModule)
+    loadChildren: () => import('./homes/homes-empleados/home-metres/home-metres.module').then( m => m.HomeMetresPageModule)
   },
   {
     path: 'home-duenio',
-    loadChildren: () => import('./home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
+    loadChildren: () => import('./homes/home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
   },
   {
     path: 'chat',
-    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./components/chat/chat.module').then( m => m.ChatPageModule)
   },
   {/////////////////////////encuestas
     path: 'clientes',
     loadChildren: () => import('./encuestas/clientes/clientes.module').then( m => m.ClientesPageModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./homes/homes-empleados/home/home.module').then( m => m.HomePageModule)
+  },
+  {
+    path: 'home-mozo',
+    loadChildren: () => import('./homes/homes-empleados/home-mozo/home-mozo.module').then( m => m.HomeMozoPageModule)
+  },
+
 
 
 

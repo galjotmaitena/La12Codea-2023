@@ -1,11 +1,11 @@
 import { JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-import { AuthService } from '../services/auth.service';
-import { FirestoreService } from '../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
-import { PushService } from '../services/push.service';
+import { PushService } from '../../services/push.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -154,8 +154,8 @@ export class HomeClientesPage implements OnInit {
 
   asignarEscan()
   {
-    
-      if(!this.ingreso)
+
+    if(!this.ingreso) /////////////////////////////////////
       {
         let ingresoJSON = JSON.parse(this.escaneado);                             
             this.ingreso = ingresoJSON.ingresarAlLocal;
@@ -209,7 +209,6 @@ export class HomeClientesPage implements OnInit {
           this.authService.mostrarToastError('Tiene que escanear el QR respectivo, para ingresar a la lista de espera');
         }
       }
-    
   }
 
   verificarMesaAsignada() : boolean

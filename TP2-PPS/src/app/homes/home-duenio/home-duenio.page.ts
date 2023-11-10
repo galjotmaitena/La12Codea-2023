@@ -1,10 +1,10 @@
 //import { Component, OnInit } from '@angular/core';
-import { FirestoreService } from '../services/firestore.service';
+import { FirestoreService } from '../../services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
-import { PushService } from '../services/push.service';
-import { EmailService } from '../services/email.service';
-import { AuthService } from '../services/auth.service';
+import { PushService } from '../../services/push.service';
+import { EmailService } from '../../services/email.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

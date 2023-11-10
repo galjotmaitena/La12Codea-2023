@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { FirestoreService } from '../services/firestore.service';
-import { AuthService } from '../services/auth.service';
+import { FirestoreService } from '../../services/firestore.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-chat',
