@@ -24,3 +24,11 @@ ion-modal#example-modal {
   ion-modal#example-modal .wrapper {
     margin-bottom: 10px;
   }
+
+.container-general{
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  display: flex;
+  
+}

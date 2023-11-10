@@ -8,13 +8,43 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 
+
+import { HomeMetresPage } from '../home-metres/home-metres.page';
+import { HomeMozoPage } from '../home-mozo/home-mozo.page';
+import { HomeMetresPageModule } from '../home-metres/home-metres.module';
+import { HomeMozoPageModule } from '../home-mozo/home-mozo.module';
+import { HomeCocinaPageModule } from '../home-cocina/home-cocina.module';
+import { HomeBarPageModule } from '../home-bar/home-bar.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    HomeMetresPageModule,
+    HomeMozoPageModule,
+    HomeCocinaPageModule,
+    HomeBarPageModule
   ],
   declarations: [HomePage]
 })
 export class HomePageModule {}
+
+
+
+/*
+  // Otros imports...
+import { ModuloDelComponente } from 'ruta/al/modulo-del-componente';
+
+@NgModule({
+  declarations: [
+    // Componentes locales...
+  ],
+  imports: [
+    ModuloDelComponente, // Asegúrate de agregar el módulo del componente aquí
+    // Otros imports...
+  ],
+})
+export class ModuloDondeLoQuieresUsar { }
+  */

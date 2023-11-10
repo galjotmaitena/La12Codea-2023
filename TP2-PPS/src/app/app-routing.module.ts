@@ -67,6 +67,15 @@ const routes: Routes = [
     path: 'home-mozo',
     loadChildren: () => import('./homes/homes-empleados/home-mozo/home-mozo.module').then( m => m.HomeMozoPageModule)
   },
+  {
+    path: 'home-cocina',
+    loadChildren: () => import('./homes/homes-empleados/home-cocina/home-cocina.module').then( m => m.HomeCocinaPageModule)
+  },
+  {
+    path: 'home-bar',
+    loadChildren: () => import('./homes/homes-empleados/home-bar/home-bar.module').then( m => m.HomeBarPageModule)
+  },
+
 
 
 

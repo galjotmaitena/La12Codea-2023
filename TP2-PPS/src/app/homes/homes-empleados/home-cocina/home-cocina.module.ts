@@ -4,18 +4,18 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomeMozoPageRoutingModule } from './home-mozo-routing.module';
+import { HomeCocinaPageRoutingModule } from './home-cocina-routing.module';
 
-import { HomeMozoPage } from './home-mozo.page';
+import { HomeCocinaPage } from './home-cocina.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeMozoPageRoutingModule
+    HomeCocinaPageRoutingModule
   ],
-  declarations: [HomeMozoPage],
-  exports: [HomeMozoPage]
+  declarations: [HomeCocinaPage],
+  exports: [HomeCocinaPage]
 })
-export class HomeMozoPageModule {}
+export class HomeCocinaPageModule {}
