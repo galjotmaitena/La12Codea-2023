@@ -25,7 +25,6 @@ export class MesaPage implements OnInit {
   tipoMesa = '';
   qr = 'assets/escanear.png';
   ocupada = false;
-  pedido = '';
   fotoPrueba:any = 'assets/mesa-redonda.png';
   
   info: any;
@@ -95,7 +94,7 @@ export class MesaPage implements OnInit {
         urlPromise.then((url2: any) => 
         {
           this.qr = url2;
-          let mesa = {numero : this.numero, cantidadComensales : this.cantidad, tipoMesa : this.tipoMesa, foto : this.foto, QR : this.qr, ocupada : this.ocupada, pedido : this.pedido};
+          let mesa = {numero : this.numero, cantidadComensales : this.cantidad, tipoMesa : this.tipoMesa, foto : this.foto, QR : this.qr, ocupada : this.ocupada};
           FirestoreService.guardarFs('mesas', JSON.stringify(mesa), this.firestore);
         });
       });
