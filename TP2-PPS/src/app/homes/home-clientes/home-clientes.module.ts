@@ -9,13 +9,15 @@ import { IonicModule } from '@ionic/angular';
 import { HomeClientesPageRoutingModule } from './home-clientes-routing.module';
 
 import { HomeClientesPage } from './home-clientes.page';
+import { ChatPageModule } from 'src/app/components/chat/chat.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeClientesPageRoutingModule
+    HomeClientesPageRoutingModule,
+    ChatPageModule
   ],
   declarations: [HomeClientesPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

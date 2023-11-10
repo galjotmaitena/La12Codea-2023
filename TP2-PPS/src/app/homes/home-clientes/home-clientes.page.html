@@ -1,10 +1,10 @@
-<ion-toolbar class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
+<ion-toolbar *ngIf="!abrirChat" class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
   <!-- <ion-icon class="iconFooter" name="person-outline"></ion-icon> -->
   <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
 </ion-toolbar>
 
 <ion-content class="container-gral" *ngIf="!abierta">
-  <ion-fab horizontal="start" vertical="bottom">
+  <ion-fab *ngIf="!abrirChat" horizontal="start" vertical="bottom">
     <ion-fab-button (click)="startScan()">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
@@ -116,8 +116,8 @@
       </div>
     </div>
 
-    <ion-fab horizontal="end" vertical="bottom">
-      <ion-fab-button (click)="asignarEscan()">
+    <ion-fab horizontal="end" vertical="bottom" *ngIf="!abrirChat">
+      <ion-fab-button (click)="abrirChat = !abrirChat">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>   <!-- chat?????-->
       </ion-fab-button>
     </ion-fab>
@@ -127,5 +127,9 @@
     <label>{{estadoPedido}}</label>
     <ion-button routerLink="/juegos">Juegos</ion-button>
     <ion-button>Encuestas</ion-button>
+  </div>
+
+  <div *ngIf="abrirChat">
+    <app-chat [usuario]="cliente"></app-chat>
   </div>
 </ion-content>
