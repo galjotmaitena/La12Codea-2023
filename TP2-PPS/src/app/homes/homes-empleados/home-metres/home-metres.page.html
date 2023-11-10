@@ -1,6 +1,6 @@
-<ion-content class="container-gral">
+<ion-content [fullscreen]="true" class="container-general">
   
-    <ion-content color="light">
+   
       <ion-list [inset]="true" >
         <ion-item (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
           <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
@@ -23,15 +23,13 @@
       </ion-modal>
 
       <ion-button (click)="asignarMesas()">asig</ion-button>
-    </ion-content>
+   
   
 
-    
+      <ion-toolbar vertical="bottom">
+        <ion-icon class="iconFooter" name="person-outline"></ion-icon>
+      </ion-toolbar>
 
 </ion-content>
-<ion-footer class="ion-no-border" >
-  <ion-toolbar style="--background:#F6BD60">
-    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-  </ion-toolbar>
-</ion-footer>
+
 

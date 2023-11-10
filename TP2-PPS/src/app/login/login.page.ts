@@ -132,16 +132,14 @@ export class LoginPage implements OnInit {
           {
             if(empleado)/////////////////////////
             {
-              if(empleado.tipoEmpleado === "metre")
-              {
-                this.auth.mostrarToastExito('Ingresando...');
+              this.auth.mostrarToastExito('Ingresando...');
                 this.email = '';
                 this.clave = '';
                 setTimeout(()=>{
                   this.mostrarSpinner = false;
-                  this.router.navigate(['/home-metres']);
+                  this.router.navigate(['/home']);
                 }, 2000);
-              }
+              
             }
           }
         }
@@ -174,7 +172,7 @@ export class LoginPage implements OnInit {
     switch(usuarioElegido)
     {
       case 'admin':
-        this.email = 'admin@admin.com';
+        this.email = 'gal@gal.com';
         this.clave = '111111'; 
       break;
       case 'invitado':

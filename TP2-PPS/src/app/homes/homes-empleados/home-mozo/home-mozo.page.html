@@ -1,13 +1,22 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>homeMozo</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="container-general">
+  
+   
+  <ion-list [inset]="true" style="margin: 5px;">
+    <ion-item expand="block" *ngFor="let c of listaPedidosPendientes">
+      <ion-label (click)="confirmarPedido(c)">{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
+    </ion-item>
+  </ion-list>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">homeMozo</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list [inset]="true" style="margin: 5px;">
+    <ion-item expand="block" *ngFor="let c of listaPedidosListos">
+      <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-toolbar vertical="bottom">
+    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
+  </ion-toolbar>
+
 </ion-content>
+
+

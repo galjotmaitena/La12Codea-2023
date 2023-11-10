@@ -1,1 +1,15 @@
+<ion-content [fullscreen]="true">
+  <div style="height: 70vh; width: 100%;"  *ngIf="tipo === 'metre'">
+    <app-home-metres></app-home-metres>
+  </div>
+  <div style="height: 70vh; width: 100%;"  *ngIf="tipo === 'mozo'">
+    <app-home-mozo></app-home-mozo>  
+  </div>
+  <div style="height: 70vh; width: 100%;"  *ngIf="tipo === 'chef'">
+    <app-home-cocina></app-home-cocina>  
+  </div>
+  <div style="height: 70vh; width: 100%;"  *ngIf="tipo === 'bartender'">
+    <app-home-bar></app-home-bar>  
+  </div>
 
+</ion-content>

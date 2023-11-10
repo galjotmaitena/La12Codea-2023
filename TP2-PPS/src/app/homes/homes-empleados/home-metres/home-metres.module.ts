@@ -7,14 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { HomeMetresPageRoutingModule } from './home-metres-routing.module';
 
 import { HomeMetresPage } from './home-metres.page';
+import { HomePageModule } from '../home/home.module';
+import { HomePage } from '../home/home.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeMetresPageRoutingModule
+    HomeMetresPageRoutingModule,
   ],
-  declarations: [HomeMetresPage]
+  declarations: [HomeMetresPage],
+  exports: [HomeMetresPage]
 })
 export class HomeMetresPageModule {}
