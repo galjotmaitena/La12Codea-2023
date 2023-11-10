@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from '../../services/auth.service';
+import { PushService } from 'src/app/services/push.service';
 
 @Component({
   selector: 'app-chat',
@@ -9,42 +10,52 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+  @Input() usuario: any;
 
-  mensaje : string = '';
+  mensaje: string = '';
   mensajes : any[] = [];
+  mozos: any[] = [];
   observable : any;
   observableClientes : any;
   observableMozos : any;
 
-  usuarioAuth = this.authService.get_user();
-  usuario : any;
+/*   usuarioAuth = this.authService.get_user();
+  usuario : any; */
 
   /////////////////get user? para los clientes, entonces valido que el numero de mesa del msj coincida con el numero de mesa del cliente
   ////////////el mozo podria tener una lista de mesas que esta atendiendo? y que en base a eso se generen los chats
 
-  constructor(private firestore : Firestore, private authService : AuthService) { }
+  constructor(private firestore : Firestore, /* private push : PushService */) { }
 
   ngOnInit() 
   {
-    this.observableClientes = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+/*     this.observableClientes = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       data.forEach(cliente => {
         if(cliente.email === this.usuarioAuth?.email)
         {
           this.usuario = cliente;// CORREGIR, SE EVALUA TODO EL TIEMPO CON EL SUBSCRIBE Y FRIZZEA EL PROGRAMA(YA ME PASÓ)
         }
       });
-    });
+    }); */
 
     this.observableClientes = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       data.forEach(empleado => {
-        if(empleado.tipoEmpleado === 'mozo' && empleado.correo === this.usuarioAuth?.email)
+        if(empleado.tipoEmpleado === 'mozo')
         {
-          this.usuario = empleado;//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          this.mozos.push(empleado);
         }
       });
     });
 
-    this.traerMensajes();
+    this.observable = FirestoreService.traerFs('mensajes', this.firestore).subscribe(data =>{
+      this.mensajes = [];
+      data.forEach((m)=>{
+        if(this.usuario.mesa === m.mesa)
+        {
+          this.mensajes.push(m);
+        }
+      });
+    });
   }
 
   enviarMensaje() 
@@ -53,22 +64,34 @@ export class ChatPage implements OnInit {
     {
       let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
       let fechaHora = new Date().toLocaleString('es-AR', options);
-      let mensajeEnviar = {'numeroMesa':1, 'hora':fechaHora, 'mensaje':this.mensaje};
+      let mensajeEnviar = {hora:fechaHora, mensaje: this.mensaje, usuario: 'mozo', nombre: this.usuario.nombre};
 
-      this.mensajes.push(FirestoreService.guardarFs('mensaje', mensajeEnviar, this.firestore));
+      if(this.esCliente(this.usuario))
+      {
+        let obj = {...mensajeEnviar, mesa: this.usuario.mesa};
+        obj.usuario = 'cliente';
+        mensajeEnviar = obj;
+      }
+
+      FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
+/*       this.mozos.forEach(m => {
+        this.push.sendPush('Consulta - ' + this.usuario.nombre, this.mensaje, m);
+      }); */
       this.mensaje = '';
     }
   }
 
-  traerMensajes()
+  esCliente(user:any)
   {
-    this.observable = FirestoreService.traerFs('mensajes', this.firestore).subscribe((data)=>{
-      data.forEach(mensaje => {
-        if(mensaje.numeroMesa === this.usuario.mesa)
-        {
-          this.mensajes.push(mensaje);//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        }
-      });
+    let ret = true;
+
+    this.mozos.forEach((m)=>{
+      if(user.email === m.email)
+      {
+        ret = false;
+      }
     });
+
+    return ret;
   }
 }

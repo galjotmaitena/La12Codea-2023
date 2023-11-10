@@ -1,13 +1,23 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>chat</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">chat</ion-title>
+      <ion-title size="large">Consultas</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="contenedor-mensajes" *ngIf="usuario">
+    <div *ngFor="let m of mensajes">
+      <div [ngClass]="{'chat-bubble-propio': m.usuario === 'cliente', 'chat-bubble': m.usuario === 'mozo' }">
+        <span class="span">{{m.nombre}}</span>
+        <span>{{ m.mensaje }}</span>
+        <span class="sfecha"> {{ m.fecha }}</span>
+      </div>
+    </div>
+  </div>
 </ion-content>
+<ion-footer vertical="bottom">
+  <ion-item>
+    <ion-input placeholder="Escribe tu mensaje" clearInput maxlength="21" [(ngModel)]="mensaje"></ion-input>
+    <ion-img (click)="enviarMensaje()" class="message-image" slot="end" src="assets/icon/chat.png" type="submit"></ion-img>
+  </ion-item>
+</ion-footer>

@@ -30,7 +30,7 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; 
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -47,6 +47,8 @@ export class HomeClientesPage implements OnInit {
 
   muestro = '';
   selectedTab = '';
+
+  abrirChat = false;
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
 
