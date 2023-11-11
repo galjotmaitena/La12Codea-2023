@@ -20,8 +20,8 @@ export class HomeClientesPage implements OnInit {
   listaProductos : any[] = [];
   metres: any[] = [];
   mesas : any[] = [];
-
   observable : any;
+  observableProductos : any;
   observablePedidos : any;
 
   //////////////////////////////////
@@ -30,8 +30,8 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
-  yaPidio = false; 
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
   mensaje : string = '';
@@ -46,7 +46,7 @@ export class HomeClientesPage implements OnInit {
 
 
   muestro = '';
-  selectedTab = '';
+  selectedTab = 'tab1';
 
   abrirChat = false;
 
@@ -55,6 +55,7 @@ export class HomeClientesPage implements OnInit {
   ngOnInit() 
   {
     this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
+      this.metres = [];
       data.forEach((e)=>{
         if(e.tipoEmpleado == "metre")
         {
@@ -75,7 +76,7 @@ export class HomeClientesPage implements OnInit {
       });
     });
 
-    this.observablePedidos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
+    this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
       this.listaProductos = data;
     });
   }
@@ -183,18 +184,25 @@ export class HomeClientesPage implements OnInit {
           if(this.verificarMesaAsignada())
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
-            let mesa : any;
-
-            this.mesas.forEach(m => {
-              if(m.numero === this.cliente.mesa)
-              {
-                mesa = m;
-              }
-            });
 
             if(this.yaPidio)
             {
-              this.estadoPedido = mesa.estadoPedido;
+
+              this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
+                let pedido:any;
+                
+                data.forEach(p => {
+                  if(this.cliente.mesa === p.mesa)
+                  {
+                    pedido = p;
+                  }
+                });
+
+                if(pedido)
+                {
+                  this.estadoPedido = pedido.estado;
+                }
+              });
             }
             else
             {
@@ -252,38 +260,30 @@ export class HomeClientesPage implements OnInit {
       }
     }
 
-/*     if(this.pedido.length === 1)
-    {
-      this.totalTiempo = this.pedido[0].tiempo;
-    }
-    else
-    {
-      let tiempo = 0;
+    let tiempo = 0;
 
-      this.pedido.forEach((pr)=>{
-        if(pr.tiempo > tiempo)
-        {
-          tiempo = pr.tiempo;
-        }
-      });
+    this.pedido.forEach((pr)=>{
+      if(pr.tiempo > tiempo)
+      {
+        tiempo = pr.tiempo;
+      }
+    });
 
-      this.totalTiempo = tiempo;
-    } */
+    this.totalTiempo = tiempo;
+  }
+
+  enviarPedido()
+  {
+    let obj = {mesa: 2, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+    FirestoreService.guardarFs('pedidos', obj, this.firestore);
+    this.authService.mostrarToastExito('Pedido cargado correctamente');
+    this.yaPidio = true;
   }
 
   salir()
   {
-    let usuario:any;
-
-    this.clientes.forEach((u:any) => {
-      if(this.user?.email === u.email)
-      {
-        usuario = u;
-      }
-    });
-
     this.authService.logout()?.then(()=>{
-      this.push.cierreSesion(usuario, 'clientes');
+      this.push.cierreSesion(this.cliente, 'clientes');
       this.router.navigateByUrl('login');
     })
     .catch((err)=>{

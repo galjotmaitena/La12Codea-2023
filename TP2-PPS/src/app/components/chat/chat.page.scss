@@ -1,4 +1,52 @@
-.chat-bubble-propio {
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap'); 
+
+ion-title.ion-text-center 
+{
+    font-size: 28px;
+    font-weight: bold;
+    //font-family: Merriweather, sans-serif;
+    color: #ffffff;
+    position: absolute;
+    top: 15px;
+    left: 37%;
+}
+  
+.message-image {
+    width: 30px;
+    height: auto;
+    margin-left: 5px;
+
+  }
+
+  ion-input {
+    color: #000000;
+    font-size: 20px;
+    //font-family: Merriweather, sans-serif;
+    font-weight: bold;
+    height: 32px;
+    padding: 6px;
+  }
+
+  ion-toolbar{
+    --background: #721f1f;
+    --color: #ffffff;
+    //font-family: Merriweather, sans-serif;
+  }
+
+  ion-item{
+    --background: #721f1f;
+    //font-family: Merriweather, sans-serif;
+  }
+
+
+  .container-gral{
+    display: flex;
+    flex-direction: column;
+    //font-family: Merriweather, sans-serif;
+  }
+
+
+  .chat-bubble-propio {
     position: relative;
     background-color: #222c73;
     color: #ffffff;
@@ -10,7 +58,7 @@
     font-size: 17px;
     display: flex;
     flex-direction: column;
-    font-family: Merriweather, sans-serif;
+    //font-family: Merriweather, sans-serif;
   }
 
   .chat-bubble{
@@ -25,17 +73,15 @@
     font-size: 17px;
     display: flex;
     flex-direction: column;
-    font-family: Merriweather, sans-serif;
+    //font-family: Merriweather, sans-serif;
   }
 
-  .contenedor-mensajes{
-    display: flex;
-    flex-direction: column;
+  .span{
+    //font-family: Merriweather, sans-serif;
+    font-weight: bold;
   }
 
-  .message-image {
-    width: 30px;
-    height: auto;
-    margin-left: 5px;
-
+  .sfecha{
+    font-size: 14px;
+    //font-family: Merriweather, sans-serif;
   }
