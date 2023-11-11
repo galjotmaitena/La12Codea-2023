@@ -20,6 +20,10 @@ export class HomeClientesPage implements OnInit {
   listaProductos : any[] = [];
   metres: any[] = [];
   mesas : any[] = [];
+
+  pedidos : any[] = [];
+
+  
   observable : any;
   observableProductos : any;
   observablePedidos : any;
@@ -37,6 +41,7 @@ export class HomeClientesPage implements OnInit {
   mensaje : string = '';
 
   pedido : any[] = [];
+  //pedidoFinal : any;
   importe = 0;
   totalTiempo = 0;
 
@@ -79,6 +84,10 @@ export class HomeClientesPage implements OnInit {
     this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
       this.listaProductos = data;
     });
+
+    this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
+      this.pedidos = data;
+    })
   }
 
   ngOnDestroy(): void 
@@ -179,7 +188,7 @@ export class HomeClientesPage implements OnInit {
       }
       else
       {
-        if(this.cliente.mesa !== '')
+        if(this.cliente.mesa !== '')//////////////////////////
         {
           if(this.verificarMesaAsignada())
           {
@@ -187,7 +196,6 @@ export class HomeClientesPage implements OnInit {
 
             if(this.yaPidio)
             {
-
               this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
                 let pedido:any;
                 
@@ -197,12 +205,28 @@ export class HomeClientesPage implements OnInit {
                     pedido = p;
                   }
                 });
-
+                alert(JSON.stringify(pedido));
                 if(pedido)
                 {
                   this.estadoPedido = pedido.estado;
                 }
               });
+              /* 
+              this.pedidos.forEach(p => {
+                if(p.mesa === mesa.numero)
+                {
+                  this.pedidoFinal = p;
+                }
+              });
+
+              this.estadoPedido = this.pedidoFinal.estadoPedido;
+              //////////////////////////////////////////////////funcionalidad 10
+              if(mesa.estadoPedido === 'enviado')
+              {
+                this.pedidoFinal.estadoPedido = 'entregado';
+////////////////////////////////////no es mesa, deberia ser el pedido
+                FirestoreService.actualizarFs('pedidos', this.pedidoFinal, this.firestore);
+              } */
             }
             else
             {

@@ -15,6 +15,7 @@ export class HomeMozoPage implements OnInit {
     /////////////////MOZOS
     listaPedidosPendientes : any[] = [];
     listaPedidosListos : any[] = [];
+    listaPedidosEnPreparacion : any[] = [];
     listaEmpleados : any[] = [];
     observablePedidos : any;
     observableEmpleados : any;
@@ -26,6 +27,8 @@ export class HomeMozoPage implements OnInit {
   {
     this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
       this.listaPedidosPendientes = [];
+      this.listaPedidosListos = [];
+      this.listaPedidosEnPreparacion = [];
       data.forEach(pedido => {
         if(pedido.estado === 'pendiente')
         {
@@ -33,14 +36,21 @@ export class HomeMozoPage implements OnInit {
         }
         else
         {
-          if(pedido.cocina && pedido.bar)
+          if(pedido.estado === 'confirmado' && pedido.cocina && pedido.bar)
           {
             pedido.estado = 'listo';
-            let index = this.listaPedidosPendientes.indexOf(pedido);
-            if(index != -1)
+            FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+            
+          }
+          else
+          {
+            if(pedido.estado === 'listo')
             {
-              this.listaPedidosPendientes.splice(index, 1);
               this.listaPedidosListos.push(pedido);
+            }
+            else
+            {
+              this.listaPedidosEnPreparacion.push(pedido);
             }
           }
         }
@@ -63,13 +73,23 @@ export class HomeMozoPage implements OnInit {
    {
      pedido.estado = 'confirmado';
  
-     FirestoreService.actualizarFs('pedido', pedido, this.firestore).then(()=>{
+     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
        this.authService.mostrarToastExito('Pedido confirmado!');
        this.listaPedidosPendientes = [];
  
        this.listaEmpleados.forEach(e => {
          this.push.sendPush("Nuevo Pedido", `Ha ingresado un nuevo pedido para la mesa ${pedido.mesa}`, e);
        });
+     });
+   }
+
+   entregarPedido(pedido : any)
+   {
+     pedido.estado = 'enviado';
+ 
+     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+       this.authService.mostrarToastExito('Pedido entregado!');
+       this.listaPedidosListos = [];
      });
    }
  
