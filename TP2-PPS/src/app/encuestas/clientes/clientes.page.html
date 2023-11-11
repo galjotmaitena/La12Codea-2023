@@ -34,13 +34,14 @@
         <!-- multiples respuestas o ponemos uno simple? -->
         <ion-item>
             <div class="items">
-                <label><h1>Pregunta 3</h1></label>
+                <label>Por que prefieres este restaurante sobre otros que ofrecen el mismo tipo de alimentos?</label>
                 <ion-list>
                     <ion-item>
-                    <ion-select aria-label="Fruit" placeholder="Select all fruits that apply" [multiple]="true">
-                        <ion-select-option value="apples">Apples</ion-select-option>
-                        <ion-select-option value="oranges">Oranges</ion-select-option>
-                        <ion-select-option value="bananas">Bananas</ion-select-option>
+                    <ion-select aria-label="Fruit" placeholder="Selecciona las opciones que consideres" [multiple]="true">
+                        <ion-select-option value="atencio">Atencion al cliente</ion-select-option>
+                        <ion-select-option value="comida">Comida</ion-select-option>
+                        <ion-select-option value="bebida">Bebida</ion-select-option>
+                        <ion-select-option value="locacion">Locacion</ion-select-option>
                     </ion-select>
                     </ion-item>
                 </ion-list>
@@ -49,8 +50,8 @@
 
         <ion-item>
             <div class="items">
-                <label><h1>Pregunta 4</h1></label>
-                <ion-input label="Default counter" labelPlacement="floating" [counter]="true" maxlength="20"></ion-input>
+                <label>Deje un comentario acerca de su experiencia</label>
+                <ion-input label="Default counter" labelPlacement="floating" [counter]="true" maxlength="100"></ion-input>
             </div>
         </ion-item>
     
