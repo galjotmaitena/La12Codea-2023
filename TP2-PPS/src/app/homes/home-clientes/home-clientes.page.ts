@@ -7,6 +7,8 @@ import { Firestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
 import { PushService } from '../../services/push.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { PagoService } from 'src/app/services/pago.service';
 
 @Component({
   selector: 'app-home-clientes',
@@ -54,8 +56,9 @@ export class HomeClientesPage implements OnInit {
   selectedTab = 'tab1';
 
   abrirChat = false;
+  mostrarModal = false;
 
-  constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
+  constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
   ngOnInit() 
   {
@@ -196,21 +199,31 @@ export class HomeClientesPage implements OnInit {
 
             if(this.yaPidio)
             {
-              this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
-                let pedido:any;
-                
-                data.forEach(p => {
-                  if(this.cliente.mesa === p.mesa)
-                  {
-                    pedido = p;
-                  }
-                });
-                alert(JSON.stringify(pedido));
-                if(pedido)
+              let pedido:any;
+
+              this.pedidos.forEach(p => {
+                if(this.cliente.mesa === p.mesa)
                 {
-                  this.estadoPedido = pedido.estado;
+                  pedido = p;
                 }
               });
+
+              alert(JSON.stringify(pedido));
+              
+              if(pedido)
+              {
+                this.estadoPedido = pedido.estado;
+
+                if(this.estadoPedido === 'enviado')
+                {
+                  if(true)//////////////////////////PEDIR CONFIRMACION
+                  {
+                    pedido.estado = 'recibido';
+                    this.estadoPedido = pedido.estado;
+                    FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+                  }
+                }
+              }
               /* 
               this.pedidos.forEach(p => {
                 if(p.mesa === mesa.numero)
@@ -298,10 +311,64 @@ export class HomeClientesPage implements OnInit {
 
   enviarPedido()
   {
-    let obj = {mesa: 2, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+    let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
     FirestoreService.guardarFs('pedidos', obj, this.firestore);
     this.authService.mostrarToastExito('Pedido cargado correctamente');
     this.yaPidio = true;
+  }
+
+  mostrarDetalle()
+  {
+    let pedido;
+
+    this.pedidos.forEach((p)=>{
+      if(this.cliente.mesa === p.mesa)
+      {
+        pedido = p;
+      }
+    });
+
+    this.mostrarModal = true;
+
+    //////////////////MOSTRAR TODO EN EL MODAL
+  }
+
+  pagar()
+  {
+    let pedido:any;
+
+    this.pedidos.forEach((p)=>{
+      if(this.cliente.mesa === p.mesa)
+      {
+        pedido = p;
+      }
+    });
+
+    if(pedido)
+    {
+      const returnUrl = window.location.href;
+      const item = {
+        id: pedido.id,
+        title: 'Bodegon La12Codea',
+        quantity: 1,
+        unit_price: this.importe,
+      };
+  
+      const producto = {
+        items: [item],
+      };
+  
+      this.pagoService.obtenerURLPago(producto, returnUrl).subscribe(
+      (respuesta) => {
+        console.log('URL de pago:', respuesta);
+        window.location.href = respuesta.init_point;
+        pedido.estado = "pagado";
+        FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+      },
+      (error) => {
+        console.error('Error al obtener la URL de pago:', error);
+      });
+    }
   }
 
   salir()

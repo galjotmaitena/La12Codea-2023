@@ -5,7 +5,7 @@
   </ion-toolbar>
 
   <ion-fab *ngIf="!abrirChat" horizontal="start" vertical="bottom">
-       <ion-fab-button (click)="asignarEscan()">          <!--    ESTA MODIF      -->
+       <ion-fab-button (click)="startScan()">          <!--    ESTA MODIF      -->
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -130,7 +130,12 @@
     <label *ngIf="estadoPedido !== 'entregado'">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</label>
     <ion-button routerLink="/juegos">Juegos</ion-button>
     <ion-button>Encuestas</ion-button>
-    <ion-button *ngIf="estadoPedido === 'entregado'">Pagar</ion-button>
+    <ion-button *ngIf="estadoPedido === 'entregado'" (click)="mostrarDetalle()">PEDIR CUENTA</ion-button>
+
+    <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
+    <div *ngIf="mostrarModal">
+      <ion-button (click)="pagar()">PAGAR</ion-button>
+    </div>
   </div>
 
   <!-- <div *ngIf="abrirChat" style="height: 100vh;"> -->

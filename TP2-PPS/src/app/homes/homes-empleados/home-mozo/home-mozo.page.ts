@@ -16,6 +16,7 @@ export class HomeMozoPage implements OnInit {
     listaPedidosPendientes : any[] = [];
     listaPedidosListos : any[] = [];
     listaPedidosEnPreparacion : any[] = [];
+    listaPedidosPagados: any[] = [];
     listaEmpleados : any[] = [];
     observablePedidos : any;
     observableEmpleados : any;
@@ -29,6 +30,7 @@ export class HomeMozoPage implements OnInit {
       this.listaPedidosPendientes = [];
       this.listaPedidosListos = [];
       this.listaPedidosEnPreparacion = [];
+      this.listaPedidosPagados = [];
       data.forEach(pedido => {
         if(pedido.estado === 'pendiente')
         {
@@ -50,7 +52,14 @@ export class HomeMozoPage implements OnInit {
             }
             else
             {
-              this.listaPedidosEnPreparacion.push(pedido);
+              if(pedido.estado === 'pagado')
+              {
+                this.listaPedidosPagados.push(pedido);
+              }
+              else
+              {
+                this.listaPedidosEnPreparacion.push(pedido);
+              }
             }
           }
         }
@@ -92,6 +101,43 @@ export class HomeMozoPage implements OnInit {
        this.listaPedidosListos = [];
      });
    }
+   
+  confirmarPago(pedido: any)
+  {
+    let mesa:any;
+    let cliente:any;
+
+    FirestoreService.traerFs('mesas', this.firestore).subscribe((mesas)=>{
+      mesas.forEach((m)=>{
+        if(m.numero === pedido.mesa)
+        {
+          mesa = m;
+        }
+      })
+    })
+
+    FirestoreService.traerFs('clientes', this.firestore).subscribe((clientes)=>{
+      clientes.forEach((c)=>{
+        if(c.mesa === pedido.mesa)
+        {
+          cliente = c;
+        }
+      })
+    })
+
+    if(mesa && cliente)
+    {
+      mesa.ocupada = false;
+      FirestoreService.actualizarFs('mesas', mesa, this.firestore);
+
+      cliente.mesa = '';
+      FirestoreService.actualizarFs('clientes', cliente, this.firestore);
+    }
+    else
+    {
+      this.authService.mostrarToastError('ERROR AL CONFIRMAR PAGO');
+    }
+  }
  
    //#endregion
  

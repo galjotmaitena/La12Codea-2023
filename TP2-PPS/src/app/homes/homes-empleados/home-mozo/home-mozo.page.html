@@ -22,6 +22,13 @@
     </ion-item>
   </ion-list>
 
+  <ion-list [inset]="true" style="margin: 5px;">
+    <label><h1>Pedidos pagados</h1></label>
+    <ion-item expand="block" *ngFor="let l of listaPedidosPagados">
+      <ion-label (click)="confirmarPago(l)">{{l.mesa}}</ion-label>
+    </ion-item>
+  </ion-list>
+
   <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
