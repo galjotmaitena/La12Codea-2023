@@ -1,3 +1,66 @@
 <ion-content [fullscreen]="true">
-  
+  <!-- slide??? -->
+
+    <ion-list>
+        <ion-item >
+            <div class="items">
+                <label>Como calificaria la facilidad con la que hizo el pedido? Siendo 1 su calificacion minima y 10 la maxima</label>
+                <ion-range
+                    aria-label="Custom range"
+                    [min]="0"
+                    [max]="10"
+                    [value]="5"
+                    [pin]="true"
+                    [ticks]="true"
+                    [snaps]="true">
+                </ion-range>
+            </div>
+
+        </ion-item>
+
+        <ion-item>
+            <div class="items">
+                <label>Como calificaria la atencion de nuestros empleados?</label>
+                <ion-radio-group [allowEmptySelection]="true" value="turtles">
+                    <ion-radio value="muyBuena">Muy buena</ion-radio><br />
+                    <ion-radio value="buena">Buena</ion-radio><br />
+                    <ion-radio value="regular">Regular</ion-radio><br />
+                    <ion-radio value="mala">Mala</ion-radio><br />
+                </ion-radio-group>
+            </div>
+
+        </ion-item>
+    
+        <!-- multiples respuestas o ponemos uno simple? -->
+        <ion-item>
+            <div class="items">
+                <label><h1>Pregunta 3</h1></label>
+                <ion-list>
+                    <ion-item>
+                    <ion-select aria-label="Fruit" placeholder="Select all fruits that apply" [multiple]="true">
+                        <ion-select-option value="apples">Apples</ion-select-option>
+                        <ion-select-option value="oranges">Oranges</ion-select-option>
+                        <ion-select-option value="bananas">Bananas</ion-select-option>
+                    </ion-select>
+                    </ion-item>
+                </ion-list>
+            </div>
+        </ion-item>
+
+        <ion-item>
+            <div class="items">
+                <label><h1>Pregunta 4</h1></label>
+                <ion-input label="Default counter" labelPlacement="floating" [counter]="true" maxlength="20"></ion-input>
+            </div>
+        </ion-item>
+    
+        <ion-item>
+            <div class="items">
+                <!-- <label><h1>Volverias al local?</h1></label> -->
+                <ion-checkbox justify="space-between">Recomendaría el local a sus amistades y familia?</ion-checkbox>
+            </div>
+        </ion-item>
+    </ion-list>
+
+
 </ion-content>

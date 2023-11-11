@@ -124,9 +124,10 @@
   </div>
 
   <div *ngIf="yaPidio">
-    <label>{{estadoPedido}}</label>
+    <label *ngIf="pedidoFinal.estadoPedido !== 'entregado'">{{estadoPedido}}</label>
     <ion-button routerLink="/juegos">Juegos</ion-button>
     <ion-button>Encuestas</ion-button>
+    <ion-button *ngIf="pedidoFinal.estadoPedido === 'entregado'">Pagar</ion-button>
   </div>
 
   <div *ngIf="abrirChat">

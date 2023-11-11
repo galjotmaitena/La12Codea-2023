@@ -2,16 +2,29 @@
   
    
   <ion-list [inset]="true" style="margin: 5px;">
-    <ion-item expand="block" *ngFor="let c of listaPedidosPendientes">
-      <ion-label (click)="confirmarPedido(c)">{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
+    <label><h1>Pedidos pendientes</h1></label>
+    <ion-item expand="block" *ngFor="let p of listaPedidosPendientes">
+      <ion-label (click)="confirmarPedido(p)">{{p.mesa}}</ion-label>
     </ion-item>
   </ion-list>
 
   <ion-list [inset]="true" style="margin: 5px;">
-    <ion-item expand="block" *ngFor="let c of listaPedidosListos">
-      <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
+    <label><h1>Pedidos en preparación</h1></label>
+    <ion-item expand="block" *ngFor="let l of listaPedidosEnPreparacion">
+      <ion-label>{{l.mesa}}</ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-list [inset]="true" style="margin: 5px;">
+    <label><h1>Pedidos listos</h1></label>
+    <ion-item expand="block" *ngFor="let l of listaPedidosListos">
+      <ion-label (click)="entregarPedido(l)">{{l.mesa}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
+  <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
+  <!-- el click  iria asociado a esa confirmacion -->
 
   <ion-toolbar vertical="bottom">
     <ion-icon class="iconFooter" name="person-outline"></ion-icon>
