@@ -51,10 +51,6 @@ const routes: Routes = [
     path: 'home-duenio',
     loadChildren: () => import('./homes/home-duenio/home-duenio.module').then( m => m.HomeDuenioPageModule)
   },
-  {
-    path: 'chat',
-    loadChildren: () => import('./components/chat/chat.module').then( m => m.ChatPageModule)
-  },
   {/////////////////////////encuestas
     path: 'clientes',
     loadChildren: () => import('./encuestas/clientes/clientes.module').then( m => m.ClientesPageModule)
@@ -74,7 +70,8 @@ const routes: Routes = [
   {
     path: 'home-bar',
     loadChildren: () => import('./homes/homes-empleados/home-bar/home-bar.module').then( m => m.HomeBarPageModule)
-  },  {
+  },
+  {
     path: 'chat-cliente',
     loadChildren: () => import('./chats/chat-cliente/chat-cliente.module').then( m => m.ChatClientePageModule)
   },

@@ -102,10 +102,12 @@ export class HomeMozoPage implements OnInit {
      });
    }
    
-  confirmarPago(pedido: any)
+  async confirmarPago(pedido: any)
   {
     let mesa:any;
     let cliente:any;
+
+    alert(JSON.stringify(pedido));
 
     FirestoreService.traerFs('mesas', this.firestore).subscribe((mesas)=>{
       mesas.forEach((m)=>{
@@ -125,18 +127,25 @@ export class HomeMozoPage implements OnInit {
       })
     })
 
-    if(mesa && cliente)
-    {
-      mesa.ocupada = false;
-      FirestoreService.actualizarFs('mesas', mesa, this.firestore);
+    setTimeout(()=>{
+      if(mesa && cliente)
+      {
+        mesa.ocupada = false;
+        FirestoreService.actualizarFs('mesas', mesa, this.firestore);
+  
+        cliente.mesa = '';
+        FirestoreService.actualizarFs('clientes', cliente, this.firestore);
 
-      cliente.mesa = '';
-      FirestoreService.actualizarFs('clientes', cliente, this.firestore);
-    }
-    else
-    {
-      this.authService.mostrarToastError('ERROR AL CONFIRMAR PAGO');
-    }
+        pedido.estado = 'pag_confirmado';
+        FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+
+        this.authService.mostrarToastExito('PAGO CONFIRMADO');
+      }
+      else
+      {
+        this.authService.mostrarToastError('ERROR AL CONFIRMAR PAGO');
+      }
+    }, 4000)
   }
  
    //#endregion
