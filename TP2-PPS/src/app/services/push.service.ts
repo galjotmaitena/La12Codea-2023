@@ -173,6 +173,9 @@ export class PushService{
     const notificationData = {
       title: title,
       body: body,
+      icon: "assets/logo.png",
+      //sound: 'custom_sound',
+      //url: ,
     };
     
     const pushNotification = {

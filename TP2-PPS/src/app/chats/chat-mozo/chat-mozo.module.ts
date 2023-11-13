@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChatPageRoutingModule } from './chat-routing.module';
+import { ChatMozoPageRoutingModule } from './chat-mozo-routing.module';
 
-import { ChatPage } from './chat.page';
+import { ChatMozoPage } from './chat-mozo.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatPageRoutingModule
+    ChatMozoPageRoutingModule
   ],
-  declarations: [ChatPage],
-  exports: [ChatPage]
+  declarations: [ChatMozoPage]
 })
-export class ChatPageModule {}
+export class ChatMozoPageModule {}

@@ -1,10 +1,10 @@
 <ion-content class="container-gral" *ngIf="!abierta"  style="min-height: 100vh;">
-  <ion-toolbar *ngIf="!abrirChat" class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
+  <ion-toolbar class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
     <!-- <ion-icon class="iconFooter" name="person-outline"></ion-icon> -->
     <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
   </ion-toolbar>
 
-  <ion-fab *ngIf="!abrirChat" horizontal="start" vertical="bottom">
+  <ion-fab horizontal="start" vertical="bottom">
        <ion-fab-button (click)="startScan()">          <!--    ESTA MODIF      -->
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
@@ -19,13 +19,13 @@
   </div>
   
   <div *ngIf="enMesa">                      <!-- escaneo mesa, funcionalidad 6 y 7 -->
-    <ion-segment *ngIf="!abrirChat && !yaPidio" vertical="bottom" slot="bottom" [(ngModel)]="selectedTab">
+    <ion-segment *ngIf="!yaPidio" vertical="bottom" slot="bottom" [(ngModel)]="selectedTab">
       <ion-segment-button class="segment-button" value="tab1">COMIDAS</ion-segment-button>
       <ion-segment-button class="segment-button" value="tab2">BEBIDAS</ion-segment-button>
       <ion-segment-button class="segment-button" value="tab3">POSTRES</ion-segment-button>
     </ion-segment>
 
-    <div *ngIf="!abrirChat && !yaPidio">
+    <div *ngIf="!yaPidio">
       <div *ngIf="selectedTab === 'tab1'" >
         <div *ngFor="let p of listaProductos">
           <div *ngIf="p.tipo == 'comida'" class="contenedor-productos">
@@ -119,8 +119,8 @@
       <ion-button (click)="enviarPedido()">ENVIAR PEDIDO</ion-button>
     </div>
 
-    <ion-fab horizontal="end" vertical="bottom" *ngIf="!abrirChat">
-      <ion-fab-button (click)="abrirChat = !abrirChat">
+    <ion-fab horizontal="end" vertical="bottom">
+      <ion-fab-button routerLink="/chat">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -137,8 +137,4 @@
       <ion-button (click)="pagar()">PAGAR</ion-button>
     </div>
   </div>
-
-  <!-- <div *ngIf="abrirChat" style="height: 100vh;"> -->
-    <app-chat *ngIf="abrirChat" [usuario]="cliente"></app-chat>
-  <!-- </div> -->
 </ion-content>

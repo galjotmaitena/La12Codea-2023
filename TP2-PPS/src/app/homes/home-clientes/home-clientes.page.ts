@@ -55,7 +55,6 @@ export class HomeClientesPage implements OnInit {
   muestro = '';
   selectedTab = 'tab1';
 
-  abrirChat = false;
   mostrarModal = false;
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
@@ -370,7 +369,6 @@ export class HomeClientesPage implements OnInit {
       });
     }
   }
-
   salir()
   {
     this.authService.logout()?.then(()=>{
