@@ -74,7 +74,15 @@ const routes: Routes = [
   {
     path: 'home-bar',
     loadChildren: () => import('./homes/homes-empleados/home-bar/home-bar.module').then( m => m.HomeBarPageModule)
+  },  {
+    path: 'chat-cliente',
+    loadChildren: () => import('./chats/chat-cliente/chat-cliente.module').then( m => m.ChatClientePageModule)
   },
+  {
+    path: 'chat-mozo',
+    loadChildren: () => import('./chats/chat-mozo/chat-mozo.module').then( m => m.ChatMozoPageModule)
+  },
+
 
 
 

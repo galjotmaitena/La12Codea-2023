@@ -7,6 +7,8 @@ import { Firestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
 import { PushService } from '../../services/push.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { PagoService } from 'src/app/services/pago.service';
 
 @Component({
   selector: 'app-home-clientes',
@@ -20,8 +22,10 @@ export class HomeClientesPage implements OnInit {
   listaProductos : any[] = [];
   metres: any[] = [];
   mesas : any[] = [];
+
   pedidos : any[] = [];
 
+  
   observable : any;
   observableProductos : any;
   observablePedidos : any;
@@ -32,14 +36,14 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
-  yaPidio = false; 
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
   mensaje : string = '';
 
   pedido : any[] = [];
-  pedidoFinal : any;
+  //pedidoFinal : any;
   importe = 0;
   totalTiempo = 0;
 
@@ -49,15 +53,16 @@ export class HomeClientesPage implements OnInit {
 
 
   muestro = '';
-  selectedTab = '';
+  selectedTab = 'tab1';
 
-  abrirChat = false;
+  mostrarModal = false;
 
-  constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router) { }
+  constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
   ngOnInit() 
   {
     this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
+      this.metres = [];
       data.forEach((e)=>{
         if(e.tipoEmpleado == "metre")
         {
@@ -185,22 +190,40 @@ export class HomeClientesPage implements OnInit {
       }
       else
       {
-        if(this.cliente.mesa !== '')
+        if(this.cliente.mesa !== '')//////////////////////////
         {
           if(this.verificarMesaAsignada())
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
-            let mesa : any;
-
-            this.mesas.forEach(m => {
-              if(m.numero === this.cliente.mesa)
-              {
-                mesa = m;
-              }
-            });
 
             if(this.yaPidio)
             {
+              let pedido:any;
+
+              this.pedidos.forEach(p => {
+                if(this.cliente.mesa === p.mesa)
+                {
+                  pedido = p;
+                }
+              });
+
+              alert(JSON.stringify(pedido));
+              
+              if(pedido)
+              {
+                this.estadoPedido = pedido.estado;
+
+                if(this.estadoPedido === 'enviado')
+                {
+                  if(true)//////////////////////////PEDIR CONFIRMACION
+                  {
+                    pedido.estado = 'recibido';
+                    this.estadoPedido = pedido.estado;
+                    FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+                  }
+                }
+              }
+              /* 
               this.pedidos.forEach(p => {
                 if(p.mesa === mesa.numero)
                 {
@@ -215,7 +238,7 @@ export class HomeClientesPage implements OnInit {
                 this.pedidoFinal.estadoPedido = 'entregado';
 ////////////////////////////////////no es mesa, deberia ser el pedido
                 FirestoreService.actualizarFs('pedidos', this.pedidoFinal, this.firestore);
-              }
+              } */
             }
             else
             {
@@ -273,38 +296,83 @@ export class HomeClientesPage implements OnInit {
       }
     }
 
-/*     if(this.pedido.length === 1)
-    {
-      this.totalTiempo = this.pedido[0].tiempo;
-    }
-    else
-    {
-      let tiempo = 0;
+    let tiempo = 0;
 
-      this.pedido.forEach((pr)=>{
-        if(pr.tiempo > tiempo)
-        {
-          tiempo = pr.tiempo;
-        }
-      });
-
-      this.totalTiempo = tiempo;
-    } */
-  }
-
-  salir()
-  {
-    let usuario:any;
-
-    this.clientes.forEach((u:any) => {
-      if(this.user?.email === u.email)
+    this.pedido.forEach((pr)=>{
+      if(pr.tiempo > tiempo)
       {
-        usuario = u;
+        tiempo = pr.tiempo;
       }
     });
 
+    this.totalTiempo = tiempo;
+  }
+
+  enviarPedido()
+  {
+    let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+    FirestoreService.guardarFs('pedidos', obj, this.firestore);
+    this.authService.mostrarToastExito('Pedido cargado correctamente');
+    this.yaPidio = true;
+  }
+
+  mostrarDetalle()
+  {
+    let pedido;
+
+    this.pedidos.forEach((p)=>{
+      if(this.cliente.mesa === p.mesa)
+      {
+        pedido = p;
+      }
+    });
+
+    this.mostrarModal = true;
+
+    //////////////////MOSTRAR TODO EN EL MODAL
+  }
+
+  pagar()
+  {
+    let pedido:any;
+
+    this.pedidos.forEach((p)=>{
+      if(this.cliente.mesa === p.mesa)
+      {
+        pedido = p;
+      }
+    });
+
+    if(pedido)
+    {
+      const returnUrl = window.location.href;
+      const item = {
+        id: pedido.id,
+        title: 'Bodegon La12Codea',
+        quantity: 1,
+        unit_price: this.importe,
+      };
+  
+      const producto = {
+        items: [item],
+      };
+  
+      this.pagoService.obtenerURLPago(producto, returnUrl).subscribe(
+      (respuesta) => {
+        console.log('URL de pago:', respuesta);
+        window.location.href = respuesta.init_point;
+        pedido.estado = "pagado";
+        FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+      },
+      (error) => {
+        console.error('Error al obtener la URL de pago:', error);
+      });
+    }
+  }
+  salir()
+  {
     this.authService.logout()?.then(()=>{
-      this.push.cierreSesion(usuario, 'clientes');
+      this.push.cierreSesion(this.cliente, 'clientes');
       this.router.navigateByUrl('login');
     })
     .catch((err)=>{

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, doc, updateDoc, collectionData, deleteDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, updateDoc, collectionData, deleteDoc, orderBy, query } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, catchError, from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService {
+export class FirestoreService 
+{
   private dataSubject = new BehaviorSubject<any[]>([]);
   data$ = this.dataSubject.asObservable();
 
@@ -16,10 +17,19 @@ export class FirestoreService {
     return params;
   }
 
-  static traerFs(col: string, firestore: Firestore): Observable<any[]>
+  static traerFs(col: string, firestore: Firestore, orderByField: string = ''): Observable<any[]>
   {
     const colRef = collection(firestore, col);
-    return collectionData(colRef, {idField: 'id'}) as Observable<any[]>;
+    let q;
+    if(orderByField)
+    {
+      q = query(colRef, orderBy(orderByField, "asc"));
+    }
+    else
+    {
+      q = query(colRef);
+    }
+    return collectionData(q, {idField: 'id'}) as Observable<any[]>;
   }
 
   static async actualizarFs(col: string, obj: any, firestore: Firestore) 
@@ -38,12 +48,12 @@ export class FirestoreService {
       }
   } 
 
-  static eliminarFs(col: string, docId: string, firestore: Firestore): Observable<void> {
-    const docRef = doc(firestore, col, docId);
+  static eliminarFs(col: string, obj:any, firestore: Firestore): Observable<void> {
+    const docRef = doc(firestore, col, obj.id);
     
     return from(deleteDoc(docRef)).pipe(
       catchError((error) => {
-        console.error(`Error al eliminar el documento con ID ${docId}:`, error);
+        console.error(`Error al eliminar el documento con ID ${obj.id}:`, error);
         throw error;
       })
     );
