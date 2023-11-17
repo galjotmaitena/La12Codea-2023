@@ -17,6 +17,13 @@
 
   <div class="py-3">
     <form id="form" [formGroup]="form">
+      <ion-select formControlName="perfil" [(ngModel)]="perfil" (ngModelChange)="cambiarUsuario()" label="Seleccione un perfil" label-placement="floating" fill="solid">
+        <ion-select-option value="regular">Regular</ion-select-option>
+        <ion-select-option value="anonimo">Anonimo</ion-select-option>
+      </ion-select>
+      <span *ngIf="form.controls['perfil'].touched && form.controls['perfil'].hasError('required')">
+        El perfil es requerido.
+      </span>
       <ion-item class="input">
         <ion-input [(ngModel)]="nombre" formControlName="nombre" name="n" label="Nombre/s" labelPlacement="floating"></ion-input>
       </ion-item>
@@ -27,7 +34,7 @@
         El nombre es requerido.
       </span>
   
-      <ion-item class="input">
+      <ion-item [disabled]="perfil !== 'regular'" class="input">
         <ion-input [(ngModel)]="apellido" formControlName="apellido" name="n" label="Apellido/s" labelPlacement="floating"></ion-input>
       </ion-item>
       <span *ngIf="form.controls['apellido'].hasError('invalido')">
@@ -37,7 +44,7 @@
         El apellido es requerido.
       </span>
 
-      <ion-item class="input">
+      <ion-item [disabled]="perfil !== 'regular'" class="input">
         <ion-input [(ngModel)]="dni" formControlName="dni" name="n" label="DNI" type="number" labelPlacement="floating"></ion-input>
       </ion-item>
       <span *ngIf="form.controls['dni'].touched && form.controls['dni'].hasError('min')">
@@ -47,7 +54,7 @@
         El DNI es requerido.
       </span>
 
-      <ion-item class="input">
+      <ion-item [disabled]="perfil !== 'regular'" class="input">
         <ion-input [(ngModel)]="email" formControlName="email" name="n" type="email" label="Correo electronico" labelPlacement="floating"></ion-input>
       </ion-item>
       <span *ngIf="form.controls['email'].touched && form.controls['email'].hasError('pattern')">
@@ -57,7 +64,7 @@
         El correo electronico es requerido.
       </span>
 
-      <ion-item class="input">
+      <ion-item [disabled]="perfil !== 'regular'" class="input">
         <ion-input [(ngModel)]="clave" formControlName="clave" name="n" type="password" label="Clave" labelPlacement="floating"></ion-input>
       </ion-item>
       <span *ngIf="form.controls['clave'].touched && form.controls['clave'].hasError('minlength')">
@@ -67,19 +74,11 @@
         La clave es requerida.
       </span>
 
-      <ion-item class="input">
+      <ion-item [disabled]="perfil !== 'regular'" class="input">
         <ion-input [(ngModel)]="rClave" formControlName="rClave" name="n" type="password" label="Reingrese su clave" labelPlacement="floating"></ion-input>
       </ion-item>
       <span *ngIf="form.controls['rClave'].touched && form.hasError('passwordMismatch', 'rClave')">
         Las contraseñas no coinciden.
-      </span>
-      
-      <ion-select formControlName="perfil" [(ngModel)]="perfil" name="selectUsuario" name="n" label="Seleccione un perfil" label-placement="floating" fill="solid">
-        <ion-select-option value="regular">Regular</ion-select-option>
-        <ion-select-option value="anonimo">Anonimo</ion-select-option>
-      </ion-select>
-      <span *ngIf="form.controls['perfil'].touched && form.controls['perfil'].hasError('required')">
-        El perfil es requerido.
       </span>
     </form>
   </div>
