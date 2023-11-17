@@ -35,7 +35,7 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = false;           ////////////////////////////////////////poner en true para probar
+  ingreso = true;           ////////////////////////////////////////poner en true para probar
   enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -57,10 +57,15 @@ export class HomeClientesPage implements OnInit {
 
   mostrarModal = false;
 
+  encuestas : any[] = [];
+  obsEncuestas : any;
+
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
   ngOnInit() 
   {
+    window.addEventListener('beforeunload', this.prueba.bind(this));
+
     this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       this.metres = [];
       data.forEach((e)=>{
@@ -75,12 +80,24 @@ export class HomeClientesPage implements OnInit {
       console.log(data);
       this.clientes = data;
 
-      data.forEach(c => {
-        if(c.email === this.user?.email)
-        {
-          this.cliente = c;
-        }
-      });
+      switch(this.user?.email){
+        case null:
+          data.forEach(c => {
+            if(c.uid === this.user?.uid)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+        default:
+          data.forEach(c => {
+            if(c.email === this.user?.email)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+      }
     });
 
     this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
@@ -89,13 +106,23 @@ export class HomeClientesPage implements OnInit {
 
     this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
       this.pedidos = data;
-    })
+    });
+
+    this.obsEncuestas = FirestoreService.traerFs('encuestas', this.firestore).subscribe((data)=>{
+      this.encuestas = data;
+    });
   }
 
-  ngOnDestroy(): void 
+  prueba(event : any)
+  {
+    this.salir();
+  }
+
+  ngOnDestroy() : void 
   {
     this.stopScan();
     this.observable.unsubscribe();
+    this.salir();
   }
 
   async checkPermission()
@@ -369,7 +396,7 @@ export class HomeClientesPage implements OnInit {
       });
     }
   }
-  
+
   salir()
   {
     this.authService.logout()?.then(()=>{

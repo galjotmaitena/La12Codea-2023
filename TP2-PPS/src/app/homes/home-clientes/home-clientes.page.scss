@@ -29,10 +29,15 @@
 
 .tool{
     text-align: center;
+    align-items: center;
     display: flex;
     flex-direction: row;
-    background:#64B5F6; 
+    background:transparent; 
     height: 100%;
+}
+
+.toolB{
+    --background: #64B5F6;
 }
 
 .iconSalir{
@@ -51,7 +56,33 @@
     justify-content: center;
     font-family: 'Merienda';
     font-weight: bold;
-    height: 40%;
+}
+
+.h1Tool{
+    width: 100%; 
+    position: absolute; 
+    font-family: 'Merienda'; 
+}
+
+.divJuegoEnc{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+}
+
+.btnJuEn{
+    --background: #64B5F6;
+    width: 80%;
+    height: 35%;
+    margin: 10px;
+}
+
+.encuestas{
+    background-color: #E3F2FD;
+    color: #03045E;
 }
 
 ion-footer{

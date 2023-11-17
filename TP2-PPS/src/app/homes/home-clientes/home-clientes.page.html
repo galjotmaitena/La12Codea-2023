@@ -1,35 +1,53 @@
 <ion-content class="container-gral" *ngIf="!abierta"  style="min-height: 100vh;">
-  <ion-toolbar class="ion-no-border">
+  <ion-toolbar class="ion-no-border toolB">
     <div class="tool">
-      <button (click)="salir()" style="background:transparent;">
+      <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
-      <h1 style="width: 100%; position: absolute; height: 50%;">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
+      <h1 class="h1Tool" *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+      <h1 class="h1Tool">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
     </div>
   </ion-toolbar>
 
-  <div class="texto">
+  <!-- home1 --> 
+  <div class="texto" style="height: 40%;" *ngIf="!ingreso">
     <h1>¡Bienvenidx!</h1>
     <h2>Escanee el QR para ingresar a la lista de espera.</h2>
   </div>
 
-  <div class="divScan">
+  <div class="divScan" *ngIf="!ingreso">
     <ion-button (click)="startScan()" class="btnScan">
-      <!-- <ion-icon name="qr-code-outline" style="color:#fff"></ion-icon> -->
       <img src="assets/codigo-qr.png" style="height: 90%; width: 80%; padding: 10px;">
     </ion-button>
   </div>
 
+  <!-- home2 --> 
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button (click)="startScan()" style="--background:#64B5F6">
+      <ion-icon name="qr-code-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <div *ngIf="ingreso && !enMesa">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
-    <label *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</label>
-    <label *ngIf="cliente.espera">Usted se encuentra en lista de espera...</label>
-    <div style="background-color: #fff; position: relative; display: flex;">
-    <label>encuestas</label>
+    <div class="texto">
+      <h1 >Usted se encuentra en lista de espera...</h1>
+      <h1 *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</h1>
+
+      <div *ngFor="let e of encuestas" class="texto encuestas">
+        <h1>{{e.cliente}}</h1>
+        <p>{{e.experiencia}}</p>
+      </div>
     </div>
   </div>
   
+  <!-- <ion-button (click)="startScan()" class="btnJuEn">
+    <img src="assets/juegos.png" style="height: 90%; width: 80%; padding: 10px;">
+  </ion-button>
+  <ion-button (click)="startScan()" class="btnJuEn">
+    <img src="assets/codigo-qr.png" style="height: 90%; width: 80%; padding: 10px;">
+  </ion-button> -->
+
   <div *ngIf="enMesa">                      <!-- escaneo mesa, funcionalidad 6 y 7 -->
     <ion-segment *ngIf="!yaPidio" vertical="bottom" slot="bottom" [(ngModel)]="selectedTab">
       <ion-segment-button class="segment-button" value="tab1">COMIDAS</ion-segment-button>
