@@ -369,6 +369,7 @@ export class HomeClientesPage implements OnInit {
       });
     }
   }
+  
   salir()
   {
     this.authService.logout()?.then(()=>{

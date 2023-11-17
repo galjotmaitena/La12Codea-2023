@@ -1,12 +1,57 @@
 .container-gral{
     display: flex;
-    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    --background: #FCD5CE;
+    --background: url('../../../assets/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     --color: black;
     width: 100%;
+}
+
+.divScan{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 40%;
+}
+
+.btnScan{
+    --background: #64B5F6;
+    width: 80%;
+    height: 80%;
+}
+
+.tool{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    background:#64B5F6; 
+    height: 100%;
+}
+
+.iconSalir{
+    color:#fff; 
+    font-size: 2rem; 
+    right: 0%; 
+    margin: 5px;
+}
+
+.texto{
+    flex-direction: column;
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Merienda';
+    font-weight: bold;
+    height: 40%;
 }
 
 ion-footer{
@@ -50,4 +95,8 @@ swiper-slide{
 
 .contenedor-productos{
     text-align: center;
+}
+
+.fab{
+    --background: #ADE8F4;
 }

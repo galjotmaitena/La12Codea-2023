@@ -1,14 +1,26 @@
 <ion-content class="container-gral" *ngIf="!abierta"  style="min-height: 100vh;">
-  <ion-toolbar class="ion-no-border" style="--background:#F6BD60; text-align: center; color: black;">
-    <!-- <ion-icon class="iconFooter" name="person-outline"></ion-icon> -->
-    <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+  <ion-toolbar class="ion-no-border">
+    <div class="tool">
+      <button (click)="salir()" style="background:transparent;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <h1 *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+      <h1 style="width: 100%; position: absolute; height: 50%;">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
+    </div>
   </ion-toolbar>
 
-  <ion-fab horizontal="start" vertical="bottom">
-       <ion-fab-button (click)="startScan()">          <!--    ESTA MODIF      -->
-      <ion-icon name="qr-code-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <div class="texto">
+    <h1>¡Bienvenidx!</h1>
+    <h2>Escanee el QR para ingresar a la lista de espera.</h2>
+  </div>
+
+  <div class="divScan">
+    <ion-button (click)="startScan()" class="btnScan">
+      <!-- <ion-icon name="qr-code-outline" style="color:#fff"></ion-icon> -->
+      <img src="assets/codigo-qr.png" style="height: 90%; width: 80%; padding: 10px;">
+    </ion-button>
+  </div>
+
 
   <div *ngIf="ingreso && !enMesa">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
     <label *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</label>
@@ -133,7 +145,7 @@
     <ion-button *ngIf="estadoPedido === 'entregado'" (click)="mostrarDetalle()">PEDIR CUENTA</ion-button>
 
     <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
-    <div *ngIf="mostrarModal">
+    <div *ngIf="estadoPedido === 'recibido'">
       <ion-button (click)="pagar()">PAGAR</ion-button>
     </div>
   </div>
