@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,24 @@ export class AuthService {
     {
       this.email = email;
       ret = signInWithEmailAndPassword(this.auth, email, password);
+    }
+    catch(error)
+    {
+      console.log("Error al loguearse: ", error);
+
+      ret = null;
+    }
+
+    return ret;
+  }
+
+  loginAnonimo()
+  {
+    let ret;
+
+    try
+    {
+      ret = signInAnonymously(this.auth);
     }
     catch(error)
     {

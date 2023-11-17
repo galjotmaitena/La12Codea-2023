@@ -167,6 +167,27 @@ export class LoginPage implements OnInit {
       });
   }
 
+  ingresarAnonimo()
+  {
+    this.auth.loginAnonimo()?.then((data)=>{
+      FirestoreService.guardarFs('clientes', {perfil: 'anonimo', uid: data.user.uid, nombre: this.generarNombreUnico(), mesa: '', espera: false, foto: 'https://firebasestorage.googleapis.com/v0/b/tp-pps-dbd3e.appspot.com/o/usuario.png?alt=media&token=c9af6319-9006-434e-9653-ab0fa1baef9d'}, this.firestore);
+      this.router.navigateByUrl('homeClientes');
+    });
+  }
+
+  generarNombreUnico(): string {
+    let nuevoNombre: string;
+    do {
+      nuevoNombre = 'anonimo_' + Math.floor(Math.random() * 1000);
+    } while (this.nombreExistente(nuevoNombre));
+
+    return nuevoNombre;
+  }
+
+  nombreExistente(nombre: string): boolean {
+    return this.usuarios.some((cliente) => cliente.nombre === nombre);
+  }
+
   cambiarUsuario(usuarioElegido: string)
   {
     switch(usuarioElegido)

@@ -369,10 +369,12 @@ export class HomeClientesPage implements OnInit {
       });
     }
   }
+  
   salir()
   {
     this.authService.logout()?.then(()=>{
       this.push.cierreSesion(this.cliente, 'clientes');
+      this.cliente.perfil === 'anonimo' ? FirestoreService.eliminarFs('clientes', this.cliente, this.firestore) : '';
       this.router.navigateByUrl('login');
     })
     .catch((err)=>{
