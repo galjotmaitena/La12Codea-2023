@@ -360,7 +360,7 @@ export class HomeClientesPage implements OnInit {
   {
     if(this.pedido.length > 0)
     {
-      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false, precio: this.importe}
       FirestoreService.guardarFs('pedidos', obj, this.firestore);
       this.authService.mostrarToastExito('Pedido cargado correctamente');
       this.yaPidio = true;

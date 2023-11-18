@@ -16,9 +16,9 @@
       <div class="contenedor-mensajes" *ngIf="usuario">
         <div *ngFor="let m of mensajes">
           <div [ngClass]="{'chat-bubble-propio': (m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo'), 'chat-bubble': m.usuario.tipoEmpleado === 'mozo' }">
-            <span class="span">{{m.nombre}}</span>
+            <span class="span">{{m.usuario.nombre}}</span>
             <span>{{ m.mensaje }}</span>
-            <span class="sfecha"> {{ m.fecha }}</span>
+            <span class="sfecha"> {{ m.hora }}</span>
           </div>
         </div>
       </div>
