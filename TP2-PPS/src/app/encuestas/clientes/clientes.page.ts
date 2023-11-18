@@ -134,7 +134,9 @@ export class ClientesPage implements OnInit {
                   this.fotosSubidas.push(url3);
                   ///////////////////////////////////////////////////////////////////////////
                   FirestoreService.guardarFs('encuestaClientes', {...encuesta, fotos: this.fotosSubidas}, this.firestore);
-                  this.auth.mostrarToastExito("¡Alta realizada con éxito!");
+                  this.auth.mostrarToastExito("¡Encuesta enviada con éxito!");
+                  this.cliente.encuesta = true;
+                  FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
                 });
               });
             });

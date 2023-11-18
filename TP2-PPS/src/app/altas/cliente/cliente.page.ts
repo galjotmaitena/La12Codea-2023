@@ -236,7 +236,7 @@ export class ClientePage {
         }
         else
         {
-          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false};
+          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false, encuesta: false};
           this.auth.signup(this.email, this.clave)
           .catch((error)=>{
             if(error === 'auth/email-already-in-use')

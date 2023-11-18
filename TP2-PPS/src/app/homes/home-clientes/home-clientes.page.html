@@ -180,8 +180,13 @@
        <ion-button routerLink="/juegos" class="btnJuEn">
           <img src="assets/juegos.png" >
         </ion-button>
-        <ion-button routerLink="/clientes" class="btnJuEn">
+        <!-- deshabilitar el btn encuesta una vez que ya la completo -->
+        <ion-button *ngIf="!cliente.encuesta" routerLink="/clientes" class="btnJuEn"> 
           <img src="assets/satisfaccion.png">
+        </ion-button>
+        <!-- tiene que redirigir a una page que muestre los graficossssss -->
+        <ion-button *ngIf="cliente.encuesta"  class="btnJuEn"> 
+          <img src="assets/investigacion.png">
         </ion-button>
     </div>
 
@@ -189,6 +194,14 @@
 
     <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
     <div *ngIf="estadoPedido === 'recibido'">
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+        <!-- PROPINAAA -->
+        <ion-fab-button (click)="asignarEscan()" style="--background:#64B5F6">
+          <img src="assets/tips.png">
+        </ion-fab-button>
+      </ion-fab>
+
       <ion-button (click)="pagar()">PAGAR</ion-button>
     </div>
 
