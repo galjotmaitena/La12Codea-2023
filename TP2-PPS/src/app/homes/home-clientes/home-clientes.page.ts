@@ -36,7 +36,7 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -217,9 +217,9 @@ export class HomeClientesPage implements OnInit {
       }
       else
       {
-        if(this.cliente.mesa !== '')//////////////////////////
+        if(/* this.cliente.mesa !== '' */true)//////////////////////////
         {
-          if(this.verificarMesaAsignada())
+          if(/* this.verificarMesaAsignada() */true)
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
 

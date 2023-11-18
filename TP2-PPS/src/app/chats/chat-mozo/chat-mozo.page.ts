@@ -3,6 +3,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from '../../services/auth.service';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-mozo',
@@ -10,7 +11,6 @@ import { PushService } from 'src/app/services/push.service';
   styleUrls: ['./chat-mozo.page.scss'],
 })
 export class ChatMozoPage implements OnInit {
-
   mensaje: string = '';
   mensajes : any[] = [];
   mozos: any[] = [];
@@ -21,43 +21,56 @@ export class ChatMozoPage implements OnInit {
   usuario = this.auth.get_user();
   cliente : any;
   mozo: any;
+  chatElegido:any = null;
+  mensajesAgrupados: any;
 
-  constructor(private firestore : Firestore, private push : PushService, private auth: AuthService) { }
+  constructor(private firestore : Firestore, private push : PushService, private auth: AuthService, private router: Router) { }
 
   ngOnInit() 
   {
-/*     this.observableClientes = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+    this.observableClientes = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       data.forEach(c => {
-        if(c.email === this.usuario?.email)
-        {                                   NECESITAMOS SABER: SI SE RESPONDIO, QUE MESA ES Y CUANTOS MENSAJES
-                                            SIN LEER HAY DE ESE MISMO CHAT. URGENTE. POR FAVOR. MAITENA MI AMOR
-          this.cliente = c;
+        switch(this.usuario?.email){
+          case null:
+            data.forEach(c => {
+              if(c.uid === this.usuario?.uid)
+              {
+                this.cliente = c;
+              }
+            });
+            break;
+          default:
+            data.forEach(c => {
+              if(c.email === this.usuario?.email)
+              {
+                this.cliente = c;
+              }
+            });
+            break;
         }
       });
     });
- */
+
     this.observableMozos = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       data.forEach(empleado => {
         if(empleado.tipoEmpleado === 'mozo')
         {
           this.mozos.push(empleado);
-
-          if(this.usuario?.email === empleado.email)
-          {
-            this.mozo = empleado;
-          }
         }
       });
+
+      this.mozos.forEach((m)=>{
+        if(m.email === this.usuario?.email)
+        {
+          this.mozo = m;
+        } 
+      })
     });
 
     this.observable = FirestoreService.traerFs('mensajes', this.firestore, 'hora').subscribe(data =>{
-      this.mensajes = [];
-      data.forEach((m)=>{
-        if(this.cliente.mesa === m.mesa)
-        {
-          this.mensajes.push(m);
-        }
-      });
+      this.mensajes = data;
+      this.mensajesAgrupados = this.agruparMensajes(this.mensajes);
+      this.actualizarMensajesNoLeidosPorGrupo(this.mensajesAgrupados);
     });
   }
 
@@ -67,19 +80,73 @@ export class ChatMozoPage implements OnInit {
     {
       let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
       let fechaHora = new Date().toLocaleString('es-AR', options);
-      let mensajeEnviar = {hora:fechaHora, mensaje: this.mensaje, usuario: 'usuario', nombre: this.cliente.nombre};
+      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.mozo };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
-      this.push.sendPush('Consulta - Mozo', this.mensaje, this.cliente);
+      this.push.sendPush('Consulta - ' + this.mozo, this.mensaje, this.cliente);
       this.mensaje = '';
     }
   }
 
-  ngOnDestroy()
+  calcularMensajesNoLeidos(array: any) : number
   {
-    this.mensajes.forEach(m => {
-      FirestoreService.eliminarFs('mensajes', m, this.firestore);
+    console.log(array);
+    let cant = 0;
+
+    array.forEach((m:any) => {
+      if(m.leido != undefined)
+      {
+        if(!m.leido)
+        {
+          cant++;
+        }  
+      }
     });
-    this.observable.unsubscribe();
+
+    return cant;
+  }
+
+  private actualizarMensajesNoLeidosPorGrupo(array: []) {
+    console.log(array);
+    array.forEach((grupo: any) => {
+      grupo.unreadCount = this.calcularMensajesNoLeidos(grupo);
+    });
+  }
+
+  private agruparMensajes(mensajes: any[]): any[] {
+    return mensajes.reduce((acc, mensaje) => {
+      const mesaIndex = acc.findIndex((grupo: any[]) => grupo[0]?.mesa === mensaje.mesa);
+
+      if (mesaIndex !== -1) {
+        acc[mesaIndex].push(mensaje);
+      } else {
+        acc.push([mensaje]);
+      }
+
+      return acc;
+    }, []);
+  }
+
+  salir()
+  {
+    if(this.chatElegido)
+    {
+      this.chatElegido = null;
+    }
+    else
+    {
+      this.router.navigateByUrl('/home-mozo');
+      this.observable.unsubscribe();
+    }
+  }
+
+  elegirChat(chat: any)
+  {
+    chat.forEach((m:any) => {
+      m.leido = true;
+      FirestoreService.actualizarFs('mensajes', m, this.firestore);
+    });
+
+    this.chatElegido = chat;
   }
 }

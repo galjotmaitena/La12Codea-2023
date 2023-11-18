@@ -1,14 +1,21 @@
 <ion-header>
-  <ion-toolbar style="text-align: center;">
-    <ion-title size="large">Consultas</ion-title>
+  <ion-toolbar>
+    <div style="display: flex; text-align: center; align-items: center; width: 100%;">
+      <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px;">
+        <ion-icon  name="arrow-back-outline" (click)="salir()"></ion-icon>
+      </div>
+      <div style="text-align: center; width: 71%;">
+        <ion-title size="large">CONSULTAS</ion-title>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 <ion-content style="width: 100%; height: 100%;">
     <!-- <div style="background: rgb(0, 0, 0); height: 100%; overflow-y: auto;"> -->
-    <div style="background: rgb(0, 0, 0); overflow-y: auto; height: 100%;">
+    <div *ngIf="chatElegido" style="background: rgb(0, 0, 0); overflow-y: auto; height: 100%;">
       <div class="contenedor-mensajes" *ngIf="usuario">
         <div *ngFor="let m of mensajes">
-          <div [ngClass]="{'chat-bubble-propio': m.usuario === 'cliente', 'chat-bubble': m.usuario === 'mozo' }">
+          <div [ngClass]="{'chat-bubble-propio': m.usuario.tipoEmpleado === 'mozo', 'chat-bubble': (m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo') }">
             <span class="span">{{m.nombre}}</span>
             <span>{{ m.mensaje }}</span>
             <span class="sfecha"> {{ m.fecha }}</span>
@@ -16,8 +23,19 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="!chatElegido">
+      <ion-list [inset]="true" style="margin: 5px;">
+        <div *ngFor="let m of mensajesAgrupados">
+          <ion-item expand="block" (click)="elegirChat(m)">
+            <ion-label>Mesa {{ m[0].usuario.mesa }} - {{m[0].usuario.nombre}}</ion-label>
+            <ion-badge slot="end">{{ m.unreadCount != 0 ? m.unreadCount : 'Leido' }}</ion-badge>
+          </ion-item>
+        </div>
+      </ion-list>
+    </div>    
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="chatElegido">
   <ion-toolbar>
     <ion-item>
       <ion-input placeholder="Escribe tu mensaje" clearInput maxlength="21" [(ngModel)]="mensaje"></ion-input>
