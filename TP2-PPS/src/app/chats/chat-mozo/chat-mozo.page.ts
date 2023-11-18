@@ -83,8 +83,8 @@ export class ChatMozoPage implements OnInit {
       let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.mozo };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
-      this.push.sendPush('Consulta - ' + this.mozo, this.mensaje, this.cliente);
       this.mensaje = '';
+      this.push.sendPush('Consulta - ' + this.mozo, this.mensaje, this.cliente);
     }
   }
 
