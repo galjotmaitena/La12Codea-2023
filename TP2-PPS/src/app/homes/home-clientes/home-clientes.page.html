@@ -1,11 +1,21 @@
-<ion-content class="container-gral" *ngIf="!abierta"  style="min-height: 100vh;">
-  <ion-toolbar class="ion-no-border toolB">
-    <div class="tool">
+<ion-content class="container-gral" *ngIf="!abierta"  >
+
+  <ion-toolbar class="ion-no-border toolB" style="position: fixed; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool" *ngIf="!enMesa">
       <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <h1 class="h1Tool" *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
-      <h1 class="h1Tool">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
+      <h1 class="h1Tool" *ngIf="!enMesa">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
+    </div>
+
+    <div class="tool" *ngIf="enMesa" style="justify-content: space-evenly;;" >
+      <button (click)="salir()" style="background:transparent; z-index: 1000;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <h1 style="font-family: 'Merienda'; position: relative; font-size: 20px;" *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+      <button *ngIf="enMesa" (click)="enviarPedido()" style="background:transparent; z-index: 1000;">
+        <ion-icon name="cart-outline" class="iconSalir" style="right: 0%;"></ion-icon>
+      </button>
     </div>
   </ion-toolbar>
 
@@ -23,47 +33,47 @@
 
   <!-- home2 --> 
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <ion-fab slot="fixed" class="fabQr" *ngIf="ingreso">
     <ion-fab-button (click)="startScan()" style="--background:#64B5F6">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <div *ngIf="ingreso && !enMesa">                              <!-- escaneo ingreso, funcionalidad 3 y 4 -->
-    <div class="texto">
-      <h1 >Usted se encuentra en lista de espera...</h1>
+  <!-- escaneo ingreso, funcionalidad 3 y 4 -->
+  <div *ngIf="ingreso && !enMesa" style="height: 100%; align-items: center; justify-content: space-evenly; display: flex; flex-direction: column;">                              
+    <div class="texto" style="height: 100%;">
+      <h1 *ngIf="cliente.espera">Usted se encuentra en lista de espera...</h1>
       <h1 *ngIf="cliente.mesa != ''">Su mesa asignada es la número {{cliente.mesa}}</h1>
 
-      <div *ngFor="let e of encuestas" class="texto encuestas">
-        <h1>{{e.cliente}}</h1>
-        <p>{{e.experiencia}}</p>
+      <div class="listaEnc">
+        <h1>Encuestas</h1>
+        <div style="overflow-y: auto; width: 100%;">
+          <div *ngFor="let e of encuestas" class="texto encuestas">
+            <h1>{{e.cliente}}</h1>
+            <p>{{e.experiencia}}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   
-  <!-- <ion-button (click)="startScan()" class="btnJuEn">
-    <img src="assets/juegos.png" style="height: 90%; width: 80%; padding: 10px;">
-  </ion-button>
-  <ion-button (click)="startScan()" class="btnJuEn">
-    <img src="assets/codigo-qr.png" style="height: 90%; width: 80%; padding: 10px;">
-  </ion-button> -->
-
+  <!-- home3 -->
   <div *ngIf="enMesa">                      <!-- escaneo mesa, funcionalidad 6 y 7 -->
-    <ion-segment *ngIf="!yaPidio" vertical="bottom" slot="bottom" [(ngModel)]="selectedTab">
+    <ion-segment *ngIf="!yaPidio" class="bottom-segment" [(ngModel)]="selectedTab">
       <ion-segment-button class="segment-button" value="tab1">COMIDAS</ion-segment-button>
       <ion-segment-button class="segment-button" value="tab2">BEBIDAS</ion-segment-button>
       <ion-segment-button class="segment-button" value="tab3">POSTRES</ion-segment-button>
     </ion-segment>
 
-    <div *ngIf="!yaPidio">
+    <div *ngIf="!yaPidio" class="py-5">
       <div *ngIf="selectedTab === 'tab1'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'comida'" class="contenedor-productos">
+        <div *ngFor="let p of comidas" class="productos" >
+          <div  class="contenedor-productos">
             <div>
-              <h1>{{p.nombre}}</h1>
+              <h1 class="texto">{{p.nombre}}</h1>
             </div>
             <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-container pagination="true" loop="true" class="py-2">
                 <swiper-slide>
                   <img [src]="p.fotos[0]">
                 </swiper-slide>  
@@ -76,24 +86,24 @@
               </swiper-container>
             </div>
             <div>
-              <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+              <h3 class="texto">${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
             </div>
             <div>
-              <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
-              <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(true, p)" class="agQu"><ion-icon name="add-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(false, p)" class="agQu"><ion-icon name="remove-outline"></ion-icon></ion-button>
             </div>
           </div>
         </div>
       </div>
   
       <div *ngIf="selectedTab === 'tab2'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'bebida'" class="contenedor-productos">
+        <div *ngFor="let p of bebidas" class="productos" >
+          <div  class="contenedor-productos">
             <div>
-              <h1>{{p.nombre}}</h1>
+              <h1 class="texto">{{p.nombre}}</h1>
             </div>
             <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-container  pagination="true" loop="true" class="py-2">
                 <swiper-slide>
                   <img [src]="p.fotos[0]">
                 </swiper-slide>  
@@ -106,24 +116,24 @@
               </swiper-container>
             </div>
             <div>
-              <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+              <h3 class="texto">${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
             </div>
             <div>
-              <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
-              <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(true, p)" class="agQu"><ion-icon name="add-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(false, p)" class="agQu"><ion-icon name="remove-outline"></ion-icon></ion-button>
             </div>
           </div>
         </div>
       </div>
   
       <div *ngIf="selectedTab === 'tab3'" >
-        <div *ngFor="let p of listaProductos">
-          <div *ngIf="p.tipo == 'postre'" class="contenedor-productos">
+        <div *ngFor="let p of postres" class="productos">
+          <div  class="contenedor-productos">
             <div>
-              <h1>{{p.nombre}}</h1>
+              <h1 class="texto">{{p.nombre}}</h1>
             </div>
             <div>
-              <swiper-container navigation="true" pagination="true" loop="true" class="py-2">
+              <swiper-container pagination="true" loop="true" class="py-2">
                 <swiper-slide>
                   <img [src]="p.fotos[0]">
                 </swiper-slide>  
@@ -136,30 +146,38 @@
               </swiper-container>
             </div>
             <div>
-              <h3>${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
+              <h3 class="texto">${{p.precio}} - Tiempo de elaboracion: {{p.tiempo}} mins</h3>
             </div>
             <div>
-              <ion-button (click)="elegirProducto(true, p)"><ion-icon name="add-outline"></ion-icon></ion-button>
-              <ion-button (click)="elegirProducto(false, p)"><ion-icon name="remove-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(true, p)" class="agQu"><ion-icon name="add-outline"></ion-icon></ion-button>
+              <ion-button (click)="elegirProducto(false, p)" class="agQu"><ion-icon name="remove-outline"></ion-icon></ion-button>
             </div>
           </div>
         </div>
       </div>
-
-      <ion-button (click)="enviarPedido()">ENVIAR PEDIDO</ion-button>
     </div>
 
-    <ion-fab horizontal="end" vertical="bottom">
-      <ion-fab-button routerLink="/chat">
+    <ion-fab slot="fixed" class="fabChat">
+      <ion-fab-button routerLink="/chat" style="--background:#64B5F6">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </div>
 
-  <div *ngIf="yaPidio">
-    <label *ngIf="estadoPedido !== 'entregado'">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</label>
-    <ion-button routerLink="/juegos">Juegos</ion-button>
-    <ion-button>Encuestas</ion-button>
+  <!-- home4 -->
+
+  <div *ngIf="yaPidio" style="height: 100%; justify-content: space-evenly; align-items: center; display: flex; flex-direction: column; text-align: center;">
+    <h1 *ngIf="estadoPedido !== 'entregado'" class="texto">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</h1>
+
+    <div class="divJuegoEnc">
+       <ion-button routerLink="/juegos" class="btnJuEn">
+          <img src="assets/juegos.png" >
+        </ion-button>
+        <ion-button routerLink="/clientes" class="btnJuEn">
+          <img src="assets/satisfaccion.png">
+        </ion-button>
+    </div>
+
     <ion-button *ngIf="estadoPedido === 'entregado'" (click)="mostrarDetalle()">PEDIR CUENTA</ion-button>
 
     <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->

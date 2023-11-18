@@ -43,8 +43,9 @@
 .iconSalir{
     color:#fff; 
     font-size: 2rem; 
-    right: 0%; 
     margin: 5px;
+    position: relative;
+    display: flex;
 }
 
 .texto{
@@ -65,25 +66,68 @@
 }
 
 .divJuegoEnc{
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 70%;
+    justify-content: space-around;
+    height: 80%;
 }
 
 .btnJuEn{
     --background: #64B5F6;
     width: 80%;
     height: 35%;
-    margin: 10px;
+    margin: 3px;
 }
 
 .encuestas{
     background-color: #E3F2FD;
     color: #03045E;
+    width: 90%;
+    border: 2px solid #03045E;
+    border-radius: 10px;
 }
+
+.listaEnc{
+    background-color: #0077B6;
+    width: 97%;
+    border: 2px solid #03045E;
+    height: 60%;
+    max-height: 60%;
+    align-items: center; 
+    justify-content: center; 
+    display: flex; 
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.productos{
+    background-color: #E3F2FD;
+    color: #03045E;
+    width: 95%;
+    border: 2px solid #03045E;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.fabQr {
+    position: fixed;
+    bottom: 9.5%; /* Ajusta según sea necesario */
+    left: 3%; /* Ajusta según sea necesario */
+    z-index: 9999; /* Ajusta según sea necesario para evitar superposiciones */
+}
+
+.fabChat{
+    position: fixed;
+    bottom: 9.5%; /* Ajusta según sea necesario */
+    right: 3%; /* Ajusta según sea necesario */
+    z-index: 9999; /* Ajusta según sea necesario para evitar superposiciones */
+}
+
 
 ion-footer{
     display: flex;
@@ -116,12 +160,15 @@ swiper-slide{
 
 ///////////
 .segment-button {
-    background-color: #0e1f0e;
-    color: #ff0000; /* Color de texto no seleccionado */
+    background-color: #64B5F6;
+    color: #fff; /* Color de texto no seleccionado */
+    font-family: 'Merienda';
 }
 
 .segment-button-checked {
-  color: #00ff00; /* Color de texto seleccionado */
+  color: #03045E; /* Color de texto seleccionado */
+  font-weight: bold;
+
 }
 
 .contenedor-productos{
@@ -130,4 +177,23 @@ swiper-slide{
 
 .fab{
     --background: #ADE8F4;
+}
+
+.agQu{
+    --background:#64B5F6;
+    --border-radius: 15px;
+    margin: 8px;
+}
+
+
+
+
+.bottom-segment {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999; /* Ajusta esto según sea necesario para evitar superposiciones */
+    background-color: #fff; /* Color de fondo deseado */
+    border-top: 1px solid #ccc; /* Línea divisoria opcional */
 }

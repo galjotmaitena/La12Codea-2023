@@ -36,7 +36,7 @@ export class HomeClientesPage implements OnInit {
   escaneado : any = '';
 
   ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -60,11 +60,15 @@ export class HomeClientesPage implements OnInit {
   encuestas : any[] = [];
   obsEncuestas : any;
 
+  bebidas : any[] = [];
+  comidas : any[] = [];
+  postres : any[] = [];
+
+
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
   ngOnInit() 
   {
-    window.addEventListener('beforeunload', this.prueba.bind(this));
 
     this.observable = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       this.metres = [];
@@ -101,6 +105,21 @@ export class HomeClientesPage implements OnInit {
     });
 
     this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
+      data.forEach(p => {
+        switch(p.tipo)
+        {
+          case 'bebida':
+            this.bebidas.push(p);
+            break;
+          case 'comida':
+            this.comidas.push(p);
+            break;
+          case 'postre':
+            this.postres.push(p);
+            break;
+        }
+      });
+
       this.listaProductos = data;
     });
 
@@ -108,14 +127,16 @@ export class HomeClientesPage implements OnInit {
       this.pedidos = data;
     });
 
-    this.obsEncuestas = FirestoreService.traerFs('encuestas', this.firestore).subscribe((data)=>{
-      this.encuestas = data;
-    });
-  }
+    // this.obsEncuestas = FirestoreService.traerFs('encuestas', this.firestore).subscribe((data)=>{
+    //   this.encuestas = data;
+      
+    // });
 
-  prueba(event : any)
-  {
-    this.salir();
+    this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
   }
 
   ngOnDestroy() : void 
@@ -337,10 +358,17 @@ export class HomeClientesPage implements OnInit {
 
   enviarPedido()
   {
-    let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
-    FirestoreService.guardarFs('pedidos', obj, this.firestore);
-    this.authService.mostrarToastExito('Pedido cargado correctamente');
-    this.yaPidio = true;
+    if(this.pedido.length > 0)
+    {
+      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+      FirestoreService.guardarFs('pedidos', obj, this.firestore);
+      this.authService.mostrarToastExito('Pedido cargado correctamente');
+      this.yaPidio = true;
+    }
+    else
+    {
+      this.authService.mostrarToastError('Aun no hay productos cargados.');
+    }
   }
 
   mostrarDetalle()
