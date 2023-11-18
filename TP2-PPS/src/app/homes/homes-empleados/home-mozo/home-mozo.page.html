@@ -1,6 +1,4 @@
-<ion-content [fullscreen]="true" class="container-general">
-  
-   
+<ion-content class="container-general">
   <ion-list [inset]="true" style="margin: 5px;">
     <label><h1>Pedidos pendientes</h1></label>
     <ion-item expand="block" *ngFor="let p of listaPedidosPendientes">
@@ -32,11 +30,14 @@
   <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
-
-  <ion-toolbar vertical="bottom">
-    <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-  </ion-toolbar>
-
+  <ion-fab horizontal="end" vertical="bottom">
+    <ion-fab-button routerLink="/chat-mozo">
+      <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+<ion-toolbar vertical="bottom">
+  <ion-icon class="iconFooter" name="person-outline"></ion-icon>
+</ion-toolbar>
 
 

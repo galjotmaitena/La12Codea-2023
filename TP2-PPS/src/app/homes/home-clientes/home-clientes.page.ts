@@ -238,9 +238,9 @@ export class HomeClientesPage implements OnInit {
       }
       else
       {
-        if(this.cliente.mesa !== '')//////////////////////////
+        if(/* this.cliente.mesa !== '' */true)//////////////////////////
         {
-          if(this.verificarMesaAsignada())
+          if(/* this.verificarMesaAsignada() */true)
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
 

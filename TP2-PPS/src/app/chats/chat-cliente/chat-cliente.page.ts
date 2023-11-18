@@ -3,6 +3,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../services/firestore.service';
 import { AuthService } from '../../services/auth.service';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-cliente',
@@ -20,15 +21,29 @@ export class ChatClientePage implements OnInit {
   usuario = this.auth.get_user();
   cliente : any;
 
-  constructor(private firestore : Firestore, private push : PushService, private auth: AuthService) { }
+  constructor(private firestore : Firestore, private push : PushService, private auth: AuthService, private router: Router) { }
 
   ngOnInit() 
   {
     this.observableClientes = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       data.forEach(c => {
-        if(c.email === this.usuario?.email)
-        {
-          this.cliente = c;
+        switch(this.usuario?.email){
+          case null:
+            data.forEach(c => {
+              if(c.uid === this.usuario?.uid)
+              {
+                this.cliente = c;
+              }
+            });
+            break;
+          default:
+            data.forEach(c => {
+              if(c.email === this.usuario?.email)
+              {
+                this.cliente = c;
+              }
+            });
+            break;
         }
       });
     });
@@ -45,9 +60,10 @@ export class ChatClientePage implements OnInit {
     this.observable = FirestoreService.traerFs('mensajes', this.firestore, 'hora').subscribe(data =>{
       this.mensajes = [];
       data.forEach((m)=>{
-        if(this.cliente.mesa === m.mesa)
+        if(this.cliente.mesa === /* m.mesa */2)
         {
           this.mensajes.push(m);
+          //alert(JSON.stringify(m));
         }
       });
     });
@@ -59,7 +75,7 @@ export class ChatClientePage implements OnInit {
     {
       let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
       let fechaHora = new Date().toLocaleString('es-AR', options);
-      let mensajeEnviar = {hora:fechaHora, mensaje: this.mensaje, usuario: 'cliente', nombre: this.cliente.nombre};
+      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.cliente, leido: false };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
       this.mozos.forEach(m => {
@@ -69,11 +85,9 @@ export class ChatClientePage implements OnInit {
     }
   }
 
-  ngOnDestroy()
+  salir()
   {
-    this.mensajes.forEach(m => {
-      FirestoreService.eliminarFs('mensajes', m, this.firestore);
-    });
+    this.router.navigateByUrl('homeClientes');
     this.observable.unsubscribe();
   }
 }
