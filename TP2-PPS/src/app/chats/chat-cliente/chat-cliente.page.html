@@ -1,24 +1,24 @@
 <ion-header>
   <ion-toolbar>
     <div style="display: flex; text-align: center; align-items: center; width: 100%;">
-      <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px;">
+      <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px; z-index: 1000;">
         <ion-icon  name="arrow-back-outline" (click)="salir()"></ion-icon>
       </div>
-      <div style="text-align: center; width: 71%;">
+      <div style="text-align: center;  width: 100%; position: absolute;"> 
         <ion-title size="large">CONSULTAS</ion-title>
       </div>
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content style="width: 100%; height: 100%;">
+<ion-content style="width: 100%; height: 100%;" >
     <!-- <div style="background: rgb(0, 0, 0); height: 100%; overflow-y: auto;"> -->
-    <div style="background: rgb(0, 0, 0); overflow-y: auto; height: 100%;">
+    <div style="overflow-y: auto; height: 100%;" class="container-gral">
       <div class="contenedor-mensajes" *ngIf="usuario">
         <div *ngFor="let m of mensajes">
           <div [ngClass]="{'chat-bubble-propio': (m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo'), 'chat-bubble': m.usuario.tipoEmpleado === 'mozo' }">
-            <span class="span">{{m.nombre}}</span>
+            <span class="span">{{m.usuario.nombre}}</span>
             <span>{{ m.mensaje }}</span>
-            <span class="sfecha"> {{ m.fecha }}</span>
+            <span class="sfecha"> {{ m.hora }}</span>
           </div>
         </div>
       </div>

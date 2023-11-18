@@ -80,7 +80,7 @@ export class ChatMozoPage implements OnInit {
     {
       let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
       let fechaHora = new Date().toLocaleString('es-AR', options);
-      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.mozo, mesa: this.cliente.mesa };
+      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: {...this.mozo, mesa:this.cliente.mesa} };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
       this.mensaje = '';

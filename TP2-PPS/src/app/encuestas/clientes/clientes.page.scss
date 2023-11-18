@@ -1,3 +1,73 @@
+.container-gral{
+  --background: #CAF0F8;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.tool{
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  background:transparent; 
+  height: 100%;
+}
+
+.toolB{
+  --background: #64B5F6;
+}
+
+.iconSalir{
+  color:#fff; 
+  font-size: 2rem; 
+  margin: 5px;
+  position: relative;
+  display: flex;
+}
+
+.texto{
+  flex-direction: column;
+  display: flex;
+  margin: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Merienda';
+  font-weight: bold;
+}
+
+.h1Tool{
+  width: 100%; 
+  position: absolute; 
+  font-family: 'Merienda'; 
+}
+
+.preguntas{
+  margin: 10px;
+  background: transparent;
+}
+
+.preg{
+  --background: #90E0EF;
+  border: 3px solid #0077B6;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.texto{
+  flex-direction: column;
+  display: flex;
+  text-align:justify;
+  align-items: center;
+  font-family: 'Merienda';
+  color:#000;
+  //font-weight: bold;
+}
+
 //range
 ion-range::part(tick) {
     background: #a2d2ff;
@@ -12,7 +82,7 @@ ion-range::part(tick) {
     align-items: center;
     justify-content: center;
   
-    background: #ffafcc;
+    background: #0077B6;
     color: #fff;
   
     border-radius: 50%;
@@ -30,15 +100,15 @@ ion-range::part(tick) {
   }
   
   ion-range::part(knob) {
-    background: #ffc8dd;
+    background: #0077B6;
   }
   
   ion-range::part(bar) {
-    background: #a2d2ff;
+    background: #CAF0F8;
   }
   
   ion-range::part(bar-active) {
-    background: #bde0fe;
+    background: #CAF0F8;
   }
 
 
@@ -48,4 +118,21 @@ ion-range::part(tick) {
     position: relative;
     justify-content: space-evenly;
     width: 100%;
+}
+
+ion-checkbox {
+  --size: 25px;
+  --checkbox-background: transparent;
+  --checkbox-background-checked: #0077B6;
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 2px solid #0077B6;
+}
+
+ion-select.custom-select {
+  background-color: transparent;
+  color: tu_color_fuente; /* Reemplaza "tu_color_fuente" con el color deseado para la fuente */
+  /* Otras propiedades de estilo que desees agregar */
 }

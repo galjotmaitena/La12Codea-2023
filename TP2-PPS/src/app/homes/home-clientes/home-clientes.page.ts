@@ -102,6 +102,9 @@ export class HomeClientesPage implements OnInit {
           });
           break;
       }
+
+      console.log(this.cliente);
+
     });
 
     this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{
@@ -219,8 +222,9 @@ export class HomeClientesPage implements OnInit {
 
     if(!this.ingreso) /////////////////////////////////////
       {
-        let ingresoJSON = JSON.parse(this.escaneado);                             
-            this.ingreso = ingresoJSON.ingresarAlLocal;
+        //let ingresoJSON = JSON.parse(this.escaneado);                             
+            //this.ingreso = ingresoJSON.ingresarAlLocal;
+            this.ingreso = true;
             this.cliente.espera = true;
       
             FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
@@ -360,7 +364,7 @@ export class HomeClientesPage implements OnInit {
   {
     if(this.pedido.length > 0)
     {
-      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false}
+      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false, precio: this.importe}
       FirestoreService.guardarFs('pedidos', obj, this.firestore);
       this.authService.mostrarToastExito('Pedido cargado correctamente');
       this.yaPidio = true;
