@@ -35,11 +35,6 @@ const routes: Routes = [
     loadChildren: () => import('./altas/empleado/empleado.module').then( m => m.EmpleadoPageModule)
   },
   {
-    path: '',
-    redirectTo: 'splash',
-    pathMatch: 'full'
-  },
-  {
     path: 'homeClientes',
     loadChildren: () => import('./homes/home-clientes/home-clientes.module').then( m => m.HomeClientesPageModule)
   },
@@ -79,12 +74,11 @@ const routes: Routes = [
     path: 'chat-mozo',
     loadChildren: () => import('./chats/chat-mozo/chat-mozo.module').then( m => m.ChatMozoPageModule)
   },
-
-
-
-
-
-
+  {
+    path: '',
+    redirectTo: 'splash',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
