@@ -60,11 +60,16 @@ export class ChatClientePage implements OnInit {
     this.observable = FirestoreService.traerFs('mensajes', this.firestore, 'hora').subscribe(data =>{
       this.mensajes = [];
       data.forEach((m)=>{
-        if(this.cliente.mesa === /* m.mesa */2)
+        alert(this.cliente.mesa);
+        if(this.cliente.mesa != null)
         {
-          this.mensajes.push(m);
-          //alert(JSON.stringify(m));
+          if(this.cliente.mesa ===  m.usuario.mesa)
+          {
+            this.mensajes.push(m);
+            //alert(JSON.stringify(m));
+          }
         }
+
       });
     });
   }

@@ -1,9 +1,18 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="container-gral">
 
-    <ion-list>
-        <ion-item >
+    <ion-toolbar class="ion-no-border toolB" style=" left: 0; top: 0;" >
+        <div class="tool">
+          <button routerLink="homeClientes" style="background:transparent; z-index: 1000;">
+            <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+          </button>
+          <h1 class="h1Tool">Encuesta</h1>
+        </div>
+    </ion-toolbar>
+
+    <ion-list class="preguntas">
+        <ion-item class="preg">
             <div class="items">
-                <label>Como calificaria la facilidad con la que hizo el pedido? Siendo 1 su calificacion minima y 10 la maxima</label>
+                <label class="texto" style="margin: 10px;">Como calificaria la facilidad con la que hizo el pedido? Siendo 1 su calificacion minima y 10 la maxima</label>
                 <ion-range
                 aria-label="Custom range"
                 [min]="0"
@@ -18,10 +27,10 @@
 
         </ion-item>
 
-        <ion-item>
+        <ion-item class="preg">
             <div class="items">
-                <label>Como calificaria la atencion de nuestros empleados?</label>
-                <ion-radio-group [allowEmptySelection]="true" value="muyBuena" (ionChange)="onRadioChange($event)">
+                <label class="texto" style="margin: 10px;">Como calificaria la atencion de nuestros empleados?</label>
+                <ion-radio-group [allowEmptySelection]="true" value="muyBuena" (ionChange)="onRadioChange($event)" class="texto">
                     <ion-radio value="muyBuena">Muy buena</ion-radio><br />
                     <ion-radio value="buena">Buena</ion-radio><br />
                     <ion-radio value="regular">Regular</ion-radio><br />
@@ -32,43 +41,43 @@
         </ion-item>
     
         <!-- multiples respuestas o ponemos uno simple? -->
-        <ion-item>
+        <ion-item class="preg">
             <div class="items">
-                <label>Por que prefieres este restaurante sobre otros que ofrecen el mismo tipo de alimentos?</label>
-                <ion-list>
-                    <ion-item>
-                    <ion-select aria-label="Fruit" placeholder="Selecciona las opciones que consideres" [multiple]="true" [(ngModel)]="opciones">
-                        <ion-select-option value="atencio">Atencion al cliente</ion-select-option>
-                        <ion-select-option value="comida">Comida</ion-select-option>
-                        <ion-select-option value="bebida">Bebida</ion-select-option>
-                        <ion-select-option value="locacion">Locacion</ion-select-option>
-                    </ion-select>
-                    </ion-item>
-                </ion-list>
+                <label class="texto" style="margin: 10px;">Por que prefieres este restaurante sobre otros que ofrecen el mismo tipo de alimentos?</label>
+                
+                    
+                        <ion-select style="margin: 5px;" class="texto" fill="outline" aria-label="Fruit" placeholder="Seleccione" [multiple]="true" [(ngModel)]="opciones">
+                            <ion-select-option value="atencio">Atención al cliente</ion-select-option>
+                            <ion-select-option value="comida">Comida</ion-select-option>
+                            <ion-select-option value="bebida">Bebida</ion-select-option>
+                            <ion-select-option value="locacion">Locación</ion-select-option>
+                        </ion-select>
+                    
+                
             </div>
         </ion-item>
 
-        <ion-item>
+        <ion-item class="preg">
             <div class="items">
-                <label>Deje un comentario acerca de su experiencia</label>
-                <ion-input label="Default counter" labelPlacement="floating" [counter]="true" maxlength="100" [(ngModel)]="experiencia" name="exp"></ion-input>
+                <label class="texto" style="margin: 10px;">Deje un comentario acerca de su experiencia</label>
+                <ion-input class="texto" label="Ingrese su respuesta" labelPlacement="floating" [counter]="true" maxlength="100" [(ngModel)]="experiencia" name="exp"></ion-input>
             </div>
         </ion-item>
     
-        <ion-item>
+        <ion-item class="preg">
             <div class="items">
-                <!-- <label><h1>Volverias al local?</h1></label> -->
-                <ion-checkbox justify="space-between" [(ngModel)]="recomendaria">Recomendaría el local a sus amistades y familia?</ion-checkbox>
+                <label class="texto" style="margin: 10px;">Recomendaría el local a sus amistades y familia?</label> 
+                <ion-checkbox justify="end" [(ngModel)]="recomendaria" class="custom-checkbox"></ion-checkbox>
             </div>
         </ion-item>
     </ion-list>
 
 
-    <ion-button style="width: 100%;" (click)="sacarFotos()">
+    <ion-button style="width: 90%; margin: 15px; --background: #0077B6;" (click)="sacarFotos()">
         <ion-icon style="width: 50%;" name="camera-outline"></ion-icon>
     </ion-button>
 
-    <swiper-container *ngIf="foto" navigation="true" pagination="true" loop="true" class="py-4">
+    <swiper-container *ngIf="foto"  pagination="true" loop="true" class="py-4" style="margin: 15px;">
         <swiper-slide>
           <img [src]="fotoCapturadas[0] == null ? 'assets/sin-fotos.png' : fotoCapturadas[0]">
         </swiper-slide>  
@@ -80,5 +89,5 @@
         </swiper-slide> 
     </swiper-container>
 
-    <ion-button (click)="subirTodo()">enviar</ion-button>
+    <ion-button style="width: 90%; margin: 15px; --background: #0077B6;" (click)="subirTodo()">enviar</ion-button>
 </ion-content>

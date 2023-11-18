@@ -30,9 +30,9 @@ export class PagoService {
       ...producto,
       purpose: 'wallet_purchase',
       back_urls: {
-        success: returnUrl + '/success',
-        failure: returnUrl + '/failure',
-        pending: returnUrl + '/pending',
+        success: returnUrl,// + '/success',
+        failure: returnUrl,// + '/failure',
+        pending: returnUrl// + '/pending',
       }
     };
 
