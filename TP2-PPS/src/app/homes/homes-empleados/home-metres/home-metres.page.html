@@ -1,23 +1,36 @@
 <ion-content [fullscreen]="true" class="container-general">
   
-   
-      <ion-list [inset]="true" >
-        <ion-item (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
-          <ion-label>{{c.nombre}} {{c.apellido}} {{c.dni}}</ion-label>
-        </ion-item>
-      </ion-list>
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button style="background:transparent; z-index: 1000;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+    </div>
+  </ion-toolbar>
 
-      <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog">
+  <h1 class="texto" style="color: black;">Clientes en espera</h1>
+
+      <ion-item style="--background: #64B5F6; margin: 5px;" (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
+        <label class="texto">{{c.nombre}} {{c.apellido}}</label>
+      </ion-item>
+
+      <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
         <ng-template>
           <div class="wrapper">
-            <h1>Mesas Disponibles</h1>
+            <div style="display: flex; justify-content: end; height: 20%;">
+              <button style="background:transparent; height: 100%; width: 15%;" (click)="cerrar()">
+                <ion-icon style="height: 100%; width: 100%; color:#000" name="close-outline"></ion-icon>
+              </button>
+            </div>
+
+            <h1 class="texto" style="color: black;">Mesas Disponibles</h1>
     
-            <ion-list lines="none" *ngFor="let m of listaMesas">
-              <ion-item button="true" detail="false" (click)="getMesa(m.numero)">
-                <ion-icon name="person-circle"></ion-icon>
-                <ion-label>{{m.numero}}</ion-label>
-              </ion-item>
-            </ion-list>
+            <ion-item *ngFor="let m of listaMesas" style="--background: #023E8A; margin: 5px;" button="true" detail="false" (click)="getMesa(m.numero)">
+              <ion-icon name="person-circle"></ion-icon>
+              <ion-label class="texto">Mesa {{m.numero}}</ion-label>
+            </ion-item>
+
           </div>
         </ng-template>
       </ion-modal>
@@ -26,9 +39,9 @@
    
   
 
-      <ion-toolbar vertical="bottom">
+      <!-- <ion-toolbar vertical="bottom">
         <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-      </ion-toolbar>
+      </ion-toolbar> -->
 
 </ion-content>
 

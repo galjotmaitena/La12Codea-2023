@@ -1,43 +1,65 @@
 <ion-content class="container-general">
-  <ion-list [inset]="true" style="margin: 5px;">
-    <label><h1>Pedidos pendientes</h1></label>
-    <ion-item expand="block" *ngFor="let p of listaPedidosPendientes">
-      <ion-label (click)="confirmarPedido(p)">{{p.mesa}}</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button style="background:transparent; z-index: 1000;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+    </div>
+  </ion-toolbar>
 
-  <ion-list [inset]="true" style="margin: 5px;">
-    <label><h1>Pedidos en preparación</h1></label>
-    <ion-item expand="block" *ngFor="let l of listaPedidosEnPreparacion">
-      <ion-label>{{l.mesa}}</ion-label>
+  <div class="divContenedor">
+    <h2 class="texto">Pedidos pendientes</h2>
+    <ion-item expand="block" *ngFor="let p of listaPedidosPendientes" style="--background: #0077B6; margin: 10px;">
+      <ion-label class="texto">Mesa {{p.mesa}}</ion-label>
+      <ion-button class="iconos" (click)="confirmarPedido(p)">
+        <ion-icon name="checkmark-outline" ></ion-icon>
+      </ion-button>
     </ion-item>
-  </ion-list>
+  </div>
 
-  <ion-list [inset]="true" style="margin: 5px;">
-    <label><h1>Pedidos listos</h1></label>
-    <ion-item expand="block" *ngFor="let l of listaPedidosListos">
-      <ion-label (click)="entregarPedido(l)">{{l.mesa}}</ion-label>
+  <div class="divContenedor">
+    <h2 class="texto">Pedidos en preparación</h2>
+    <ion-item expand="block" *ngFor="let l of listaPedidosEnPreparacion" style="--background: #0077B6; margin: 10px;">
+      <ion-label class="texto">Mesa {{l.mesa}}</ion-label>
+      <ion-button class="iconos">
+        <ion-icon name="checkmark-outline" ></ion-icon>
+      </ion-button>
     </ion-item>
-  </ion-list>
+  </div>
 
-  <ion-list [inset]="true" style="margin: 5px;">
-    <label><h1>Pedidos pagados</h1></label>
-    <ion-item expand="block" *ngFor="let l of listaPedidosPagados">
-      <ion-label (click)="confirmarPago(l)">{{l.mesa}}</ion-label>
+  <div class="divContenedor">
+    <h2 class="texto">Pedidos listos</h2>
+    <ion-item expand="block" *ngFor="let l of listaPedidosListos" style="--background: #0077B6; margin: 10px;">
+      <ion-label (click)="entregarPedido(l)" class="texto">Mesa {{l.mesa}}</ion-label>
+      <ion-button class="iconos" (click)="entregarPedido(l)">
+        <ion-icon name="checkmark-outline" ></ion-icon>
+      </ion-button>
     </ion-item>
-  </ion-list>
+  </div>
+
+  <div class="divContenedor">
+    <h2 class="texto">Pedidos pagados</h2>
+    <ion-item expand="block" *ngFor="let l of listaPedidosPagados" style="--background: #0077B6; margin: 10px;">
+      <ion-label (click)="confirmarPago(l)" class="texto">Mesa {{l.mesa}}</ion-label>
+      <ion-button class="iconos" (click)="confirmarPago(l)">
+        <ion-icon name="checkmark-outline" ></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+
 
   <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
-  <ion-fab horizontal="end" vertical="bottom">
-    <ion-fab-button routerLink="/chat-mozo">
+  <ion-fab horizontal="start" vertical="bottom">
+    <ion-fab-button routerLink="/chat-mozo" style="--background:#64B5F6">
       <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
-<ion-toolbar vertical="bottom">
+<!-- <ion-toolbar vertical="bottom">
   <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-</ion-toolbar>
+</ion-toolbar> -->
 
 

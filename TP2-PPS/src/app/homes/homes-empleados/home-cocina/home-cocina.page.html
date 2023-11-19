@@ -1,41 +1,51 @@
 <ion-content [fullscreen]="true" class="container-general">
   
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button style="background:transparent; z-index: 1000;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+    </div>
+  </ion-toolbar>
+
+  <h1 class="texto">Listado de pedidos</h1>
    
-  <ion-list [inset]="true" style="margin: 5px;">
-    <ion-item expand="block" *ngFor="let p of listaPedidos">
-      <ion-label >{{p.mesa}}</ion-label>
-      <ion-button (click)="abrir(p.productos)">
-        <ion-icon   name="eye-outline" ></ion-icon>
-      </ion-button>
-      <ion-button (click)="terminarPedido(p)">
-        <ion-icon name="checkmark-outline" ></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-list>
+  <ion-item expand="block" *ngFor="let p of listaPedidos" style="--background: #64B5F6; margin: 5px;">
+    <ion-label class="texto">Mesa {{p.mesa}}</ion-label>
+    <ion-button class="iconos" (click)="abrir(p.productos)">
+      <ion-icon name="eye-outline" ></ion-icon>
+    </ion-button>
+    <ion-button class="iconos" (click)="terminarPedido(p)">
+      <ion-icon name="checkmark-outline" ></ion-icon>
+    </ion-button>
+  </ion-item>
 
   <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
 
-  <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog">
+  <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
     <ng-template>
       <div class="wrapper">
-        <h1>Mesas Disponibles</h1>
+        <div style="display: flex; justify-content: end; height: 20%;">
+          <button style="background:transparent; height: 100%; width: 15%;" (click)="cerrar()">
+            <ion-icon style="height: 100%; width: 100%; color:#000" name="close-outline"></ion-icon>
+          </button>
+        </div>
 
-        <ion-list lines="none" *ngFor="let p of productosCocina">
-          <ion-item button="true" detail="false">
-            <ion-icon name="person-circle"></ion-icon>
-            <ion-label>{{p.nombre}} x{{p.cantidad}}</ion-label>
-          </ion-item>
-        </ion-list>
+        <h1 class="texto" style="color: black;">Detalle del pedido</h1>
 
-        <ion-button  (click)="cerrar()">Cerrar</ion-button>
+        <ion-item style="--background: #023E8A; margin: 5px;" *ngFor="let p of productosCocina" button="true" detail="false">
+          <ion-icon name="person-circle"></ion-icon>
+          <ion-label class="texto">{{p.nombre}} x{{p.cantidad}}</ion-label>
+        </ion-item>
       </div>
     </ng-template>
   </ion-modal>
 
-  <ion-toolbar vertical="bottom">
+  <!-- <ion-toolbar vertical="bottom">
     <ion-icon class="iconFooter" name="person-outline"></ion-icon>
-  </ion-toolbar>
+  </ion-toolbar> -->
 
 </ion-content>

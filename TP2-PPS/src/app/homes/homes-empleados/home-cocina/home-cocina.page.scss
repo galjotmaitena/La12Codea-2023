@@ -1,0 +1,56 @@
+.container-general{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    --background: url('../../../../assets/fondoChef.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    --color: black;
+    width: 100%;
+}
+
+.tool{
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    background:transparent; 
+    height: 100%;
+}
+
+.toolB{
+    --background: #64B5F6;
+}
+
+.iconSalir{
+    color:#fff; 
+    font-size: 2rem; 
+    margin: 5px;
+    position: relative;
+    display: flex;
+}
+
+.texto{
+    flex-direction: column;
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Merienda';
+    font-weight: bold;
+}
+
+.h1Tool{
+    width: 100%; 
+    position: absolute; 
+    font-family: 'Merienda'; 
+}
+
+.iconos{
+    --background:#023E8A;
+}
+
