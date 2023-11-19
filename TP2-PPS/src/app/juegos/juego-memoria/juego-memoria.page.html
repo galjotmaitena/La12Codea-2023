@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true" class="container-general">
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button style="background:transparent; z-index: 1000;" routerLink="/inicio-juegos">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+    </div>
+  </ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(1)">
+          <img id="1" src={{tarjeta}} />        
+        </ion-col>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(2)">
+          <img id="2" src={{tarjeta}} />        
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(3)">
+          <img id="3" src={{tarjeta}} />        
+        </ion-col>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(4)">
+          <img id="4" src={{tarjeta}} />        
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(5)">
+          <img id="5" src={{tarjeta}} />        
+        </ion-col>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(6)">
+          <img id="6" src={{tarjeta}} />        
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(7)">
+          <img id="7" src={{tarjeta}} />        
+        </ion-col>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(8)">
+          <img id="8" src={{tarjeta}} />        
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(9)">
+          <img id="9" src={{tarjeta}} />        
+        </ion-col>
+        <ion-col size="4.5" size-md="6" size-lg="6" (click)="girarTarjeta(10)">
+          <img id="10" src={{tarjeta}} />        
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  <div id="miModal" class="modal" *ngIf="mostrarModal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal" id="cerrarModal" >&times;</span>
+        <h2>Mejores 5 puntajes!</h2>
+        <br>
+        <div class="user-box">
+          <label>{{jugadores[0].jugador.split('@')[0]}} {{jugadores[0].segundos}}</label>
+          <label>{{jugadores[1].jugador.split('@')[0]}} {{jugadores[1].segundos}}</label>
+          <label>{{jugadores[2].jugador.split('@')[0]}} {{jugadores[2].segundos}}</label>
+          <label>{{jugadores[3].jugador.split('@')[0]}} {{jugadores[3].segundos}}</label>
+          <label>{{jugadores[4].jugador.split('@')[0]}} {{jugadores[4].segundos}}</label>
+        </div>
+        <div class="botonModal" >
+          <button (click)="back()">Continuar</button>
+        </div> 
+    </div>
+  </div>
+</ion-content>
+

@@ -25,37 +25,37 @@ export class HomeCocinaPage implements OnInit {
 
   ngOnInit() 
   {
-    this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
-      this.productosCocina = [];
-      this.listaPedidos = [];
-      data.forEach(pedido => {
-        if(pedido.estado === 'confirmado' && !pedido.cocina)
-        {
-          let esComida = false;
+    // this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
+    //   this.productosCocina = [];
+    //   this.listaPedidos = [];
+    //   data.forEach(pedido => {
+    //     if(pedido.estado === 'confirmado' && !pedido.cocina)
+    //     {
+    //       let esComida = false;
 
-          pedido.productos.forEach((producto : any) => {
-            if(producto.tipo !== 'bebida')
-            {
-              esComida = true;
-            }
-          });
+    //       pedido.productos.forEach((producto : any) => {
+    //         if(producto.tipo !== 'bebida')
+    //         {
+    //           esComida = true;
+    //         }
+    //       });
 
-          if(esComida)
-          {
-            this.listaPedidos.push(pedido);
-          }
-          else
-          {
-            pedido.cocina = true;
+    //       if(esComida)
+    //       {
+    //         this.listaPedidos.push(pedido);
+    //       }
+    //       else
+    //       {
+    //         pedido.cocina = true;
 
-            FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
-          }
-        }
-      });
-    });
+    //         FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+    //       }
+    //     }
+    //   });
+    // });
 
-    // this.listaPedidos.push({'mesa': 1, 'productos': [{'tipo' : 'bebida', 'nombre':'gin tonic'}, {'tipo' : 'bebida', 'nombre':'gancia'}, {'tipo' : 'comida', 'nombre':'fideos'}]});
-    // this.listaPedidos.push({'mesa': 2, 'productos': [{'tipo' : 'bebida', 'nombre':'gin tonic'}]});
+     this.listaPedidos.push({'mesa': 1, 'productos': [{'tipo' : 'comida', 'nombre':'gin tonic'}, {'tipo' : 'bebida', 'nombre':'gancia'}, {'tipo' : 'comida', 'nombre':'fideos'}]});
+     this.listaPedidos.push({'mesa': 2, 'productos': [{'tipo' : 'comida', 'nombre':'gin tonic'}]});
 
     this.observableEmpleados = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       this.listaMozos = [];
@@ -122,4 +122,22 @@ export class HomeCocinaPage implements OnInit {
 
     this.abierta = true;
   }
+
+  // cierreSesion(usuario:any, col:string)
+  // {
+  //   let obj = {...usuario};
+  //   obj.token = '';
+  //   FirestoreService.actualizarFs(col, obj, this.firestore);
+  // }
+
+  // salir()
+  // {
+  //   this.authService.logout()?.then(()=>{
+  //     this.push.cierreSesion(this.cliente, 'clientes');
+  //     this.router.navigateByUrl('login');
+  //   })
+  //   .catch((err)=>{
+  //     alert(JSON.stringify(err));
+  //   });
+  // }
 }

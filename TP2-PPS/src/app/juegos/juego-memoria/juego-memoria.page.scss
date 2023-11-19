@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    --background: url('../../../../assets/fondoChef.jpg');
+    --background: url('../../../assets/fondoJuegos.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -22,7 +22,7 @@
 }
 
 .toolB{
-    --background: #64B5F6;
+    --background: #0077B6;
 }
 
 .iconSalir{
@@ -50,7 +50,23 @@
     font-family: 'Merienda'; 
 }
 
-.iconos{
-    --background:#023E8A;
+.juego{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 80%;
+}
+
+ion-grid{
+  justify-content: center;
+  align-items: center;
+}
+
+ion-col{
+    margin-top: 1%;
+    margin-left: 8%;
 }
 

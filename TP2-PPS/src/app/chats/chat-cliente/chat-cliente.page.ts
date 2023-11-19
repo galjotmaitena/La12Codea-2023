@@ -61,14 +61,32 @@ export class ChatClientePage implements OnInit {
       this.mensajes = [];
       data.forEach((m)=>{
         //alert(this.cliente.mesa);
-        if(this.cliente.mesa != null)
+
+        if(m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo')
         {
-          if(this.cliente.mesa ===  m.usuario.mesa)
+          if(this.cliente.mesa != null)
           {
-            this.mensajes.push(m);
-            //alert(JSON.stringify(m));
+            if(this.cliente.mesa ===  m.usuario.mesa)
+            {
+              this.mensajes.push(m);
+              //alert(JSON.stringify(m));
+            }
           }
         }
+        else
+        {
+          if(m.usuario.tipoEmpleado === 'mozo')
+          {
+            if(m.mesa !=  null)
+            {
+              if(this.cliente.mesa === m.mesa)
+              {
+                this.mensajes.push(m);
+              }
+            }
+          }
+        }
+
 
       });
     });

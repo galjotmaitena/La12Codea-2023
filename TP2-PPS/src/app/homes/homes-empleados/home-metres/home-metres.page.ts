@@ -101,5 +101,9 @@ export class HomeMetresPage implements OnInit {
 
   //#endregion
 
- 
+  cerrar()
+  {
+    this.listaMesas = [];
+    this.abierta = false;
+  }
 }
