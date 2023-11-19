@@ -78,7 +78,23 @@ const routes: Routes = [
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'
+  },  {
+    path: 'inicio-juegos',
+    loadChildren: () => import('./juegos/inicio-juegos/inicio-juegos.module').then( m => m.InicioJuegosPageModule)
   },
+  {
+    path: 'simon-dice',
+    loadChildren: () => import('./juegos/simon-dice/simon-dice.module').then( m => m.SimonDicePageModule)
+  },
+  {
+    path: 'preguntados',
+    loadChildren: () => import('./juegos/preguntados/preguntados.module').then( m => m.PreguntadosPageModule)
+  },
+  {
+    path: 'juego-memoria',
+    loadChildren: () => import('./juegos/juego-memoria/juego-memoria.module').then( m => m.JuegoMemoriaPageModule)
+  },
+
 ];
 
 @NgModule({

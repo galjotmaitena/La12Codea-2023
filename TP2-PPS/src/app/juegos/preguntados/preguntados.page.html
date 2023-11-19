@@ -1,0 +1,27 @@
+<ion-content [fullscreen]="true" class="container-general">
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button style="background:transparent; z-index: 1000;" routerLink="/inicio-juegos">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <h1 class="h1Tool">Puntos: {{puntaje}}/10</h1> 
+    </div>
+  </ion-toolbar>
+
+  <div class="juego" *ngIf="jugando">
+    <div class="pregunta">
+      <h1 class="texto">¿A qué pais pertenece la siguiente bandera?</h1>
+      <img class="bandera" [src]="paisCorrecto.foto">
+    </div>
+
+    <ion-item expand="block" *ngFor="let p of opcionesPaises" style="--background: #ADE8F4; margin: 10px; border-radius: 10px; color: black;">
+      <ion-label (click)="elegirPais(p)" class="texto">{{p.nombre}}</ion-label>
+    </ion-item>
+  </div>
+
+  <ion-button class="btnInicio" *ngIf="!jugando" (click)="iniciar()">
+    <img class="centrar-imagen" src="assets/iniciar.png" >
+  </ion-button>
+
+</ion-content>
+
