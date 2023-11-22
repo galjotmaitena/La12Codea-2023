@@ -4,19 +4,21 @@
       <button style="background:transparent; z-index: 1000;" routerLink="/homeClientes">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+      <h1 *ngIf="cliente != null" class="h1Tool">Descuento: {{cliente.descuento}}%</h1> 
     </div>
   </ion-toolbar>
 
-  <div class="btnsJuegos">
-    <ion-button class="btnJuego" routerLink="/preguntados">
-      <img class="centrar-imagen" src="assets/preguntados.png" >
-    </ion-button>
-    <ion-button class="btnJuego" routerLink="/simon-dice">
-      <img class="centrar-imagen" src="assets/juego.png" >
-    </ion-button>
-    <ion-button class="btnJuego" routerLink="/juego-memoria"> 
+  <div class="btnsJuegos" *ngIf="cliente != null">
+    <ion-button [disabled]="btnMemoria  || this.cliente.descuento >= 10" (click)="btnMemoria = true" class="btnJuego" routerLink="/juego-memoria"> 
       <img class="centrar-imagen" src="assets/juegos-de-cartas.png" >
     </ion-button>
+    <ion-button [disabled]="btnSimon || this.cliente.descuento >= 15" (click)="btnSimon = true" class="btnJuego" routerLink="/simon-dice">
+      <img class="centrar-imagen" src="assets/juego.png" >
+    </ion-button>
+    <ion-button [disabled]="btnPreguntados || this.cliente.descuento == 20" (click)="btnPreguntados = true" class="btnJuego" routerLink="/preguntados">
+      <img class="centrar-imagen" src="assets/preguntados.png" >
+    </ion-button>
+
+
   </div>
 </ion-content>

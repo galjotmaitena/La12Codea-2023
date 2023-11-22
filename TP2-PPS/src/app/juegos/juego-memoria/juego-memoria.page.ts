@@ -49,6 +49,8 @@ export class JuegoMemoriaPage implements OnInit {
 
   ngOnInit() 
   {
+    this.authService.login('mai@mai.com', '111111');
+
     this.startTimer();
     this.ordenarAleatoriamente();
 
@@ -168,10 +170,12 @@ export class JuegoMemoriaPage implements OnInit {
         {
           this.stopTimer();
           
-          this.cliente.juego1 = true;
-          //FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
+          this.cliente.descuento = 10;
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
 
-          console.log('termino');
+          this.authService.mostrarToastExito('Ganaste! Tenes un 10% de descuento!');
+
+          this.router.navigateByUrl('inicio-juegos');
         }
       }
     }

@@ -232,11 +232,11 @@ export class ClientePage {
       {
         if(this.perfil === 'anonimo')
         {
-          obj = {nombre: this.nombre, perfil: this.perfil, mesa: '', espera: false};
+          obj = {nombre: this.nombre, perfil: this.perfil, mesa: '', espera: false, descuento: 0};
         }
         else
         {
-          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false, encuesta: false};
+          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false, encuesta: false, descuento: 0};
           this.auth.signup(this.email, this.clave)
           .catch((error)=>{
             if(error === 'auth/email-already-in-use')
@@ -260,6 +260,8 @@ export class ClientePage {
         this.duenios.forEach((d) => {
           this.push.sendPush('Alta cliente - La12Codea', "¡Se ha registrado un nuevo cliente!", d);
         });
+
+        this.router.navigateByUrl('home-metres');
       }
       else
       {

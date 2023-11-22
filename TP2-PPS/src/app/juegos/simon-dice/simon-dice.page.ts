@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -21,10 +23,41 @@ export class SimonDicePage implements OnInit {
   playerSequence: string[] = [];
   sequenceIndex = 0;
 
-  constructor(private firestore:FirestoreService, private auth : AuthService){}
+  cliente : any;
+  observable : any;
+  user = this.auth.get_user();
 
-  ngOnInit(): void {
+  constructor(private firestore:FirestoreService, private auth : AuthService, private fir : Firestore, private router : Router){}
+
+  ngOnInit(): void 
+  {
+    this.auth.login('mai@mai.com', '111111');
     
+    this.observable = FirestoreService.traerFs('clientes', this.fir).subscribe((data)=>{
+      console.log(data);
+
+      switch(this.user?.email){
+        case null:
+          data.forEach(c => {
+            if(c.uid === this.user?.uid)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+        default:
+          data.forEach(c => {
+            if(c.email === this.user?.email)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+      }
+
+      console.log(this.cliente);
+
+    });
   }
 
   iniciar() 
@@ -125,13 +158,22 @@ export class SimonDicePage implements OnInit {
   
     if (color !== this.sequence[this.playerSequence.length - 1]) 
     {
-      if(this.puntuacion >= 7)
+      if(this.puntuacion === 10)
       {
-        this.auth.mostrarToastExito('GANASTE');
+        this.cliente.descuento = 15;
+        FirestoreService.actualizarFs('clientes', this.cliente, this.fir);
+
+        
+
+        this.auth.mostrarToastExito('Ganaste! Tenes un 15% de desvuento!');
+
+        this.router.navigateByUrl('inicio-juegos');
       }
       else
       {
         this.auth.mostrarToastError('PERDISTE');
+
+        this.router.navigateByUrl('inicio-juegos');
       }
 
       this.jugando = false;
