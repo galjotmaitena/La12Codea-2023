@@ -54,5 +54,4 @@ export class InicioJuegosPage implements OnInit {
 
     });
   }
-
 }
