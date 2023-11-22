@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = true;           ////////////////////////////////////////poner en true para probar
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -64,6 +64,10 @@ export class HomeClientesPage implements OnInit {
   comidas : any[] = [];
   postres : any[] = [];
 
+  modalAbierto = false;
+  recibido = false;
+
+  miPedido : any;
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
@@ -81,7 +85,7 @@ export class HomeClientesPage implements OnInit {
     });
 
     this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
-      console.log(data);
+      
       this.clientes = data;
 
       switch(this.user?.email){
@@ -103,7 +107,9 @@ export class HomeClientesPage implements OnInit {
           break;
       }
 
+      console.log("***************");
       console.log(this.cliente);
+      console.log("***************");
 
     });
 
@@ -222,8 +228,8 @@ export class HomeClientesPage implements OnInit {
 
     if(!this.ingreso) /////////////////////////////////////
       {
-        let ingresoJSON = JSON.parse(this.escaneado);                             
-        this.ingreso = ingresoJSON.ingresarAlLocal;
+        //let ingresoJSON = JSON.parse(this.escaneado);                             
+        //this.ingreso = ingresoJSON.ingresarAlLocal;
         this.cliente.espera = true;
       
         FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
@@ -243,7 +249,7 @@ export class HomeClientesPage implements OnInit {
       {
         if(this.cliente.mesa !== '')//////////////////////////
         {
-          if(this.verificarMesaAsignada())
+          if(/*this.verificarMesaAsignada()*/true)
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
 
@@ -255,41 +261,28 @@ export class HomeClientesPage implements OnInit {
                 if(this.cliente.mesa === p.mesa)
                 {
                   pedido = p;
+                  this.miPedido = p;
                 }
               });
-
-              alert(JSON.stringify(pedido));
               
               if(pedido)
               {
                 this.estadoPedido = pedido.estado;
 
-                if(this.estadoPedido === 'enviado')
+                if(this.estadoPedido === 'entregado')
                 {
-                  if(true)//////////////////////////PEDIR CONFIRMACION
-                  {
-                    pedido.estado = 'recibido';
-                    this.estadoPedido = pedido.estado;
-                    FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
-                  }
+                  this.modalAbierto = true;
+                }
+
+                if(this.estadoPedido === 'recibido' && this.modalAbierto)
+                {
+                  // let propinaJSON = JSON.parse(this.escaneado);                             
+                  // this.cliente.propina = propinaJSON.propina;
+                  this.cliente.propina = 15;
+
+                  FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
                 }
               }
-              /* 
-              this.pedidos.forEach(p => {
-                if(p.mesa === mesa.numero)
-                {
-                  this.pedidoFinal = p;
-                }
-              });
-
-              this.estadoPedido = this.pedidoFinal.estadoPedido;
-              //////////////////////////////////////////////////funcionalidad 10
-              if(mesa.estadoPedido === 'enviado')
-              {
-                this.pedidoFinal.estadoPedido = 'entregado';
-////////////////////////////////////no es mesa, deberia ser el pedido
-                FirestoreService.actualizarFs('pedidos', this.pedidoFinal, this.firestore);
-              } */
             }
             else
             {
@@ -349,7 +342,7 @@ export class HomeClientesPage implements OnInit {
 
     let tiempo = 0;
 
-    this.pedido.forEach((pr)=>{
+    this.pedido.forEach((pr : any)=>{
       if(pr.tiempo > tiempo)
       {
         tiempo = pr.tiempo;
@@ -374,21 +367,7 @@ export class HomeClientesPage implements OnInit {
     }
   }
 
-  mostrarDetalle()
-  {
-    let pedido;
 
-    this.pedidos.forEach((p)=>{
-      if(this.cliente.mesa === p.mesa)
-      {
-        pedido = p;
-      }
-    });
-
-    this.mostrarModal = true;
-
-    //////////////////MOSTRAR TODO EN EL MODAL
-  }
 
   pagar()
   {
@@ -426,6 +405,33 @@ export class HomeClientesPage implements OnInit {
         console.error('Error al obtener la URL de pago:', error);
       });
     }
+  }
+
+  confirmar()
+  {
+    let pedido:any;
+
+    this.pedidos.forEach(p => {
+      if(this.cliente.mesa === p.mesa)
+      {
+        pedido = p;
+      }
+    });
+
+    pedido.estado = 'recibido';
+    this.estadoPedido = pedido.estado;
+    FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+
+    this.modalAbierto = false;
+  }
+
+  calcularTotal(descuento : number) : number
+  {
+    let total = 0;
+
+    total = (this.miPedido.precio * descuento) / 100;
+
+    return total;
   }
 
   salir()

@@ -58,7 +58,10 @@ export class HomeMozoPage implements OnInit {
               }
               else
               {
-                this.listaPedidosEnPreparacion.push(pedido);
+                if(pedido.estado === 'confirmado')
+                {
+                  this.listaPedidosEnPreparacion.push(pedido);
+                }
               }
             }
           }
@@ -94,7 +97,7 @@ export class HomeMozoPage implements OnInit {
 
    entregarPedido(pedido : any)
    {
-     pedido.estado = 'enviado';
+     pedido.estado = 'entregado';
  
      FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
        this.authService.mostrarToastExito('Pedido entregado!');
@@ -132,7 +135,10 @@ export class HomeMozoPage implements OnInit {
       {
         mesa.ocupada = false;
         FirestoreService.actualizarFs('mesas', mesa, this.firestore);
-  
+        
+        cliente.descuento = 0;
+        cliente.propina = 0;
+        cliente.encuesta = false;
         cliente.mesa = '';
         FirestoreService.actualizarFs('clientes', cliente, this.firestore);
 

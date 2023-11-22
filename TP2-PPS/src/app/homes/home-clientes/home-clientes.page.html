@@ -190,20 +190,10 @@
         </ion-button>
     </div>
 
-    <ion-button *ngIf="estadoPedido === 'entregado'" (click)="mostrarDetalle()">PEDIR CUENTA</ion-button>
+    <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true">PEDIR CUENTA</ion-button>
 
     <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
-    <div *ngIf="estadoPedido === 'recibido'">
 
-      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <!-- PROPINAAA -->
-        <ion-fab-button (click)="asignarEscan()" style="--background:#64B5F6">
-          <img src="assets/tips.png">
-        </ion-fab-button>
-      </ion-fab>
-
-      <ion-button (click)="pagar()">PAGAR</ion-button>
-    </div>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="yaPidio">
       <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
@@ -211,4 +201,40 @@
       </ion-fab-button>
     </ion-fab>
   </div>
+
+
+
+
+
+
+  <ion-modal [isOpen]="modalAbierto" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
+    <ng-template>
+      <div *ngIf="estadoPedido === 'entregado'" class="wrapper">
+        <h1>Recibio el pedido?</h1>
+        <ion-button (click)="confirmar()">SI</ion-button>
+        <ion-button (click)="modalAbierto = false">NO</ion-button>
+      </div>
+      <div *ngIf="estadoPedido === 'recibido'" class="wrapper">
+        <ion-list lines="none">
+          <ion-item *ngFor="let p of miPedido.productos">
+            <ion-label>{{p.precio}}</ion-label>
+            <ion-label>{{p.nombre}}</ion-label>
+          </ion-item>
+          <ion-label>- {{calcularTotal(cliente.descuento)}}</ion-label>
+          <ion-label>+ {{calcularTotal(cliente.propina)}}</ion-label>
+        </ion-list>
+        <ion-label>TOTAL = {{miPedido.precio + calcularTotal(cliente.propina) - calcularTotal(cliente.descuento)}}</ion-label>
+
+        <div>
+          <ion-button (click)="pagar()">PAGAR</ion-button>
+        </div>
+
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-fab-button style="--background:#64B5F6" (click)="asignarEscan()">
+            <ion-icon name="qr-code-outline"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-content>
