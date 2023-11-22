@@ -405,6 +405,8 @@ export class HomeClientesPage implements OnInit {
         console.error('Error al obtener la URL de pago:', error);
       });
     }
+
+    this.mostrarModal = false;
   }
 
   confirmar()
