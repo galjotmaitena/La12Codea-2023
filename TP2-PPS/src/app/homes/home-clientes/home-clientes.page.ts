@@ -385,9 +385,9 @@ export class HomeClientesPage implements OnInit {
       const returnUrl = window.location.href;
       const item = {
         id: pedido.id,
-        title: 'Bodegon La12Codea',
+        title: '1989s',
         quantity: 1,
-        unit_price: this.importe,
+        unit_price: this.importe + this.calcularTotal(this.cliente.propina) - this.calcularTotal(this.cliente.descuento),
       };
   
       const producto = {
