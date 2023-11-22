@@ -30,21 +30,3 @@ import { HomeBarPageModule } from '../home-bar/home-bar.module';
   declarations: [HomePage]
 })
 export class HomePageModule {}
-
-
-
-/*
-  // Otros imports...
-import { ModuloDelComponente } from 'ruta/al/modulo-del-componente';
-
-@NgModule({
-  declarations: [
-    // Componentes locales...
-  ],
-  imports: [
-    ModuloDelComponente, // Asegúrate de agregar el módulo del componente aquí
-    // Otros imports...
-  ],
-})
-export class ModuloDondeLoQuieresUsar { }
-  */

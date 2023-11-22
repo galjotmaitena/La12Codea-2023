@@ -11,5 +11,4 @@ export class InicioJuegosPage implements OnInit {
 
   ngOnInit() {
   }
-
 }

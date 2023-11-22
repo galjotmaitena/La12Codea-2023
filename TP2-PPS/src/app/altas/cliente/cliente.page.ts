@@ -232,11 +232,11 @@ export class ClientePage {
       {
         if(this.perfil === 'anonimo')
         {
-          obj = {nombre: this.nombre, perfil: this.perfil, mesa: '', espera: false};
+          obj = {nombre: this.nombre, perfil: this.perfil, mesa: '', espera: false, descuento: 0, propina: 0, encuesta: false};
         }
         else
         {
-          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false, encuesta: false};
+          obj = {nombre: this.nombre, apellido: this.apellido, dni: this.dni, email: this.email, perfil: this.perfil, aprobado: 'espera', mesa: '', espera : false, encuesta: false, descuento: 0, propina: 0};
           this.auth.signup(this.email, this.clave)
           .catch((error)=>{
             if(error === 'auth/email-already-in-use')
