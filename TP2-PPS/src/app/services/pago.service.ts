@@ -15,7 +15,7 @@ export class PagoService {
   {
     this.router.events.pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       if (event.url.includes('/success') || event.url.includes('/failure') || event.url.includes('/pending')) {
-        this.router.navigate(['/home-clientes']);
+        this.router.navigate(['/homeClientes'], { skipLocationChange: true });
       }
     });
   }
@@ -30,9 +30,9 @@ export class PagoService {
       ...producto,
       purpose: 'wallet_purchase',
       back_urls: {
-        success: returnUrl,// + '/success',
-        failure: returnUrl,// + '/failure',
-        pending: returnUrl// + '/pending',
+        success: returnUrl,
+        failure: returnUrl,
+        pending: returnUrl
       }
     };
 
