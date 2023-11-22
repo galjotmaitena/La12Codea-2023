@@ -33,6 +33,16 @@
   display: flex;
 }
 
+.iconAgregar{
+  color:#fff; 
+  font-size: 2rem; 
+  margin: 5px;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  right: 5px;
+}
+
 .texto{
   flex-direction: column;
   display: flex;
@@ -51,3 +61,33 @@
 }
 
 
+.block {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ion-modal {
+//   --height: auto;
+// }
+
+.btnAlta{
+  width: 90%;
+  height: 20%;
+  margin: 5px;
+}
+
+.asignar{
+  height: auto;
+  width: 90%;
+  margin: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ADE8F4;
+  border: 3px solid #0077B6 ;
+  border-radius: 10px;
+}

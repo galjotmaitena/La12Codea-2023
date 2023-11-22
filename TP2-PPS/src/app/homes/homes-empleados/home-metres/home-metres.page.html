@@ -3,40 +3,45 @@
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
     <div class="tool">
       <button style="background:transparent; z-index: 1000;">
-        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+        <ion-icon name="arrow-undo-outline"  class="iconSalir" (click)="salir()"></ion-icon>
       </button>
       <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+      <button style="background:transparent; z-index: 1000;" routerLink="/cliente">
+        <ion-icon name="person-add-outline" class="iconAgregar"></ion-icon>
+      </button>
     </div>
   </ion-toolbar>
 
   <h1 class="texto" style="color: black;">Clientes en espera</h1>
 
-      <ion-item style="--background: #64B5F6; margin: 5px;" (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
-        <label class="texto">{{c.nombre}} {{c.apellido}}</label>
-      </ion-item>
+  <ion-item style="--background: #64B5F6; margin: 5px;" (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
+    <label class="texto">{{c.nombre}} {{c.apellido}}</label>
+  </ion-item>
 
-      <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
-        <ng-template>
-          <div class="wrapper">
-            <div style="display: flex; justify-content: end; height: 20%;">
-              <button style="background:transparent; height: 100%; width: 15%;" (click)="cerrar()">
-                <ion-icon style="height: 100%; width: 100%; color:#000" name="close-outline"></ion-icon>
-              </button>
-            </div>
+  <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
+    <ng-template>
+      <div class="wrapper">
+        <div style="display: flex; justify-content: end; height: 20%;">
+          <button style="background:transparent; height: 100%; width: 15%;" (click)="cerrar()">
+            <ion-icon style="height: 100%; width: 100%; color:#000" name="close-outline"></ion-icon>
+          </button>
+        </div>
 
-            <h1 class="texto" style="color: black;">Mesas Disponibles</h1>
-    
-            <ion-item *ngFor="let m of listaMesas" style="--background: #023E8A; margin: 5px;" button="true" detail="false" (click)="getMesa(m.numero)">
-              <ion-icon name="person-circle"></ion-icon>
-              <ion-label class="texto">Mesa {{m.numero}}</ion-label>
-            </ion-item>
+        <h1 class="texto" style="color: black;">Mesas Disponibles</h1>
 
-          </div>
-        </ng-template>
-      </ion-modal>
+        <ion-item *ngFor="let m of listaMesas" style="--background: #023E8A; margin: 5px;" button="true" detail="false" (click)="getMesa(m.numero)"> 
+          <ion-icon name="person-circle"></ion-icon>
+          <ion-label class="texto">Mesa {{m.numero}}</ion-label>
+        </ion-item>
+      </div>
+    </ng-template>
+  </ion-modal>
 
-      <ion-button (click)="asignarMesas()">asig</ion-button>
-   
+      <!-- <ion-button (click)="asignarMesas()">ASIGNAR MESAS</ion-button> -->
+  <div class="asignar" *ngIf="mesa != '' && clienteEspera != ''">
+    <h1 class="texto">Asignar la mesa {{mesa}} a {{clienteEspera.nombre}}</h1>
+    <ion-button class="btnAlta">Asignar</ion-button>
+  </div>   
   
 
       <!-- <ion-toolbar vertical="bottom">

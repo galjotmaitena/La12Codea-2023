@@ -1,4 +1,14 @@
 <ion-content class="contenedor" [fullscreen]="true">
+
+  <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
+    <div class="tool">
+      <button (click)="salir()" style="background:transparent; z-index: 1000;">
+        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+      </button>
+      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+    </div>
+  </ion-toolbar>
+
   <ion-list>
     <ion-item-sliding style="width: auto;" *ngFor="let item of items; let index">
       <ion-item>
@@ -24,17 +34,6 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <!-- <ion-button (click)="send()">PRUEBA</ion-button> -->
 </ion-content>
-<ion-button (click)="send()">PRUEBA</ion-button>
-
-<ion-fab color="danger">
-  <ion-fab-button>
-    <ion-icon name="power-outline" (click)="salir()"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-title>Footer</ion-title>
-  </ion-toolbar>
-</ion-footer>

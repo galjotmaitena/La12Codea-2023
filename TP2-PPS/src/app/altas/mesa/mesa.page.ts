@@ -95,7 +95,7 @@ export class MesaPage implements OnInit {
         {
           this.qr = url2;
           let mesa = {numero : this.numero, cantidadComensales : this.cantidad, tipoMesa : this.tipoMesa, foto : this.foto, QR : this.qr, ocupada : this.ocupada};
-          FirestoreService.guardarFs('mesas', JSON.stringify(mesa), this.firestore);
+          FirestoreService.guardarFs('mesas', mesa, this.firestore);
         });
       });
     }
@@ -113,7 +113,9 @@ export class MesaPage implements OnInit {
     }
     else
     {
-      if(this.generarQR(`{numero : ${this.numero}, cantidad : ${this.cantidad}, tipoMesa : ${this.tipoMesa}, foto : ${this.foto}}`))
+      let mesa = {numero : this.numero, cantidadComensales : this.cantidad, tipoMesa : this.tipoMesa, foto : this.foto, ocupada : this.ocupada};
+
+      if(this.generarQR(JSON.stringify(mesa)))
       {
         this.authService.mostrarToastExito('El alta fue exitosa, el QR ya se encuentra disponible.');
       }

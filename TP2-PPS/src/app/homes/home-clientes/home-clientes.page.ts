@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = false;           ////////////////////////////////////////poner en true para probar
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -222,29 +222,28 @@ export class HomeClientesPage implements OnInit {
 
     if(!this.ingreso) /////////////////////////////////////
       {
-        //let ingresoJSON = JSON.parse(this.escaneado);                             
-            //this.ingreso = ingresoJSON.ingresarAlLocal;
-            this.ingreso = true;
-            this.cliente.espera = true;
+        let ingresoJSON = JSON.parse(this.escaneado);                             
+        this.ingreso = ingresoJSON.ingresarAlLocal;
+        this.cliente.espera = true;
       
-            FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-              if(this.cliente.espera)
-              {
-                this.metres.forEach((m) => {
-                  this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
-                });
-              }
-              else
-              {
-                alert(`Su mesa es la ${this.cliente.mesa}`);
-              }
+        FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+          if(this.cliente.espera)
+          {
+            this.metres.forEach((m) => {
+              this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
             });
+          }
+          else
+          {
+            alert(`Su mesa es la ${this.cliente.mesa}`);
+          }
+        });
       }
       else
       {
-        if(/* this.cliente.mesa !== '' */true)//////////////////////////
+        if(this.cliente.mesa !== '')//////////////////////////
         {
-          if(/* this.verificarMesaAsignada() */true)
+          if(this.verificarMesaAsignada())
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
 

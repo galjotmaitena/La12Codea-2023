@@ -4,6 +4,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { AuthService } from '../../../services/auth.service';
 import { ActionSheetController } from '@ionic/angular';
 import { PushService } from '../../../services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-metres',
@@ -15,19 +16,32 @@ export class HomeMetresPage implements OnInit {
   ///////////////////METRES
   listaEspera : any[] = [];
   listaMesas : any[] = [];
+  metres: any[] = [];
   observableEspera : any;
   observableMesas : any;
+  observableEmpleados:any;
   clienteEspera : any = '';
   mesa : any = '';
 
-
+  presentingElement:any;
   
   abierta = false;
 
-  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService, private router: Router) { }
 
   ngOnInit() 
   {
+    this.observableEmpleados = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
+      this.metres = [];
+
+      data.forEach(m  => {
+        if(m.tipoEmpleado === 'metre')
+        {
+          this.metres.push(m);
+        }
+      });
+    });
+
     this.observableEspera = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
       this.listaEspera = [];
       data.forEach(cliente => {
@@ -48,6 +62,7 @@ export class HomeMetresPage implements OnInit {
       });
     });
 
+    this.presentingElement = document.querySelector('.ion-page');
     
   }
 
@@ -99,11 +114,29 @@ export class HomeMetresPage implements OnInit {
     this.abierta = true;
   }
 
-  //#endregion
-
   cerrar()
   {
     this.listaMesas = [];
     this.abierta = false;
+  }
+
+  salir()
+  {
+    let usuario:any;
+
+    this.metres.forEach((u:any) => {
+      if(this.authService.get_user()?.email === u.email)
+      {
+        usuario = u;
+      }
+    });
+
+    this.authService.logout()?.then(()=>{
+      this.push.cierreSesion(usuario, 'empleados');
+      this.router.navigateByUrl('login');
+    })
+    .catch((err)=>{
+      alert(JSON.stringify(err));
+    });
   }
 }

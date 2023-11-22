@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { PaisesService } from 'src/app/services/paises.service';
+import { Firestore } from '@angular/fire/firestore';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-preguntados',
@@ -18,13 +21,16 @@ export class PreguntadosPage implements OnInit {
   intentos = 10;
   ganaste = false;
 
-  mostrarToast = false;
-  mensaje = "";
+  cliente : any;
+  observable : any;
+  user = this.authService.get_user();
 
-  constructor(private paisesService : PaisesService, private authService : AuthService){}
+  constructor(private paisesService : PaisesService, private authService : AuthService, private firestore : Firestore, private router : Router){}
 
   ngOnInit()
   {
+    this.authService.login('mai@mai.com', '111111');
+
     this.paisesService.traerPaises().then((paises : any) => {
       paises.forEach((pais : any) => {
         let paisJSON = {nombre : pais.name.common, foto : pais.flags.png};
@@ -32,6 +38,32 @@ export class PreguntadosPage implements OnInit {
       });
 
       console.log(this.arrayPaises);
+    });
+
+    this.observable = FirestoreService.traerFs('clientes', this.firestore).subscribe((data)=>{
+      console.log(data);
+
+      switch(this.user?.email){
+        case null:
+          data.forEach(c => {
+            if(c.uid === this.user?.uid)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+        default:
+          data.forEach(c => {
+            if(c.email === this.user?.email)
+            {
+              this.cliente = c;
+            }
+          });
+          break;
+      }
+
+      console.log(this.cliente);
+
     });
   }
 
@@ -66,13 +98,20 @@ export class PreguntadosPage implements OnInit {
       }
       else
       {
-        if(this.puntaje > 7)
+        if(this.puntaje === 10)
         {
-          this.authService.mostrarToastExito('GANASTE');
+          this.cliente.descuento = 20;
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
+
+          this.authService.mostrarToastExito('Ganaste! Tenes un 20% de descuento!');
+
+          this.router.navigateByUrl('inicio-juegos');
         }
         else
         {
           this.authService.mostrarToastError('PERDISTE');
+
+          this.router.navigateByUrl('inicio-juegos');
         }
 
         this.jugando = false;
