@@ -80,7 +80,7 @@ export class ChatMozoPage implements OnInit {
     {
       let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
       let fechaHora = new Date().toLocaleString('es-AR', options);
-      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: {...this.mozo, mesa:this.cliente.mesa} };
+      let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.mozo, mesa: this.chatElegido[0].usuario.mesa };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
       this.mensaje = '';
@@ -115,14 +115,18 @@ export class ChatMozoPage implements OnInit {
 
   private agruparMensajes(mensajes: any[]): any[] {
     return mensajes.reduce((acc, mensaje) => {
-      const mesaIndex = acc.findIndex((grupo: any[]) => grupo[0]?.mesa === mensaje.mesa);
-
-      if (mesaIndex !== -1) {
-        acc[mesaIndex].push(mensaje);
+      const mesa = mensaje.usuario.perfil === 'mozo'
+        ? mensaje.mesa
+        : mensaje.usuario.mesa;
+  
+      const existingGroupIndex = acc.findIndex((grupo: any[]) => grupo[0]?.mesa === mesa);
+  
+      if (existingGroupIndex !== -1) {
+        acc[existingGroupIndex].push(mensaje);
       } else {
         acc.push([mensaje]);
       }
-
+  
       return acc;
     }, []);
   }

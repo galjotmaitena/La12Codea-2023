@@ -61,6 +61,7 @@ export class ChatClientePage implements OnInit {
       this.mensajes = [];
       data.forEach((m)=>{
         //alert(this.cliente.mesa);
+
         if(m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo')
         {
           if(this.cliente.mesa != null)
