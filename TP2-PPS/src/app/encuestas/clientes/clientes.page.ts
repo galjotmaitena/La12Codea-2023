@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFireStorage, GetDownloadURLPipe } from '@angular/fire/compat/storage';
 import { Firestore } from '@angular/fire/firestore';
-import { getStorage, ref, uploadString } from 'firebase/storage';
+import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { QrService } from 'src/app/services/qr.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
@@ -17,7 +18,7 @@ import { PushService } from 'src/app/services/push.service';
 export class ClientesPage implements OnInit {
 
   fotoCapturadas:any[] = [];
-  fotosSubidas:any[] = [];
+  fotosSubidas : any[] = [];
   urlQr:any;
   fotosRestantes = 3;
   nombreQr = '';
@@ -39,7 +40,7 @@ export class ClientesPage implements OnInit {
 
   foto = false;
 
-  constructor(private push: PushService, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
+  constructor(private router: Router, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
   { 
     let observable = FirestoreService.traerFs('clientes', firestore).subscribe((data)=>{
       data.forEach(c => {
@@ -75,7 +76,7 @@ export class ClientesPage implements OnInit {
         this.fotoCapturadas.push(fotoCapturada.dataUrl);
         this.fotosRestantes--;
         console.log(this.fotoCapturadas);
-        this.auth.mostrarToastExito(`¡Foto cargada con éxito! Falta/n ${this.fotosRestantes}`)
+        this.auth.mostrarToastExito(`¡Foto cargada con éxito! Le queda/n ${this.fotosRestantes} disponible/s`)
       }
       else
       {
@@ -88,13 +89,24 @@ export class ClientesPage implements OnInit {
     }
   }
 
-  subirFotos(url:any)
+  async subirFotos()
   {
     try
     {
       const storage = getStorage();
-      const storageRef = ref(storage, this.nombrePr);
-      return uploadString(storageRef as any, url as any, 'data_url');
+      let options : any = { timeZone: 'America/Argentina/Buenos_Aires'};
+      const fecha = new Date().toLocaleString('es-AR', options);
+
+      for(let i = 0; i < this.fotoCapturadas.length; i++)
+      {
+        let numero = i + 1;
+        const storageRef = ref(storage, `eClientes/${this.cliente.email}/${fecha}/${numero}`);
+        await uploadString(storageRef as any, this.fotoCapturadas[i] as any, 'data_url');
+        let url = await getDownloadURL(storageRef);
+        this.fotosSubidas.push(url);
+      }
+      
+
     }
     catch(error)
     {
@@ -103,68 +115,28 @@ export class ClientesPage implements OnInit {
     }
   }
 
-  subirTodo()
-  {
-    try
-    {
-      const fecha = new Date().getTime();
-      let encuesta = {cliente : this.cliente.nombre, fecha : fecha, facilidad : this.facilidad, atencion : this.atencion, experiencia : this.experiencia, servicios : this.opciones, recomendacion : this.recomendaria};
-      this.nombrePr = `eClientes/${this.cliente.nombre.replace(" ", "_")}/1`;
-
-      this.subirFotos(this.fotoCapturadas[0])?.
-      then(()=>
-      {
-        const promesa = this.angularFirestorage.ref(this.nombrePr).getDownloadURL().toPromise();
-        promesa.then((url1: any)=>
-        {
-          this.fotosSubidas.push(url1);
-          this.nombrePr = `eClientes/${this.cliente.nombre.replace(" ", "_")}/2`
-          this.subirFotos(this.fotoCapturadas[1])?.then(()=>
-          {
-            const promesa = this.angularFirestorage.ref(this.nombrePr).getDownloadURL().toPromise();
-            promesa.then((url2: any)=>
-            {
-              this.fotosSubidas.push(url2);
-              this.nombrePr = `eClientes/${this.cliente.nombre.replace(" ", "_")}/3`
-              this.subirFotos(this.fotoCapturadas[2])?.then(()=>
-              {
-                const promesa = this.angularFirestorage.ref(this.nombrePr).getDownloadURL().toPromise();
-                promesa.then((url3: any)=>
-                {
-                  this.fotosSubidas.push(url3);
-                  ///////////////////////////////////////////////////////////////////////////
-                  FirestoreService.guardarFs('encuestaClientes', {...encuesta, fotos: this.fotosSubidas}, this.firestore);
-                  this.auth.mostrarToastExito("¡Encuesta enviada con éxito!");
-                  this.cliente.encuesta = true;
-                  FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
-                });
-              });
-            });
-          });
-        });
-      });
-    }
-    catch
-    {
-      this.auth.mostrarToastError("Error al subir la foto...");
-    }
-  }
-
   onRangeChange(event: CustomEvent) 
   {
-    // Obtiene el valor seleccionado del ion-range
     this.facilidad = event.detail.value;
     console.log('Valor seleccionado:', this.facilidad);
   }
 
-  onRadioChange(event: CustomEvent) {
-    // Obtiene el valor seleccionado del ion-radio-group
+  onRadioChange(event: CustomEvent) 
+  {
     this.atencion = event.detail.value;
     console.log('Valor seleccionado:', this.atencion);
   }
 
-  enviar()
+  async enviar()
   {
-    alert(this.recomendaria);
+    await this.subirFotos();
+    const fecha = new Date().getTime();
+    let encuesta = {cliente : this.cliente.nombre, fecha : fecha, facilidad : this.facilidad, atencion : this.atencion, experiencia : this.experiencia, servicios : this.opciones, recomendacion : this.recomendaria, fotos : this.fotosSubidas};
+
+    FirestoreService.guardarFs('encuestaClientes', encuesta, this.firestore);
+    this.auth.mostrarToastExito("¡Encuesta enviada con éxito!");
+    this.cliente.encuesta = true;
+    FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
+    this.router.navigateByUrl('homeClientes');
   }
 }

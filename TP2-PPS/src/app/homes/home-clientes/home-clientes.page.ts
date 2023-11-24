@@ -55,8 +55,6 @@ export class HomeClientesPage implements OnInit {
   muestro = '';
   selectedTab = 'tab1';
 
-  mostrarModal = false;
-
   encuestas : any[] = [];
   obsEncuestas : any;
 
@@ -406,7 +404,8 @@ export class HomeClientesPage implements OnInit {
       });
     }
 
-    this.mostrarModal = false;
+    this.modalAbierto = false;
+    this.estadoPedido = pedido.estado;
   }
 
   confirmar()
