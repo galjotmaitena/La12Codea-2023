@@ -18,6 +18,7 @@ export class HomeMozoPage implements OnInit {
     listaPedidosEnPreparacion : any[] = [];
     listaPedidosPagados: any[] = [];
     listaEmpleados : any[] = [];
+    mensajes: any[] = [];
     observablePedidos : any;
     observableEmpleados : any;
     pedido : any = '';
@@ -78,6 +79,10 @@ export class HomeMozoPage implements OnInit {
         }
       });
     });
+
+    FirestoreService.traerFs('mensajes', this.firestore).subscribe((data)=>{
+      this.mensajes = data;
+    });
   }
 
    //#region 
@@ -110,8 +115,6 @@ export class HomeMozoPage implements OnInit {
     let mesa:any;
     let cliente:any;
 
-    alert(JSON.stringify(pedido));
-
     FirestoreService.traerFs('mesas', this.firestore).subscribe((mesas)=>{
       mesas.forEach((m)=>{
         if(m.numero === pedido.mesa)
@@ -133,6 +136,16 @@ export class HomeMozoPage implements OnInit {
     setTimeout(()=>{
       if(mesa && cliente)
       {
+        this.mensajes.forEach(m => {
+          const mesa = m.usuario.tipoEmpleado === 'mozo'
+          ? m.mesa
+          : m.usuario.mesa;
+          if(mesa === cliente.mesa)
+          {
+            FirestoreService.eliminarFs('mensajes', m, this.firestore);
+          }
+        });
+
         mesa.ocupada = false;
         FirestoreService.actualizarFs('mesas', mesa, this.firestore);
         

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <div style="display: flex; text-align: center; align-items: center; width: 100%;">
       <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px;">
-        <ion-icon  name="arrow-back-outline" (click)="salir()"></ion-icon>
+        <ion-icon name="arrow-back-outline" (click)="salir()"></ion-icon>
       </div>
       <div style="text-align: center; width: 71%;">
         <ion-title size="large">CONSULTAS</ion-title>
@@ -14,7 +14,7 @@
     <!-- <div style="background: rgb(0, 0, 0); height: 100%; overflow-y: auto;"> -->
     <div *ngIf="chatElegido" style="background: rgb(0, 0, 0); overflow-y: auto; height: 100%;">
       <div class="contenedor-mensajes" *ngIf="usuario">
-        <div *ngFor="let m of mensajes">
+        <div *ngFor="let m of chatElegido">
           <div [ngClass]="{'chat-bubble-propio': m.usuario.tipoEmpleado === 'mozo', 'chat-bubble': (m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo') }">
             <span class="span">{{m.usuario.nombre}}</span>
             <span>{{ m.mensaje }}</span>

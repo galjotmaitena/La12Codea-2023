@@ -108,7 +108,6 @@ export class HomeClientesPage implements OnInit {
       console.log("***************");
       console.log(this.cliente);
       console.log("***************");
-
     });
 
     this.observableProductos = FirestoreService.traerFs('productos', this.firestore).subscribe((data)=>{

@@ -83,8 +83,9 @@ export class ChatMozoPage implements OnInit {
       let mensajeEnviar = { hora: fechaHora, mensaje: this.mensaje, usuario: this.mozo, mesa: this.chatElegido[0].usuario.mesa };
 
       FirestoreService.guardarFs('mensajes', mensajeEnviar, this.firestore);
+      this.chatElegido.push(mensajeEnviar);
       this.mensaje = '';
-      this.push.sendPush('Consulta - ' + this.mozo, this.mensaje, this.cliente);
+      this.push.sendPush('Consulta - ' + this.mozo.nombre, this.mensaje, this.cliente);
     }
   }
 
@@ -113,13 +114,16 @@ export class ChatMozoPage implements OnInit {
     });
   }
 
-  private agruparMensajes(mensajes: any[]): any[] {
+  private agruparMensajes(mensajes: any[]): any[] 
+  {
     return mensajes.reduce((acc, mensaje) => {
-      const mesa = mensaje.usuario.perfil === 'mozo'
+      const mesa = /* mensaje.usuario.mesa; */ mensaje.usuario.tipoEmpleado === 'mozo'
         ? mensaje.mesa
         : mensaje.usuario.mesa;
   
-      const existingGroupIndex = acc.findIndex((grupo: any[]) => grupo[0]?.mesa === mesa);
+      const existingGroupIndex = acc.findIndex(
+        (grupo: any[]) => (grupo[0].usuario.tipoEmpleado === 'mozo' ? grupo[0].mesa : grupo[0].usuario.mesa) === mesa
+      );
   
       if (existingGroupIndex !== -1) {
         acc[existingGroupIndex].push(mensaje);
