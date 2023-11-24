@@ -54,41 +54,31 @@ Qr satisfaccion 'excelente'
 
 * QR de la mesa | Terminado 02/11
 
+Mesa 1
+
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/0fd35872-108f-4798-a3f4-ed65705fe206)
+
 Mesa 2
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e8fe4873-6ef1-4251-9f26-b3559d9d61bd)
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/a1e2b502-ae52-4f70-a904-a24cd3a13a07)
 
 Mesa 3
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/b9a8a476-0a56-4d97-99a1-e388a18f5a8c)
+ ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/aea865ca-945a-42e0-b2e7-cc02efb65d67)
 
 Mesa 4
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/3c37c736-b62a-4fee-a9fd-d8ed488f0b92)
+![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/779cda99-8cbf-4a45-bae2-399af4336c8c)
 
 Mesa 5
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/28b0f1a1-b962-413f-931a-bc6383ed1213)
+ ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e3a4bee4-063c-4b27-9c8d-bda5f1636bc6)
 
 Mesa 6
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/4a5d9da6-b3bd-4602-9c23-d8909662dbd3)
+  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/4701f7ab-18a2-4b9a-bc81-cac0487cfc0b)
 
-Mesa 7
 
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/023d7ea9-ae7c-4ca7-b1d4-e426d6e4f0b3)
-
-Mesa 8
-
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/f08b905a-931f-4241-afa3-fa35a34a4b32)
-
-Mesa 9
-
-  ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/7a2fe2c8-b617-4ede-bb69-938d26a18f1a)
-  
-Mesa 10
-
-  ![QR_10](https://github.com/galjotmaitena/La12Codea-2023/assets/98592279/f9108efa-cfe5-4f1b-9e18-0adf9bd17a1b)
 
   
 
