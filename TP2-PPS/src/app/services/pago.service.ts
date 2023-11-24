@@ -32,7 +32,7 @@ export class PagoService {
       back_urls: {
         success: returnUrl,
         failure: returnUrl,
-        pending: returnUrl
+        pending: null
       }
     };
 
@@ -41,13 +41,10 @@ export class PagoService {
         map((respuesta) => {
           console.log('URL de pago:', respuesta);
 
-          // Guardar la URL actual antes de redirigir
           const currentUrl = this.router.url;
 
-          // Abrir la URL en una nueva ventana o en un WebView
           window.open(respuesta.init_point, '_blank');
 
-          // Manipular el historial del navegador para volver al HomeClientesPage
           this.manipularHistorial();
 
           return respuesta;
