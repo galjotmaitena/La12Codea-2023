@@ -55,8 +55,6 @@ export class HomeClientesPage implements OnInit {
   muestro = '';
   selectedTab = 'tab1';
 
-  mostrarModal = false;
-
   encuestas : any[] = [];
   obsEncuestas : any;
 
@@ -404,6 +402,9 @@ export class HomeClientesPage implements OnInit {
         console.error('Error al obtener la URL de pago:', error);
       });
     }
+
+    this.modalAbierto = false;
+    this.estadoPedido = pedido.estado;
   }
 
   confirmar()

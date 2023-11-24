@@ -40,20 +40,17 @@
 
         </ion-item>
     
-        <!-- multiples respuestas o ponemos uno simple? -->
         <ion-item class="preg">
             <div class="items">
                 <label class="texto" style="margin: 10px;">Por que prefieres este restaurante sobre otros que ofrecen el mismo tipo de alimentos?</label>
                 
-                    
-                        <ion-select style="margin: 5px;" class="texto" fill="outline" aria-label="Fruit" placeholder="Seleccione" [multiple]="true" [(ngModel)]="opciones">
-                            <ion-select-option value="atencio">Atención al cliente</ion-select-option>
-                            <ion-select-option value="comida">Comida</ion-select-option>
-                            <ion-select-option value="bebida">Bebida</ion-select-option>
-                            <ion-select-option value="locacion">Locación</ion-select-option>
-                        </ion-select>
-                    
-                
+                <ion-select style="margin: 5px;" class="texto" fill="outline" aria-label="Fruit" placeholder="Seleccione" [multiple]="true" [(ngModel)]="opciones">
+                    <ion-select-option value="atencion">Atención al cliente</ion-select-option>
+                    <ion-select-option value="comida">Comida</ion-select-option>
+                    <ion-select-option value="bebida">Bebida</ion-select-option>
+                    <ion-select-option value="locacion">Locación</ion-select-option>
+                </ion-select>
+        
             </div>
         </ion-item>
 
@@ -89,5 +86,5 @@
         </swiper-slide> 
     </swiper-container>
 
-    <ion-button style="width: 90%; margin: 15px; --background: #0077B6;" (click)="subirTodo()">enviar</ion-button>
+    <ion-button style="width: 90%; margin: 15px; --background: #0077B6;" (click)="enviar()">enviar</ion-button>
 </ion-content>

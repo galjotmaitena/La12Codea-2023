@@ -19,29 +19,37 @@ ion-title.ion-text-center
   }
 
   ion-input {
-    color: #000000;
+    color: #ffff;
     font-size: 20px;
+    font-family: 'Merienda';
     //font-family: Merriweather, sans-serif;
-    font-weight: bold;
+    //font-weight: bold;
     height: 32px;
     padding: 6px;
   }
 
   ion-toolbar{
-    --background: #040404;
+
+    --background: #64B5F6;
     --color: #ffffff;
+    font-family: 'Merienda';
     //font-family: Merriweather, sans-serif;
   }
 
- /*  ion-item{
-    --background: #721f1f;
+  ion-item{
+    --background: #64B5F6;
     //font-family: Merriweather, sans-serif;
-  } */
+  }
 
 
   .container-gral{
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+    background: url('../../../assets/fondoChatCliente.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     //font-family: Merriweather, sans-serif;
   }
 
@@ -75,6 +83,12 @@ ion-title.ion-text-center
     flex-direction: column;
     //font-family: Merriweather, sans-serif;
   }
+
+  // .contenedor-mensajes{
+  //   display: flex;
+  //   flex-direction: column;
+  //   padding: 10px;
+  // }
 
   .span{
     //font-family: Merriweather, sans-serif;
