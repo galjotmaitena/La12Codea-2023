@@ -4,6 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PushService } from 'src/app/services/push.service';
+import { ToastService } from 'angular-toastify';
 
 @Component({
   selector: 'app-home-mozo',
@@ -23,7 +24,7 @@ export class HomeMozoPage implements OnInit {
     observableEmpleados : any;
     pedido : any = '';
 
-  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private push: PushService) { }
 
   ngOnInit() 
   {

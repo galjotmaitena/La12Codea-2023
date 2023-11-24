@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { getMessaging, provideMessaging } from '@angular/fire/messaging';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireModule } from '@angular/fire/compat';
+import { ToastService, AngularToastifyModule } from 'angular-toastify';
 
 
 @NgModule({
@@ -28,8 +29,9 @@ import { AngularFireModule } from '@angular/fire/compat';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideMessaging(() => getMessaging()),
+    AngularToastifyModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },ToastService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
