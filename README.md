@@ -92,8 +92,9 @@ Mesa 6
 
 ![Imagen de WhatsApp 2023-11-25 a las 09 40 06_8bfa567a](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/49228c27-6d20-40f4-a8f9-2cec4f3e514f)
 
-  
 
+  ### TRELLO
+https://trello.com/b/gHJQjyMp/pps
 
 
 
