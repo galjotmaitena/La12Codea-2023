@@ -197,3 +197,17 @@ swiper-slide{
     background-color: #fff; /* Color de fondo deseado */
     border-top: 1px solid #ccc; /* Línea divisoria opcional */
 }
+
+.pedirCuenta{
+    width: 100%;
+    --background:#64B5F6;
+}
+
+.modal{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

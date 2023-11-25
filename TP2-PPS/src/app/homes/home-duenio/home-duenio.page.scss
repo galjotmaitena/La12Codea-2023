@@ -77,3 +77,32 @@ ion-item{
 .options{
     width: auto;
 }
+
+
+.divContenedor{
+    margin: 5px;
+    background: #CAF0F8;
+    border: 3px solid #023E8A;
+    border-radius: 10px;
+    height: auto;
+}
+
+.texto{
+    flex-direction: column;
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Merienda';
+    font-weight: bold;
+}
+
+.iconAgregar{
+    font-size: 2rem; 
+    margin: 5px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    right: 5px;
+}

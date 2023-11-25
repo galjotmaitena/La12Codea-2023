@@ -1,11 +1,14 @@
 <ion-content [fullscreen]="true" class="container-general">
   
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
-    <div class="tool">
+    <div class="tool" style="justify-content: space-evenly;;" >
       <button style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
       <h1 class="h1Tool">{{this.bartender != null ? this.bartender.nombre : ''}}</h1>
+      <button style="background:transparent; z-index: 1000;" routerLink="/producto">
+        <ion-icon name="fast-food-outline" class="iconAgregar"></ion-icon>
+      </button>
     </div>
   </ion-toolbar>
 
