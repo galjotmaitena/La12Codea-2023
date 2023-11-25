@@ -1,13 +1,20 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>graficos</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="container">
+  <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">graficos</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <div class="divCanva">
+    <canvas id="pie" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  </div>
+  <div class="divCanva">
+    <canvas id="bar" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  </div>
+  <div class="divCanva">
+    <canvas id="dona" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  </div>
+  <div class="divCanva">
+    <canvas id="line" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" routerLink="/lindos">
+    <ion-fab-button><ion-icon name="arrow-back-outline"></ion-icon></ion-fab-button>
+  </ion-fab>
+</ion-content> 
