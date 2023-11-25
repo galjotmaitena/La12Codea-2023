@@ -26,7 +26,7 @@
   </div>
 
   <div class="divScan" *ngIf="!ingreso">
-    <ion-button (click)="asignarEscan()" class="btnScan">
+    <ion-button (click)="startScan()" class="btnScan">
       <img src="assets/codigo-qr.png" style="height: 90%; width: 80%; padding: 10px;">
     </ion-button>
   </div>
@@ -34,13 +34,13 @@
   <!-- home2 --> 
 
   <ion-fab slot="fixed" class="fabQr" *ngIf="enMesa && !yaPidio">
-    <ion-fab-button (click)="asignarEscan()" style="--background:#64B5F6">
+    <ion-fab-button (click)="startScan()" style="--background:#64B5F6">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="(yaPidio || !enMesa) && ingreso">
-    <ion-fab-button (click)="asignarEscan()" style="--background:#64B5F6">
+    <ion-fab-button (click)="startScan()" style="--background:#64B5F6">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -192,19 +192,12 @@
 
     <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true">PEDIR CUENTA</ion-button>
 
-    <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
-
-
     <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="yaPidio">
       <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </div>
-
-
-
-
 
 
   <ion-modal [isOpen]="modalAbierto" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
@@ -230,7 +223,7 @@
         </div>
 
         <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-          <ion-fab-button style="--background:#64B5F6" (click)="asignarEscan()">
+          <ion-fab-button style="--background:#64B5F6" (click)="startScan()">
             <ion-icon name="qr-code-outline"></ion-icon>
           </ion-fab-button>
         </ion-fab>

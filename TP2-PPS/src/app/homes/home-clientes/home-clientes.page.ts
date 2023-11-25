@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = false;           ////////////////////////////////////////poner en true para probar
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -165,9 +165,9 @@ export class HomeClientesPage implements OnInit {
     }
     catch(error)
     { 
-      alert('permisos');
-
-     alert(error);
+      //alert('permisos');
+      //alert(error);
+      ret = false;
     }
 
     return ret;
@@ -184,6 +184,7 @@ export class HomeClientesPage implements OnInit {
         return;
       }
 
+      this.modalAbierto = false;
       this.abierta = true;
       await BarcodeScanner.hideBackground();
       document.querySelector('body')?.classList.add('scanner-active');
@@ -191,24 +192,23 @@ export class HomeClientesPage implements OnInit {
       
       if(result?.hasContent)
       {
-
         this.escaneado = result.content;
-
-        alert(this.escaneado);
+        //alert(this.escaneado);
 
         BarcodeScanner.showBackground();
         document.querySelector('body')?.classList.add('scanner-active');
 
-        this.asignarEscan();
+        let parse = JSON.parse(this.escaneado);
+        this.asignarEscan(parse.propina == undefined);
 
         this.abierta = false;
       }
     }
     catch(error)
     {
-      alert('startscan');
-      alert(this.escaneado);
-      alert(error);
+      // alert('startscan');
+      // alert(this.escaneado);
+      // alert(error);
       this.stopScan();
     }
   }
@@ -220,13 +220,37 @@ export class HomeClientesPage implements OnInit {
     document.querySelector('body')?.classList.remove('scanner-active');
   }
 
-  asignarEscan()
+  asignarEscan(accion: boolean)
   {
-
-    if(!this.ingreso) /////////////////////////////////////
+    if(accion)
+    {
+      if(!this.ingreso && this.cliente.mesa == '') /////////////////////////////////////
       {
-        //let ingresoJSON = JSON.parse(this.escaneado);                             
-        //this.ingreso = ingresoJSON.ingresarAlLocal;
+        let ingresoJSON = JSON.parse(this.escaneado)
+        if(ingresoJSON.ingresarAlLocal == undefined)
+        {
+          alert('Debe escanear el qr del ingreso al local.');
+        }
+        else
+        {
+          this.ingreso = ingresoJSON.ingresarAlLocal;
+          this.cliente.espera = true;
+        
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+            if(this.cliente.espera)
+            {
+              this.metres.forEach((m) => {
+                this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
+              });
+            }
+            else
+            {
+              alert(`Su mesa es la ${this.cliente.mesa}`);//poner toast
+            }
+          });
+        }
+        /* let ingresoJSON = JSON.parse(this.escaneado);                             
+        this.ingreso = ingresoJSON.ingresarAlLocal;
         this.cliente.espera = true;
       
         FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
@@ -238,22 +262,22 @@ export class HomeClientesPage implements OnInit {
           }
           else
           {
-            alert(`Su mesa es la ${this.cliente.mesa}`);
+            alert(`Su mesa es la ${this.cliente.mesa}`);//poner toast
           }
-        });
+        }); */
       }
       else
       {
         if(this.cliente.mesa !== '')//////////////////////////
         {
-          if(/*this.verificarMesaAsignada()*/true)
+          if(this.verificarMesaAsignada())
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
-
+  
             if(this.yaPidio)
             {
               let pedido:any;
-
+  
               this.pedidos.forEach(p => {
                 if(this.cliente.mesa === p.mesa)
                 {
@@ -265,19 +289,24 @@ export class HomeClientesPage implements OnInit {
               if(pedido)
               {
                 this.estadoPedido = pedido.estado;
-
+  
                 if(this.estadoPedido === 'entregado')
                 {
                   this.modalAbierto = true;
                 }
-
-                if(this.estadoPedido === 'recibido' && this.modalAbierto)
+                else
                 {
-                  // let propinaJSON = JSON.parse(this.escaneado);                             
-                  // this.cliente.propina = propinaJSON.propina;
-                  this.cliente.propina = 15;
-
-                  FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
+/*                   if(this.estadoPedido === 'recibido'/*  && this.modalAbierto )
+                  {
+                    let propinaJSON = JSON.parse(this.escaneado);                             
+                    this.cliente.propina = propinaJSON.propina;
+                    this.modalAbierto = true;
+                    //this.cliente.propina = 15;
+    
+                    FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+                      this.authService.mostrarToastExito('Propina asignada');
+                    });
+                  } */
                 }
               }
             }
@@ -296,6 +325,21 @@ export class HomeClientesPage implements OnInit {
           this.authService.mostrarToastError('Tiene que escanear el QR respectivo, para ingresar a la lista de espera');
         }
       }
+    }
+    else
+    {
+      if(this.estadoPedido === 'recibido'/*  && this.modalAbierto */)
+      {
+        let propinaJSON = JSON.parse(this.escaneado);                             
+        this.cliente.propina = propinaJSON.propina;
+        this.modalAbierto = true;
+        //this.cliente.propina = 15;
+
+        FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+          this.authService.mostrarToastExito('Propina asignada');
+        });
+      }
+    }
   }
 
   verificarMesaAsignada() : boolean
@@ -442,7 +486,8 @@ export class HomeClientesPage implements OnInit {
       this.router.navigateByUrl('login');
     })
     .catch((err)=>{
-      alert(JSON.stringify(err));
+      //alert(JSON.stringify(err));
+      this.authService.mostrarToastError('Error...')
     });
   }
 }

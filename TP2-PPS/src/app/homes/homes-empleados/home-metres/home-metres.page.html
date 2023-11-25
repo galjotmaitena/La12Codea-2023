@@ -40,7 +40,7 @@
       <!-- <ion-button (click)="asignarMesas()">ASIGNAR MESAS</ion-button> -->
   <div class="asignar" *ngIf="mesa != '' && clienteEspera != ''">
     <h1 class="texto">Asignar la mesa {{mesa}} a {{clienteEspera.nombre}}</h1>
-    <ion-button class="btnAlta">Asignar</ion-button>
+    <ion-button class="btnAlta" (click)="asignarMesas()">Asignar</ion-button>
   </div>   
   
 
