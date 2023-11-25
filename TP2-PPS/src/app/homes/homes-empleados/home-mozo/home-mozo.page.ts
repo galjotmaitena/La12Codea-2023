@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home-mozo',
   templateUrl: './home-mozo.page.html',
@@ -12,20 +13,18 @@ import { PushService } from 'src/app/services/push.service';
 export class HomeMozoPage implements OnInit {
 
     /////////////////MOZOS
-    listaPedidosPendientes : any[] = [];
-    listaPedidosListos : any[] = [];
-    listaPedidosEnPreparacion : any[] = [];
-    listaPedidosPagados: any[] = [];
-    listaEmpleados : any[] = [];
-    mensajes: any[] = [];
-    observablePedidos : any;
-    observableEmpleados : any;
-    pedido : any = '';
+  listaPedidosPendientes : any[] = [];
+  listaPedidosListos : any[] = [];
+  listaPedidosEnPreparacion : any[] = [];
+  listaPedidosPagados: any[] = [];
+  listaEmpleados : any[] = [];
+  mensajes: any[] = [];
+  observablePedidos : any;
+  observableEmpleados : any;
+  pedido : any = '';
+  mozo: any;
 
-    user = this.authService.get_user();
-    mozo : any;
-
-  constructor(private firestore : Firestore, private authService : AuthService, private push: PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private push: PushService, private router: Router) { }
 
   ngOnInit() 
   {
@@ -81,9 +80,12 @@ export class HomeMozoPage implements OnInit {
         }
         else
         {
-          if(empleado.email === this.user?.email)
+          if(empleado.tipoEmpleado === 'mozo')
           {
-            this.mozo = empleado;
+            if(empleado.email === this.authService.get_user()?.email)
+            {
+              this.mozo = empleado;
+            }
           }
         }
       });
@@ -119,7 +121,7 @@ export class HomeMozoPage implements OnInit {
      });
    }
    
-  async confirmarPago(pedido: any)
+  confirmarPago(pedido: any)
   {
     let mesa:any;
     let cliente:any;
@@ -175,8 +177,15 @@ export class HomeMozoPage implements OnInit {
       }
     }, 4000)
   }
- 
-   //#endregion
- 
 
+  salir()
+  {
+    this.authService.logout()?.then(()=>{
+      this.push.cierreSesion(this.mozo, 'empleados');
+      this.router.navigateByUrl('login');
+    })
+    .catch((err)=>{
+      alert(JSON.stringify(err));
+    });
+  }
 }

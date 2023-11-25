@@ -193,19 +193,12 @@
 
     <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true"  class="pedirCuenta">PEDIR CUENTA</ion-button>
 
-    <!-- HACER MODAL PARA EL DETALLE DE LA CUENTA -->
-
-
     <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="yaPidio">
       <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </div>
-
-
-
-
 
 
   <ion-modal [isOpen]="modalAbierto" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
