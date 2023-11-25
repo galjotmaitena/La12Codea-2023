@@ -1,22 +1,25 @@
 <ion-content [fullscreen]="true" class="container-general">
   
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
-    <div class="tool">
+    <div class="tool" style="justify-content: space-evenly;;" >
       <button style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir" (click)="salir()"></ion-icon>
       </button>
-      <!-- <h1 class="h1Tool">Home Metres</h1> -->
+      <h1 class="h1Tool" style="font-family: 'Merienda'; position: relative; font-size: 20px;">{{this.metre != null ? this.metre.nombre : ''}}</h1>
       <button style="background:transparent; z-index: 1000;" routerLink="/cliente">
         <ion-icon name="person-add-outline" class="iconAgregar"></ion-icon>
       </button>
     </div>
   </ion-toolbar>
 
-  <h1 class="texto" style="color: black;">Clientes en espera</h1>
+  <div class="divContenedor">
+    <h1 class="texto" style="color: black;">Clientes en espera</h1>
 
-  <ion-item style="--background: #64B5F6; margin: 5px;" (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
-    <label class="texto">{{c.nombre}} {{c.apellido}}</label>
-  </ion-item>
+    <ion-item style="--background: #64B5F6; margin: 5px; width: 90%; justify-content: space-evenly;" (click)="getCliente(c)" expand="block" *ngFor="let c of listaEspera">
+      <img style="height: 50%; width:  15%;" [src]="c.foto">
+      <label class="texto">{{c.nombre}} {{c.apellido}}</label>
+    </ion-item>
+  </div>
 
   <ion-modal [isOpen]="abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
     <ng-template>

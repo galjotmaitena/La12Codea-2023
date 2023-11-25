@@ -4,8 +4,6 @@ import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { PushService } from 'src/app/services/push.service';
-import { ToastService } from 'angular-toastify';
-
 @Component({
   selector: 'app-home-mozo',
   templateUrl: './home-mozo.page.html',
@@ -23,6 +21,9 @@ export class HomeMozoPage implements OnInit {
     observablePedidos : any;
     observableEmpleados : any;
     pedido : any = '';
+
+    user = this.authService.get_user();
+    mozo : any;
 
   constructor(private firestore : Firestore, private authService : AuthService, private push: PushService) { }
 
@@ -77,6 +78,13 @@ export class HomeMozoPage implements OnInit {
         if(empleado.tipoEmpleado === 'cocinero' || empleado.tipoEmpleado === 'bartender')
         {
           this.listaEmpleados.push(empleado);
+        }
+        else
+        {
+          if(empleado.email === this.user?.email)
+          {
+            this.mozo = empleado;
+          }
         }
       });
     });

@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <div style="display: flex; text-align: center; align-items: center; width: 100%;">
-      <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px;">
+      <div style="display: flex; text-align: center; align-items: center; justify-content: flex-end; margin: 20px; font-size: 30px; z-index: 1000;">
         <ion-icon name="arrow-back-outline" (click)="salir()"></ion-icon>
       </div>
-      <div style="text-align: center; width: 71%;">
+      <div style="text-align: center;  width: 100%; position: absolute;"> 
         <ion-title size="large">CONSULTAS</ion-title>
       </div>
     </div>
@@ -12,7 +12,7 @@
 </ion-header>
 <ion-content style="width: 100%; height: 100%;">
     <!-- <div style="background: rgb(0, 0, 0); height: 100%; overflow-y: auto;"> -->
-    <div *ngIf="chatElegido" style="background: rgb(0, 0, 0); overflow-y: auto; height: 100%;">
+    <div *ngIf="chatElegido" style="overflow-y: auto; height: 100%;" class="container-gral">
       <div class="contenedor-mensajes" *ngIf="usuario">
         <div *ngFor="let m of chatElegido">
           <div [ngClass]="{'chat-bubble-propio': m.usuario.tipoEmpleado === 'mozo', 'chat-bubble': (m.usuario.perfil === 'regular' || m.usuario.perfil === 'anonimo') }">
@@ -24,15 +24,15 @@
       </div>
     </div>
 
-    <div *ngIf="!chatElegido">
-      <ion-list [inset]="true" style="margin: 5px;">
-        <div *ngFor="let m of mensajesAgrupados">
+    <div *ngIf="!chatElegido" style="overflow-y: auto; height: 100%;" class="container-gral-sinChat">
+      <!-- <ion-list [inset]="true" style="margin: 5px;"> -->
+        <div *ngFor="let m of mensajesAgrupados" style="margin: 10px;">
           <ion-item expand="block" (click)="elegirChat(m)">
             <ion-label>Mesa {{ m[0].usuario.mesa }} - {{m[0].usuario.nombre}}</ion-label>
             <ion-badge slot="end">{{ m.unreadCount != 0 ? m.unreadCount : 'Leido' }}</ion-badge>
           </ion-item>
         </div>
-      </ion-list>
+      <!-- </ion-list> -->
     </div>    
 </ion-content>
 <ion-footer *ngIf="chatElegido">

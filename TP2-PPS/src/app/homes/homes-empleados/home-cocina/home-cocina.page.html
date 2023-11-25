@@ -5,21 +5,24 @@
       <button style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+      <h1 class="h1Tool">{{this.cocinero != null ? this.cocinero.nombre : ''}}</h1>
     </div>
   </ion-toolbar>
 
-  <h1 class="texto">Listado de pedidos</h1>
+  <div class="divContenedor">
+    <h1 class="texto">Listado de pedidos</h1>
    
-  <ion-item expand="block" *ngFor="let p of listaPedidos" style="--background: #64B5F6; margin: 5px;">
-    <ion-label class="texto">Mesa {{p.mesa}}</ion-label>
-    <ion-button class="iconos" (click)="abrir(p.productos)">
-      <ion-icon name="eye-outline" ></ion-icon>
-    </ion-button>
-    <ion-button class="iconos" (click)="terminarPedido(p)">
-      <ion-icon name="checkmark-outline" ></ion-icon>
-    </ion-button>
-  </ion-item>
+    <ion-item expand="block" *ngFor="let p of listaPedidos" style="--background: #64B5F6; margin: 5px;">
+      <ion-label class="texto">Mesa {{p.mesa}}</ion-label>
+      <ion-button class="iconos" (click)="abrir(p.productos)">
+        <ion-icon name="eye-outline" ></ion-icon>
+      </ion-button>
+      <ion-button class="iconos" (click)="terminarPedido(p)">
+        <ion-icon name="checkmark-outline" ></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+
 
   <!-- que cada pedido tenga un btn para confirmar o entregar el pedido -->
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->

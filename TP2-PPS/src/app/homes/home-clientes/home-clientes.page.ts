@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = false;           ////////////////////////////////////////poner en true para probar
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -133,16 +133,15 @@ export class HomeClientesPage implements OnInit {
       this.pedidos = data;
     });
 
-    // this.obsEncuestas = FirestoreService.traerFs('encuestas', this.firestore).subscribe((data)=>{
-    //   this.encuestas = data;
-      
-    // });
+    this.obsEncuestas = FirestoreService.traerFs('encuestaClientes', this.firestore).subscribe((data)=>{
+      this.encuestas = data;
+    });
 
-    this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    // this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
   }
 
   ngOnDestroy() : void 
@@ -225,8 +224,8 @@ export class HomeClientesPage implements OnInit {
 
     if(!this.ingreso) /////////////////////////////////////
       {
-        //let ingresoJSON = JSON.parse(this.escaneado);                             
-        //this.ingreso = ingresoJSON.ingresarAlLocal;
+        let ingresoJSON = JSON.parse(this.escaneado);                             
+        this.ingreso = ingresoJSON.ingresarAlLocal;
         this.cliente.espera = true;
       
         FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
@@ -246,7 +245,7 @@ export class HomeClientesPage implements OnInit {
       {
         if(this.cliente.mesa !== '')//////////////////////////
         {
-          if(/*this.verificarMesaAsignada()*/true)
+          if(this.verificarMesaAsignada())
           {
             this.enMesa = true;              ////////////////////////////////////////////////////funcionalidad 6
 

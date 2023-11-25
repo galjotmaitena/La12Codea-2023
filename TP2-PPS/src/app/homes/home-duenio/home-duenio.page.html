@@ -5,7 +5,7 @@
       <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <h1 class="h1Tool">Home Dueños</h1>
+      <h1 class="h1Tool" style="font-family: 'Merienda'; position: relative; font-size: 20px;">{{this.duenio != null ? this.duenio.nombre : ''}}</h1>
     </div>
   </ion-toolbar>
 

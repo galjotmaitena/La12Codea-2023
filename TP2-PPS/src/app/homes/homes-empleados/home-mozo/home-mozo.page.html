@@ -4,7 +4,7 @@
       <button style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <!-- <h1 class="h1Tool">Home Cocina</h1> -->
+      <h1 class="h1Tool">{{this.mozo != null ? this.mozo.nombre : ''}}</h1>
     </div>
   </ion-toolbar>
 
@@ -53,7 +53,7 @@
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
   <ion-fab horizontal="start" vertical="bottom">
-    <ion-fab-button routerLink="/chat-mozo" style="--background:#64B5F6">
+    <ion-fab-button routerLink="/chat-mozo" style="--background:#0077B6">
       <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
