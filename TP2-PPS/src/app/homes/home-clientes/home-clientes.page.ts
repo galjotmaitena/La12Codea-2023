@@ -66,6 +66,7 @@ export class HomeClientesPage implements OnInit {
   recibido = false;
 
   miPedido : any;
+  mostrarSpinner = false;
 
   constructor(private authService : AuthService, private firestore : Firestore, private push: PushService, private router: Router, private pagoService: PagoService) { }
 
@@ -205,9 +206,6 @@ export class HomeClientesPage implements OnInit {
     }
     catch(error)
     {
-      // alert('startscan');
-      // alert(this.escaneado);
-      // alert(error);
       this.stopScan();
     }
   }
@@ -233,10 +231,12 @@ export class HomeClientesPage implements OnInit {
         }
         else
         {
+          this.mostrarSpinner = true;
           this.ingreso = ingresoJSON.ingresarAlLocal;
           this.cliente.espera = true;
         
           FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+            this.mostrarSpinner = false;
             if(this.cliente.espera)
             {
               this.metres.forEach((m) => {
@@ -245,27 +245,10 @@ export class HomeClientesPage implements OnInit {
             }
             else
             {
-              alert(`Su mesa es la ${this.cliente.mesa}`);//poner toast
+              this.authService.mostrarToast(`Su mesa es la ${this.cliente.mesa}`, 'danger', 'bottom', 2000);//poner toast
             }
           });
         }
-        /* let ingresoJSON = JSON.parse(this.escaneado);        
-        let ingresoJSON = JSON.parse(this.escaneado);                 
-        this.ingreso = ingresoJSON.ingresarAlLocal;
-        this.cliente.espera = true;
-      
-        FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-          if(this.cliente.espera)
-          {
-            this.metres.forEach((m) => {
-              this.push.sendPush("Clientes - Informacion", "Ha ingresado un nuevo cliente en la lista de espera", m)
-            });
-          }
-          else
-          {
-            alert(`Su mesa es la ${this.cliente.mesa}`);//poner toast
-          }
-        }); */
       }
       else
       {
@@ -329,14 +312,16 @@ export class HomeClientesPage implements OnInit {
     }
     else
     {
-      if(this.estadoPedido === 'recibido'/*  && this.modalAbierto */)
+      if(this.estadoPedido === 'recibido')
       {
+        this.mostrarSpinner = true;
         let propinaJSON = JSON.parse(this.escaneado);                             
         this.cliente.propina = propinaJSON.propina;
         this.modalAbierto = true;
         //this.cliente.propina = 15;
 
         FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+          this.mostrarSpinner = false;
           this.authService.mostrarToastExito('Propina asignada');
         });
       }
@@ -397,17 +382,22 @@ export class HomeClientesPage implements OnInit {
 
   enviarPedido()
   {
+    this.mostrarSpinner = true;
     if(this.pedido.length > 0)
     {
       let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false, precio: this.importe};
       this.estadoPedido = 'pendiente';
       FirestoreService.guardarFs('pedidos', obj, this.firestore);
+      this.mostrarSpinner = false;
       this.authService.mostrarToastExito('Pedido cargado correctamente');
       this.yaPidio = true;
     }
     else
     {
-      this.authService.mostrarToastError('Aun no hay productos cargados.');
+      setTimeout(()=>{
+        this.mostrarSpinner = false;
+        this.authService.mostrarToastError('Aun no hay productos cargados.');
+      }, 2000);
     }
   }
 
@@ -465,11 +455,13 @@ export class HomeClientesPage implements OnInit {
       }
     });
 
+    this.mostrarSpinner = true;
     pedido.estado = 'recibido';
     this.estadoPedido = pedido.estado;
-    FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
-
-    this.modalAbierto = false;
+    FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
+      this.modalAbierto = false;
+    });
   }
 
   calcularTotal(descuento : number) : number
@@ -483,15 +475,37 @@ export class HomeClientesPage implements OnInit {
 
   salir()
   {
+    this.mostrarSpinner = true;
     this.authService.logout()?.then(()=>{
       this.push.cierreSesion(this.cliente, 'clientes');
-      this.cliente.perfil === 'anonimo' ? FirestoreService.eliminarFs('clientes', this.cliente, this.firestore) : '';
-      this.router.navigateByUrl('login');
+      if(this.cliente.perfil === 'anonimo' )
+      {
+        FirestoreService.eliminarFs('clientes', this.cliente, this.firestore).toPromise().then(()=>{
+          this.mostrarSpinner = false;
+          this.router.navigateByUrl('login');
+        });
+      }
+      else
+      {
+        setTimeout(()=>{
+          this.router.navigateByUrl('login');
+          this.mostrarSpinner = false
+        }, 2000);
+      }
     })
     .catch((err)=>{
-      //alert(JSON.stringify(err));
+      this.mostrarSpinner = false;
       this.authService.mostrarToastError('Error...')
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }
 

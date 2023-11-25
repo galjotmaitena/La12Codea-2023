@@ -36,3 +36,8 @@
     <img style="width: 60%; height: 60%;" [src]="qr">
   </div>
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>

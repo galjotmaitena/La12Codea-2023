@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="container-general">
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
     <div class="tool">
-      <button style="background:transparent; z-index: 1000;" routerLink="/homeClientes">
+      <button style="background:transparent; z-index: 1000;" (click)="irA('homeClientes')">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
       <h1 *ngIf="cliente != null" class="h1Tool">Descuento: {{cliente.descuento}}%</h1> 
@@ -9,16 +9,16 @@
   </ion-toolbar>
 
   <div class="btnsJuegos" *ngIf="cliente != null">
-    <ion-button [disabled]="btnMemoria  || this.cliente.descuento >= 10" (click)="btnMemoria = true" class="btnJuego" routerLink="/juego-memoria"> 
+    <ion-button [disabled]="btnMemoria  || this.cliente.descuento >= 10" (click)="btnMemoria = true" class="btnJuego" (click)="irA('juego-memoria')"> 
       <img class="centrar-imagen" src="assets/juegos-de-cartas.png" >
     </ion-button>
-    <ion-button [disabled]="btnSimon || this.cliente.descuento >= 15" (click)="btnSimon = true" class="btnJuego" routerLink="/simon-dice">
-      <img class="centrar-imagen" src="assets/juego.png" >
-    </ion-button>
-    <ion-button [disabled]="btnPreguntados || this.cliente.descuento == 20" (click)="btnPreguntados = true" class="btnJuego" routerLink="/preguntados">
+    <ion-button [disabled]="btnPreguntados || this.cliente.descuento == 20" (click)="btnPreguntados = true" class="btnJuego" (click)="irA('preguntados')">
       <img class="centrar-imagen" src="assets/preguntados.png" >
     </ion-button>
-
-
   </div>
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>

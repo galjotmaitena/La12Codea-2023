@@ -25,6 +25,8 @@ export class HomeBarPage implements OnInit {
   user = this.authService.get_user();
   bartender : any;
 
+  mostrarSpinner = false;
+
   constructor(private firestore : Firestore, private authService : AuthService, private router: Router, private push: PushService) { }
 
   ngOnInit() 
@@ -79,9 +81,11 @@ export class HomeBarPage implements OnInit {
 
   terminarPedido(pedido : any)
   {
+    this.mostrarSpinner = true;
     pedido.bar = true;
  
     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
       this.authService.mostrarToastExito('Pedido confirmado!');
  
       this.listaMozos.forEach(m => {
@@ -92,59 +96,76 @@ export class HomeBarPage implements OnInit {
 
   cerrar()
   {
-    this.productosBar = [];
-    this.abierta = false;
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.productosBar = [];
+      this.abierta = false;
+      this.mostrarSpinner = false;
+    }, 2000);
   }
 
   abrir(productos : any)
   {
-    productos.forEach((producto : any) => {
-      if(producto.tipo === 'bebida')
-      {
-        let esta = false;
-        let index = 0;
+    this.mostrarSpinner = true;
 
-        for(let i = 0; i < this.productosBar.length; i++)
+    setTimeout(()=>{
+      productos.forEach((producto : any) => {
+        if(producto.tipo === 'bebida')
         {
-          if(producto.nombre == this.productosBar[i].nombre && producto.descripcion == this.productosBar[i].descripcion)
+          let esta = false;
+          let index = 0;
+  
+          for(let i = 0; i < this.productosBar.length; i++)
           {
-            esta = true;
-            index = i;
-            break;
+            if(producto.nombre == this.productosBar[i].nombre && producto.descripcion == this.productosBar[i].descripcion)
+            {
+              esta = true;
+              index = i;
+              break;
+            }
           }
+  
+          if(!esta)
+          {
+            let obj = {...producto, cantidad : 1};
+            this.productosBar.push(obj);
+          }
+          else
+          {
+            this.productosBar[index].cantidad++;
+          }
+          
         }
-
-        if(!esta)
-        {
-          let obj = {...producto, cantidad : 1};
-          this.productosBar.push(obj);
-        }
-        else
-        {
-          this.productosBar[index].cantidad++;
-        }
-        
-      }
-    });
-
-    this.abierta = true;
+      });
+      
+      this.mostrarSpinner = false;
+      this.abierta = true;
+    }, 2000);
   }
-
-    // cierreSesion(usuario:any, col:string)
-  // {
-  //   let obj = {...usuario};
-  //   obj.token = '';
-  //   FirestoreService.actualizarFs(col, obj, this.firestore);
-  // }
 
   salir()
   {
+    let audio = document.getElementById('audioC') as HTMLAudioElement;
+    this.mostrarSpinner = true;
     this.authService.logout()?.then(()=>{
       this.push.cierreSesion(this.bartender, 'empleados');
-      this.router.navigateByUrl('login');
+      audio.play();
+      setTimeout(()=>{
+        this.router.navigateByUrl('login');
+        this.mostrarSpinner = false;
+      }, 1500);
     })
     .catch((err)=>{
       alert(JSON.stringify(err));
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }

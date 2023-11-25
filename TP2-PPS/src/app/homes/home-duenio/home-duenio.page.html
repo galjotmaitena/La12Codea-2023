@@ -6,7 +6,7 @@
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
       <h1 class="h1Tool" style="font-family: 'Merienda'; position: relative; font-size: 20px;">{{this.duenio != null ? this.duenio.nombre : ''}}</h1>
-      <button style="background:transparent; z-index: 1000; position: relative;  right: -18%;" routerLink="/mesa">
+      <button style="background:transparent; z-index: 1000; position: relative;  right: -18%;" (click)="irA('mesa')">
         <img style="height: 20%; width: 20%;" src="assets/tabla (1).png" alt="">
       </button>
     </div>
@@ -38,9 +38,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </div>
-  <!-- <ion-list>
-
-  </ion-list> -->
-
-  <!-- <ion-button (click)="send()">PRUEBA</ion-button> -->
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>

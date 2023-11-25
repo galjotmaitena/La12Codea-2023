@@ -20,6 +20,7 @@ export class ChatClientePage implements OnInit {
 
   usuario = this.auth.get_user();
   cliente : any;
+  mostrarSpinner = false;
 
   constructor(private firestore : Firestore, private push : PushService, private auth: AuthService, private router: Router) { }
 
@@ -110,7 +111,11 @@ export class ChatClientePage implements OnInit {
 
   salir()
   {
-    this.router.navigateByUrl('homeClientes');
-    this.observable.unsubscribe();
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.observable.unsubscribe();
+      this.router.navigateByUrl('homeClientes');
+      this.mostrarSpinner = false;
+    }, 2000);
   }
 }

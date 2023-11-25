@@ -8,6 +8,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -28,8 +29,9 @@ export class MesaPage implements OnInit {
   fotoPrueba:any = 'assets/mesa-redonda.png';
   
   info: any;
+  mostrarSpinner = false;
 
-  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private formBuilder: FormBuilder, private qrService : QrService, private firestore : Firestore, private authService :AuthService) 
+  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private formBuilder: FormBuilder, private qrService : QrService, private firestore : Firestore, private authService :AuthService, private router: Router) 
   { 
     this.form = this.formBuilder.group({
       numero: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
@@ -107,8 +109,10 @@ export class MesaPage implements OnInit {
 
   darAlta()
   {
+    this.mostrarSpinner = true;
     if(!this.form.valid  || this.tipoMesa === '' || this.foto === 'assets/mesa-redonda.png')
     {
+      this.mostrarSpinner = false;
       this.authService.mostrarToastError('Quedan campos por completar!');
     }
     else
@@ -117,6 +121,8 @@ export class MesaPage implements OnInit {
 
       if(this.generarQR(JSON.stringify(mesa)))
       {
+        this.router.navigateByUrl('home-duenio')
+        this.mostrarSpinner = false;
         this.authService.mostrarToastExito('El alta fue exitosa, el QR ya se encuentra disponible.');
       }
 

@@ -11,6 +11,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  
   isPickerOpen = false;
   email = '';
   clave = '';
@@ -48,6 +49,7 @@ export class LoginPage implements OnInit {
 
   ingresar()
   {
+    let audio = document.getElementById('audio') as HTMLAudioElement;
     this.mostrarSpinner = true;
     this.auth.login(this.email, this.clave)
       ?.then(response =>
@@ -86,7 +88,7 @@ export class LoginPage implements OnInit {
             this.clave = '';
             setTimeout(()=>{
               this.mostrarSpinner = false;
-              this.router.navigate(['/homeClientes']);
+              audio?.play();
             }, 2000);
           }
           else
@@ -110,6 +112,7 @@ export class LoginPage implements OnInit {
                 this.clave = '';
                 setTimeout(()=>{
                   this.mostrarSpinner = false;
+                  audio?.play();
                   this.router.navigate(['/homeClientes']);
                 }, 2000);
               }
@@ -125,6 +128,7 @@ export class LoginPage implements OnInit {
             this.clave = '';
             setTimeout(()=>{
               this.mostrarSpinner = false;
+              audio?.play();
               this.router.navigate(['/home-duenio']);
             }, 2000);
           }
@@ -137,6 +141,7 @@ export class LoginPage implements OnInit {
                 this.clave = '';
                 setTimeout(()=>{
                   this.mostrarSpinner = false;
+                  audio?.play();
                   this.router.navigate(['/home']);
                 }, 2000);
               

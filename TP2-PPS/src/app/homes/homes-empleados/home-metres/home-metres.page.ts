@@ -22,6 +22,7 @@ export class HomeMetresPage implements OnInit {
   observableEmpleados:any;
   clienteEspera : any = '';
   mesa : any = '';
+  mostrarSpinner = false;
 
   presentingElement:any;
   
@@ -84,6 +85,7 @@ export class HomeMetresPage implements OnInit {
   //#region METRES
   asignarMesas()
   {
+    this.mostrarSpinner = true;
     this.listaEspera.forEach(cliente => {
       if((cliente.dni === parseInt(this.clienteEspera.dni) || cliente.nombre === this.clienteEspera.nombre) && cliente.mesa === '')          ///////busco por nombre     DNI
       {
@@ -97,6 +99,7 @@ export class HomeMetresPage implements OnInit {
               cliente.espera = false;
 
               FirestoreService.actualizarFs('clientes', cliente, this.firestore).then(()=>{
+                this.mostrarSpinner = false;
                 this.authService.mostrarToastExito(`Mesa ${this.mesa} asignada con exito!`);
 
                 this.listaEspera = [];
@@ -133,6 +136,7 @@ export class HomeMetresPage implements OnInit {
 
   salir()
   {
+    this.mostrarSpinner = true;
     let usuario:any;
 
     this.metres.forEach((u:any) => {
@@ -145,9 +149,19 @@ export class HomeMetresPage implements OnInit {
     this.authService.logout()?.then(()=>{
       this.push.cierreSesion(usuario, 'empleados');
       this.router.navigateByUrl('login');
+      this.mostrarSpinner = false;
     })
     .catch((err)=>{
       alert(JSON.stringify(err));
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }

@@ -39,6 +39,7 @@ export class ClientesPage implements OnInit {
   recomendaria: boolean = false;
 
   foto = false;
+  mostrarSpinner = false;
 
   constructor(private router: Router, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
   { 
@@ -128,7 +129,8 @@ export class ClientesPage implements OnInit {
   }
 
   async enviar()
-  {
+  { 
+    this.mostrarSpinner = true;
     await this.subirFotos();
     const fecha = new Date().getTime();
     let encuesta = {cliente : this.cliente.nombre, fecha : fecha, facilidad : this.facilidad, atencion : this.atencion, experiencia : this.experiencia, servicios : this.opciones, recomendacion : this.recomendaria, fotos : this.fotosSubidas};
@@ -136,7 +138,18 @@ export class ClientesPage implements OnInit {
     FirestoreService.guardarFs('encuestaClientes', encuesta, this.firestore);
     this.auth.mostrarToastExito("¡Encuesta enviada con éxito!");
     this.cliente.encuesta = true;
-    FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
-    this.router.navigateByUrl('homeClientes');
+    FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+      this.router.navigateByUrl('homeClientes');
+      this.mostrarSpinner = false;
+    });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }
