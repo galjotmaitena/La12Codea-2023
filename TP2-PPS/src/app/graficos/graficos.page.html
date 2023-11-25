@@ -1,17 +1,23 @@
 <ion-content class="container">
   <script src="https://unpkg.com/chart.js-plugin-labels-dv/dist/chartjs-plugin-labels.min.js"></script>
 
-  <div class="divCanva">
-    <canvas id="pie" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  <div class="divCanva divContenedor">
+    <h2 class="texto">Recomendación del local</h2>
+    <canvas id="pie" width="400" height="400" style="position: relative; bottom: 1%; margin: 5px;"></canvas>
   </div>
-  <div class="divCanva">
-    <canvas id="bar" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  <div class="divCanva divContenedor">
+    <!-- <h2 class="texto">Lo que hace unico a nuestro restaurante</h2> -->
+    <canvas id="bar" width="400" height="400" style="position: relative; bottom: 1%; margin: 5px;"></canvas>
   </div>
-  <div class="divCanva">
-    <canvas id="dona" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  <div class="divCanva divContenedor">
+    <h2 class="texto">Facilidad para realizar el pedido</h2>
+    <canvas id="dona" width="400" height="400" style="position: relative; bottom: 1%; margin: 5px;"></canvas>
   </div>
-  <div class="divCanva">
-    <canvas id="line" width="400" height="400" style="position: relative; bottom: 1%;"></canvas>
+  <div class="divCanva divContenedor">
+    <h2 class="texto">Atención del personal</h2>
+    <div>
+      <canvas id="line" width="400" height="400" style="position: relative; bottom: 1%; margin: 5px;"></canvas>
+    </div>
   </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" routerLink="/lindos">

@@ -21,6 +21,6 @@ export class AppComponent {
       "messagingSenderId":"723280552401"}
     );
 
-    //this.router.navigateByUrl('homeClientes');
+    this.router.navigateByUrl('graficos');
   }
 }
