@@ -78,7 +78,19 @@ Mesa 6
 
   ![image](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/4701f7ab-18a2-4b9a-bc81-cac0487cfc0b)
 
+## Homes
 
+### Home Dueño/Supervisor
+
+![Imagen de WhatsApp 2023-11-25 a las 09 40 05_a62df278](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/e7a42ed3-aa5c-4876-81dd-9b35608bf59a)
+
+### Home Metre
+
+![Imagen de WhatsApp 2023-11-25 a las 09 40 06_6e9b405f](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/9991927a-9ee7-419c-a560-6dd3f1aeb8b3)
+
+![Imagen de WhatsApp 2023-11-25 a las 09 40 06_e23f351b](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/3026e9d7-b187-4313-bb4b-efd4947ea8ad)
+
+![Imagen de WhatsApp 2023-11-25 a las 09 40 06_8bfa567a](https://github.com/galjotmaitena/La12Codea-2023/assets/86839503/49228c27-6d20-40f4-a8f9-2cec4f3e514f)
 
   
 
