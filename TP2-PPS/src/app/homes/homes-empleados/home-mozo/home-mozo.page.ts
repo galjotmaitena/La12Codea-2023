@@ -129,10 +129,16 @@ export class HomeMozoPage implements OnInit {
   confirmarPago(pedido: any)
   {
     this.mostrarSpinner = true;
-    let mesa:any;
-    let cliente:any;
 
-    FirestoreService.traerFs('mesas', this.firestore).subscribe((mesas)=>{
+    setTimeout(()=>{
+      pedido.estado = 'pag_confirmado';
+      FirestoreService.eliminarFs('pedidos', pedido, this.firestore).toPromise().then(()=>{
+        this.mostrarSpinner = false;
+      });
+    }, 3000);
+    
+
+    /*FirestoreService.traerFs('mesas', this.firestore).subscribe((mesas)=>{
       mesas.forEach((m)=>{
         if(m.numero === pedido.mesa)
         {
@@ -184,7 +190,7 @@ export class HomeMozoPage implements OnInit {
       {
         this.authService.mostrarToastError('ERROR AL CONFIRMAR PAGO');
       }
-    }, 3000)
+    }, 3000) */
   }
 
   salir()

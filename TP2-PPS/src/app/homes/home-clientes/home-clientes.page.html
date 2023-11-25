@@ -243,11 +243,13 @@
           </ion-fab-button>
         </ion-fab>
       </div> -->
-      <div *ngIf="estadoPedido === 'pagado'" class="wrapper modal">
-        <h1 class="texto">Espere la confirmación del mozo</h1>
-      </div>
+
     </ng-template>
   </ion-modal>
+
+  <div *ngIf="estadoPedido === 'pagado'" class="wrapper modal">
+    <h1 class="texto">Espere la confirmación del mozo</h1>
+  </div>
 
   <div *ngIf="!abierta && abrirModal">
     <div *ngIf="estadoPedido === 'recibido'" class="wrapper detalle">

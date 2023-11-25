@@ -241,7 +241,7 @@ export class HomeClientesPage implements OnInit {
         let ingresoJSON = JSON.parse(this.escaneado)
         if(ingresoJSON.ingresarAlLocal == undefined)
         {
-          alert('Debe escanear el qr del ingreso al local.');
+          this.authService.mostrarToastError('Debe escanear el qr del ingreso al local.');
         }
         else
         {
@@ -294,17 +294,57 @@ export class HomeClientesPage implements OnInit {
                 }
                 else
                 {
-/*                   if(this.estadoPedido === 'recibido'/*  && this.modalAbierto )
+                  if(this.estadoPedido === 'pag_confirmado')
                   {
-                    let propinaJSON = JSON.parse(this.escaneado);                             
-                    this.cliente.propina = propinaJSON.propina;
-                    this.modalAbierto = true;
-                    //this.cliente.propina = 15;
-    
-                    FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
-                      this.authService.mostrarToastExito('Propina asignada');
+                    let mensajes : any;
+                    let mesaCliente:any;
+                    FirestoreService.traerFs('mensajes', this.firestore).subscribe((data)=>{
+                      mensajes = data;
                     });
-                  } */
+
+                    FirestoreService.traerFs('mesas',this.firestore).subscribe((data)=>{
+                      data.forEach((m)=>{
+                        if(m.numero === this.cliente.mesa)
+                        {
+                          mesaCliente = m;
+                        }
+                      })
+                    });
+                    this.mostrarSpinner = true;
+                    setTimeout(()=>{
+                      
+                      
+                        mensajes.forEach((m:any) => {
+                          const mesa = m.usuario.tipoEmpleado === 'mozo'
+                          ? m.mesa
+                          : m.usuario.mesa;
+                          if(mesa === this.cliente.mesa)
+                          {
+                            FirestoreService.eliminarFs('mensajes', m, this.firestore);
+                          }
+                        });
+                
+                        mesaCliente.ocupada = false;
+                        FirestoreService.actualizarFs('mesas', mesaCliente, this.firestore);
+                        
+                        this.cliente.descuento = 0;
+                        this.cliente.propina = 0;
+                        this.cliente.encuesta = false;
+                        this.cliente.mesa = '';
+                        this.ingreso = false;
+          this.yaPidio = false;
+          this.enMesa = false;
+          this.abrirModal = false;
+          this.estadoPedido = '';
+          this.importe = 0;
+          this.totalTiempo = 0;
+                        FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+                          this.mostrarSpinner = false
+                        });
+                        this.authService.mostrarToastExito('PAGO CONFIRMADO');
+                      
+                    }, 3000)
+                  }
                 }
               }
             }
@@ -421,6 +461,8 @@ export class HomeClientesPage implements OnInit {
   {
     let pedido:any;
 
+    this.abrirModal = false;
+
     this.pedidos.forEach((p)=>{
       if(this.cliente.mesa === p.mesa)
       {
@@ -448,14 +490,16 @@ export class HomeClientesPage implements OnInit {
         window.location.href = respuesta.init_point;
         pedido.estado = "pagado";
         FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+
+        this.estadoPedido = pedido.estado;
       },
       (error) => {
         console.error('Error al obtener la URL de pago:', error);
       });
     }
 
-    this.abrirModal = false;
-    this.estadoPedido = pedido.estado;
+    // this.abrirModal = false;
+    // this.estadoPedido = pedido.estado;
   }
 
   confirmar()
