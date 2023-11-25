@@ -21,6 +21,6 @@ export class AppComponent {
       "messagingSenderId":"723280552401"}
     );
 
-    this.router.navigateByUrl('graficos');
+    //this.router.navigateByUrl('graficos');
   }
 }

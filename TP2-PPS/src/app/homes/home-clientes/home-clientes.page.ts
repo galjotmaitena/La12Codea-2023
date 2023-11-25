@@ -63,6 +63,7 @@ export class HomeClientesPage implements OnInit {
   postres : any[] = [];
 
   modalAbierto = false;
+  abrirModal = false;
   recibido = false;
 
   miPedido : any;
@@ -132,6 +133,19 @@ export class HomeClientesPage implements OnInit {
 
     this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
       this.pedidos = data;
+
+      this.pedido.forEach(pedido => {
+        if(pedido.mesa === this.cliente.mesa && pedido.estado === 'pag_confirmado')
+        {
+          this.ingreso = false;
+          this.yaPidio = false;
+          this.enMesa = false;
+          this.abrirModal = false;
+          this.estadoPedido = '';
+          this.importe = 0;
+          this.totalTiempo = 0;
+        }
+      });
     });
 
     this.obsEncuestas = FirestoreService.traerFs('encuestaClientes', this.firestore).subscribe((data)=>{
@@ -440,7 +454,7 @@ export class HomeClientesPage implements OnInit {
       });
     }
 
-    this.modalAbierto = false;
+    this.abrirModal = false;
     this.estadoPedido = pedido.estado;
   }
 

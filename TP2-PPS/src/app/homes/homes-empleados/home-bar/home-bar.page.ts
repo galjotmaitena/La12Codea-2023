@@ -37,23 +37,24 @@ export class HomeBarPage implements OnInit {
       data.forEach(pedido => {
         if(pedido.estado === 'confirmado' && !pedido.bar)
         {
-          let esBebida = false;
+          let array : any[] = [];
 
           pedido.productos.forEach((producto : any) => {
             if(producto.tipo === 'bebida')
             {
-              esBebida = true;
+              array.push(producto);
             }
           });
 
-          if(esBebida)
+          if(array.length > 0)
           {
-            this.listaPedidos.push(pedido);
+            array.forEach(pedido => {
+              this.listaPedidos.push(pedido);
+            });
           }
           else
           {
-            pedido.bebida = true;
-
+            pedido.bar = true;
             FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
           }
         }

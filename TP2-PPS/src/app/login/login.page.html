@@ -16,11 +16,11 @@
   <!-- HACER VALIDACIONES DE FORMS VALIDATORS -->
 
   <div class="divBtnPick">
-      <ion-button class="button-pick" (click)="email = 'atienzotomi@gmail.com'; clave = '111111'">INGRESAR COMO CLIENTE PRECARGADO</ion-button>
+      <ion-button class="button-pick" (click)="email = 'atienzotomi@gmail.com'; clave = '111111'">CLIENTE PRECARGADO</ion-button>
   </div>
 
-  <div class="ion-padding">
-      <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+  <!-- <div class="ion-padding" slot="fixed" vertical="bottom" horizontal="start"> -->
+      <ion-fab slot="fixed" vertical="top" horizontal="start">
         <ion-fab-button>
           <ion-icon name="arrow-forward-circle-outline"></ion-icon>
         </ion-fab-button>
@@ -28,7 +28,7 @@
           <ion-fab-button (click)="email = 'juan@juan.com'; clave = '11111111'">
             <img src="assets/usuarios/cocinero.png">
           </ion-fab-button>
-          <ion-fab-button (click)="email = 'gal@gal.com'; clave = '11111111'">
+          <ion-fab-button (click)="email = 'gal@gal.com'; clave = '111111'">
             <img src="assets/usuarios/camarera.png">
           </ion-fab-button>
           <ion-fab-button (click)="email = 'lau@lau.com'; clave = '11111111'">
@@ -39,7 +39,7 @@
           </ion-fab-button>
         </ion-fab-list>
       </ion-fab>
-  </div>
+  <!-- </div> -->
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button class="clienteFab" (click)="email = 'tomi.gauna08@gmail.com'; clave = '1111111'">
