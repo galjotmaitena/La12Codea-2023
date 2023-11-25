@@ -3,7 +3,7 @@
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
     <div class="tool">
       <button style="background:transparent; z-index: 1000;">
-        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+        <ion-icon name="arrow-undo-outline" class="iconSalir" (click)="salir()"></ion-icon>
       </button>
       <h1 class="h1Tool">{{this.cocinero != null ? this.cocinero.nombre : ''}}</h1>
     </div>

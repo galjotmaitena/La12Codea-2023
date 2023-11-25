@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -24,7 +25,7 @@ export class HomeCocinaPage implements OnInit {
   user = this.authService.get_user();
   cocinero : any;
 
-  constructor(private firestore : Firestore, private authService : AuthService, private push: PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private push: PushService, private router: Router) { }
 
   ngOnInit() 
   {
@@ -137,14 +138,14 @@ export class HomeCocinaPage implements OnInit {
   //   FirestoreService.actualizarFs(col, obj, this.firestore);
   // }
 
-  // salir()
-  // {
-  //   this.authService.logout()?.then(()=>{
-  //     this.push.cierreSesion(this.cliente, 'clientes');
-  //     this.router.navigateByUrl('login');
-  //   })
-  //   .catch((err)=>{
-  //     alert(JSON.stringify(err));
-  //   });
-  // }
+  salir()
+  {
+    this.authService.logout()?.then(()=>{
+      this.push.cierreSesion(this.cocinero, 'empleados');
+      this.router.navigateByUrl('login');
+    })
+    .catch((err)=>{
+      alert(JSON.stringify(err));
+    });
+  }
 }

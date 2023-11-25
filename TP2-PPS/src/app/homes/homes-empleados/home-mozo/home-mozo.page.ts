@@ -166,8 +166,8 @@ export class HomeMozoPage implements OnInit {
         cliente.mesa = '';
         FirestoreService.actualizarFs('clientes', cliente, this.firestore);
 
-        pedido.estado = 'pag_confirmado';
-        FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+        //pedido.estado = 'pag_confirmado';
+        FirestoreService.eliminarFs('pedidos', pedido, this.firestore);
 
         this.authService.mostrarToastExito('PAGO CONFIRMADO');
       }
@@ -175,7 +175,7 @@ export class HomeMozoPage implements OnInit {
       {
         this.authService.mostrarToastError('ERROR AL CONFIRMAR PAGO');
       }
-    }, 4000)
+    }, 3000)
   }
 
   salir()

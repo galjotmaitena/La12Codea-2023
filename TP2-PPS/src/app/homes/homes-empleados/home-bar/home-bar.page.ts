@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -24,7 +25,7 @@ export class HomeBarPage implements OnInit {
   user = this.authService.get_user();
   bartender : any;
 
-  constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService) { }
+  constructor(private firestore : Firestore, private authService : AuthService, private router: Router, private push: PushService) { }
 
   ngOnInit() 
   {
@@ -136,14 +137,14 @@ export class HomeBarPage implements OnInit {
   //   FirestoreService.actualizarFs(col, obj, this.firestore);
   // }
 
-  // salir()
-  // {
-  //   this.authService.logout()?.then(()=>{
-  //     this.push.cierreSesion(this.cliente, 'clientes');
-  //     this.router.navigateByUrl('login');
-  //   })
-  //   .catch((err)=>{
-  //     alert(JSON.stringify(err));
-  //   });
-  // }
+  salir()
+  {
+    this.authService.logout()?.then(()=>{
+      this.push.cierreSesion(this.bartender, 'empleados');
+      this.router.navigateByUrl('login');
+    })
+    .catch((err)=>{
+      alert(JSON.stringify(err));
+    });
+  }
 }
