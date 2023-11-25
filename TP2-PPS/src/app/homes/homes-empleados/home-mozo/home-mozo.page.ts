@@ -13,16 +13,16 @@ import { Router } from '@angular/router';
 export class HomeMozoPage implements OnInit {
 
     /////////////////MOZOS
-    listaPedidosPendientes : any[] = [];
-    listaPedidosListos : any[] = [];
-    listaPedidosEnPreparacion : any[] = [];
-    listaPedidosPagados: any[] = [];
-    listaEmpleados : any[] = [];
-    mensajes: any[] = [];
-    observablePedidos : any;
-    observableEmpleados : any;
-    pedido : any = '';
-    mozo: any;
+  listaPedidosPendientes : any[] = [];
+  listaPedidosListos : any[] = [];
+  listaPedidosEnPreparacion : any[] = [];
+  listaPedidosPagados: any[] = [];
+  listaEmpleados : any[] = [];
+  mensajes: any[] = [];
+  observablePedidos : any;
+  observableEmpleados : any;
+  pedido : any = '';
+  mozo: any;
 
   constructor(private firestore : Firestore, private authService : AuthService, private push: PushService, private router: Router) { }
 

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  --background: url('../../../../assets/fondoChef.jpg');
+  --background: url('../../../../assets/fondoMetre.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -19,6 +19,7 @@
   flex-direction: row;
   background:transparent; 
   height: 100%;
+  width: 100%;
 }
 
 .toolB{
@@ -81,7 +82,6 @@
 
 .asignar{
   height: auto;
-  width: 90%;
   margin: 7px;
   display: flex;
   flex-direction: column;
@@ -90,4 +90,19 @@
   background-color: #ADE8F4;
   border: 3px solid #0077B6 ;
   border-radius: 10px;
+  bottom: 3%;
+}
+
+.divContenedor{
+  margin: 5px;
+  background: #CAF0F8;
+  border: 3px solid #023E8A;
+  border-radius: 10px;
+  height: auto;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }

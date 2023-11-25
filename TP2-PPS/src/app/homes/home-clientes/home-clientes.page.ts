@@ -133,16 +133,15 @@ export class HomeClientesPage implements OnInit {
       this.pedidos = data;
     });
 
-    // this.obsEncuestas = FirestoreService.traerFs('encuestas', this.firestore).subscribe((data)=>{
-    //   this.encuestas = data;
-      
-    // });
+    this.obsEncuestas = FirestoreService.traerFs('encuestaClientes', this.firestore).subscribe((data)=>{
+      this.encuestas = data;
+    });
 
-    this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
-      this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    // this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
+    //   this.encuestas.push({cliente:'mai', experiencia:'adasdadadsadad'});
   }
 
   ngOnDestroy() : void 
@@ -249,7 +248,8 @@ export class HomeClientesPage implements OnInit {
             }
           });
         }
-        /* let ingresoJSON = JSON.parse(this.escaneado);                             
+        /* let ingresoJSON = JSON.parse(this.escaneado);        
+        let ingresoJSON = JSON.parse(this.escaneado);                 
         this.ingreso = ingresoJSON.ingresarAlLocal;
         this.cliente.espera = true;
       

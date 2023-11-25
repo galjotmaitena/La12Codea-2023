@@ -30,14 +30,14 @@ ion-title.ion-text-center
 
   ion-toolbar{
 
-    --background: #64B5F6;
+    --background: #0077B6;
     --color: #ffffff;
     font-family: 'Merienda';
     //font-family: Merriweather, sans-serif;
   }
 
   ion-item{
-    --background: #64B5F6;
+    --background: #0077B6;
     //font-family: Merriweather, sans-serif;
   }
 
@@ -45,7 +45,18 @@ ion-title.ion-text-center
   .container-gral{
     // display: flex;
     // flex-direction: column;
-    background: url('../../../assets/fondoChatCliente.jpg');
+    background: url('../../../assets/fondoChatMozo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    //font-family: Merriweather, sans-serif;
+  }
+
+  .container-gral-sinChat{
+    // display: flex;
+    // flex-direction: column;
+    background: url('../../../assets/fondoMozo.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

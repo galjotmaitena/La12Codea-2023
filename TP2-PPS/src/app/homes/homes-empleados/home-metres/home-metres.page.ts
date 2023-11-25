@@ -27,6 +27,9 @@ export class HomeMetresPage implements OnInit {
   
   abierta = false;
 
+  user = this.authService.get_user();
+  metre : any;
+
   constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService, private router: Router) { }
 
   ngOnInit() 
@@ -38,6 +41,11 @@ export class HomeMetresPage implements OnInit {
         if(m.tipoEmpleado === 'metre')
         {
           this.metres.push(m);
+
+          if(m.email === this.user?.email)
+          {
+            this.metre = m;
+          }
         }
       });
     });

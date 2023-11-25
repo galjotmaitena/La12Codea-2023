@@ -17,6 +17,7 @@ export class HomeDuenioPage implements OnInit {
   observable:any;
   duenios: any[] = [];
   email = this.auth.get_user()?.email;
+  duenio : any;
  
   constructor(private firestore: Firestore, private push: PushService, private emailService: EmailService, private auth:AuthService, private router: Router){}
 
@@ -35,6 +36,13 @@ export class HomeDuenioPage implements OnInit {
 
     FirestoreService.traerFs('duenios', this.firestore).subscribe((data)=>{
       this.duenios = data;
+
+      data.forEach(d => {
+        if(d.email === this.email)
+        {
+          this.duenio = d;
+        }
+      });
     });
   }
 

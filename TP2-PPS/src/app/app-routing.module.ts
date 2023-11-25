@@ -94,6 +94,10 @@ const routes: Routes = [
     path: 'juego-memoria',
     loadChildren: () => import('./juegos/juego-memoria/juego-memoria.module').then( m => m.JuegoMemoriaPageModule)
   },
+  {
+    path: 'graficos',
+    loadChildren: () => import('./graficos/graficos.module').then( m => m.GraficosPageModule)
+  },
 
 ];
 

@@ -21,41 +21,41 @@ export class HomeCocinaPage implements OnInit {
 
   abierta = false;
 
+  user = this.authService.get_user();
+  cocinero : any;
+
   constructor(private firestore : Firestore, private authService : AuthService, private push: PushService) { }
 
   ngOnInit() 
   {
-    // this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
-    //   this.productosCocina = [];
-    //   this.listaPedidos = [];
-    //   data.forEach(pedido => {
-    //     if(pedido.estado === 'confirmado' && !pedido.cocina)
-    //     {
-    //       let esComida = false;
+    this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
+      this.productosCocina = [];
+      this.listaPedidos = [];
+      data.forEach(pedido => {
+        if(pedido.estado === 'confirmado' && !pedido.cocina)
+        {
+          let esComida = false;
 
-    //       pedido.productos.forEach((producto : any) => {
-    //         if(producto.tipo !== 'bebida')
-    //         {
-    //           esComida = true;
-    //         }
-    //       });
+          pedido.productos.forEach((producto : any) => {
+            if(producto.tipo !== 'bebida')
+            {
+              esComida = true;
+            }
+          });
 
-    //       if(esComida)
-    //       {
-    //         this.listaPedidos.push(pedido);
-    //       }
-    //       else
-    //       {
-    //         pedido.cocina = true;
+          if(esComida)
+          {
+            this.listaPedidos.push(pedido);
+          }
+          else
+          {
+            pedido.cocina = true;
 
-    //         FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
-    //       }
-    //     }
-    //   });
-    // });
-
-     this.listaPedidos.push({'mesa': 1, 'productos': [{'tipo' : 'comida', 'nombre':'gin tonic'}, {'tipo' : 'bebida', 'nombre':'gancia'}, {'tipo' : 'comida', 'nombre':'fideos'}]});
-     this.listaPedidos.push({'mesa': 2, 'productos': [{'tipo' : 'comida', 'nombre':'gin tonic'}]});
+            FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+          }
+        }
+      });
+    });
 
     this.observableEmpleados = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       this.listaMozos = [];
@@ -63,6 +63,13 @@ export class HomeCocinaPage implements OnInit {
         if(empleado.tipoEmpleado === 'mozo')
         {
           this.listaMozos.push(empleado);
+        }
+        else
+        {
+          if(empleado.email === this.user?.email)
+          {
+            this.cocinero = empleado;
+          }
         }
       });
     });

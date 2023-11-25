@@ -21,42 +21,41 @@ export class HomeBarPage implements OnInit {
 
   abierta = false;
 
+  user = this.authService.get_user();
+  bartender : any;
+
   constructor(private firestore : Firestore, private authService : AuthService, private actionSheetCtrl: ActionSheetController, private push: PushService) { }
 
   ngOnInit() 
   {
-    // this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
-    //   this.productosBar = [];
-    //   this.listaPedidos = [];
-    //   data.forEach(pedido => {
-    //     if(pedido.estado === 'confirmado' && !pedido.bar)
-    //     {
-    //       let esBebida = false;
+    this.observablePedidos = FirestoreService.traerFs('pedidos', this.firestore).subscribe((data)=>{
+      this.productosBar = [];
+      this.listaPedidos = [];
+      data.forEach(pedido => {
+        if(pedido.estado === 'confirmado' && !pedido.bar)
+        {
+          let esBebida = false;
 
-    //       pedido.productos.forEach((producto : any) => {
-    //         if(producto.tipo === 'bebida')
-    //         {
-    //           esBebida = true;
-    //         }
-    //       });
+          pedido.productos.forEach((producto : any) => {
+            if(producto.tipo === 'bebida')
+            {
+              esBebida = true;
+            }
+          });
 
-    //       if(esBebida)
-    //       {
-    //         this.listaPedidos.push(pedido);
-    //       }
-    //       else
-    //       {
-    //         pedido.bebida = true;
+          if(esBebida)
+          {
+            this.listaPedidos.push(pedido);
+          }
+          else
+          {
+            pedido.bebida = true;
 
-    //         FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
-    //       }
-    //     }
-    //   });
-    // });
-
-     this.listaPedidos.push({'mesa': 1, 'productos': [{'tipo' : 'bebida', 'nombre':'gin tonic'}, {'tipo' : 'bebida', 'nombre':'gancia'}, {'tipo' : 'comida', 'nombre':'gancia'}]});
-     this.listaPedidos.push({'mesa': 2, 'productos': [{'tipo' : 'bebida', 'nombre':'gin tonic'}]});
-
+            FirestoreService.actualizarFs('pedidos', pedido, this.firestore);
+          }
+        }
+      });
+    });
 
     this.observableEmpleados = FirestoreService.traerFs('empleados', this.firestore).subscribe((data)=>{
       this.listaMozos = [];
@@ -65,8 +64,16 @@ export class HomeBarPage implements OnInit {
         {
           this.listaMozos.push(empleado);
         }
+        else
+        {
+          if(empleado.email === this.user?.email)
+          {
+            this.bartender = empleado;
+          }
+        }
       });
     });
+
   }
 
   terminarPedido(pedido : any)
