@@ -1,18 +1,18 @@
 <ion-content class="container-gral" *ngIf="!abierta"  >
 
   <ion-toolbar class="ion-no-border toolB" style="position: fixed; z-index: 9999; left: 0; top: 0;" >
-    <div class="tool" *ngIf="!enMesa">
+    <div class="tool" *ngIf="!enMesa || yaPidio">
       <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
       <h1 class="h1Tool" *ngIf="!enMesa || yaPidio">{{this.cliente != null ? this.cliente.nombre : ''}}</h1>
     </div>
 
-    <div class="tool" *ngIf="enMesa" style="justify-content: space-evenly;;" >
+    <div class="tool" *ngIf="enMesa && !yaPidio" style="justify-content: space-evenly;;" >
       <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
-      <h1 style="font-family: 'Merienda'; position: relative; font-size: 20px;" *ngIf="enMesa && !yaPidio">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
+      <h1 style="font-family: 'Merienda'; position: relative; font-size: 20px;" *ngIf="enMesa">${{importe}} - Tiempo: {{totalTiempo}} mins</h1>
       <button *ngIf="enMesa" (click)="enviarPedido()" style="background:transparent; z-index: 1000;">
         <ion-icon name="cart-outline" class="iconSalir" style="right: 0%;"></ion-icon>
       </button>
@@ -174,7 +174,8 @@
   <!-- home4 -->
 
   <div *ngIf="yaPidio" style="height: 100%; justify-content: space-evenly; align-items: center; display: flex; flex-direction: column; text-align: center;">
-    <h1 *ngIf="estadoPedido !== 'entregado'" class="texto">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</h1>
+    <h1 *ngIf="estadoPedido !== 'entregado' && estadoPedido !== 'pendiente'" class="texto">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</h1>
+    <h1 *ngIf="estadoPedido === 'pendiente'" class="texto">Use el scanner para ver el estado de su pedido.</h1>
 
     <div class="divJuegoEnc" *ngIf="estadoPedido !== 'pendiente' && estadoPedido !== 'pagado'">
        <ion-button routerLink="/inicio-juegos" class="btnJuEn">
@@ -185,12 +186,12 @@
           <img src="assets/satisfaccion.png">
         </ion-button>
         <!-- tiene que redirigir a una page que muestre los graficossssss -->
-        <ion-button *ngIf="cliente.encuesta"  class="btnJuEn"> 
+        <ion-button *ngIf="cliente.encuesta" routerLink="/graficos" class="btnJuEn"> 
           <img src="assets/investigacion.png">
         </ion-button>
     </div>
 
-    <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true">PEDIR CUENTA</ion-button>
+    <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true"  class="pedirCuenta">PEDIR CUENTA</ion-button>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="yaPidio">
       <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
@@ -202,11 +203,16 @@
 
   <ion-modal [isOpen]="modalAbierto" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
     <ng-template>
-      <div *ngIf="estadoPedido === 'entregado'" class="wrapper">
-        <h1>Recibio el pedido?</h1>
-        <ion-button (click)="confirmar()">SI</ion-button>
-        <ion-button (click)="modalAbierto = false">NO</ion-button>
+      <div *ngIf="estadoPedido === 'entregado'" class="wrapper modal">
+        <h1 class="texto">Recibio el pedido?</h1>
+        <ion-button (click)="confirmar()">
+          <img src="assets/si.png" alt="">
+        </ion-button>
+        <ion-button (click)="modalAbierto = false">
+          <img src="assets/no.png" alt="">
+        </ion-button>
       </div>
+      
       <div *ngIf="estadoPedido === 'recibido'" class="wrapper">
         <ion-list lines="none">
           <ion-item *ngFor="let p of miPedido.productos">

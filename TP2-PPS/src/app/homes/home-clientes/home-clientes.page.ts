@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = false;           ////////////////////////////////////////poner en true para probar
-  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = true;           ////////////////////////////////////////poner en true para probar
+  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -361,7 +361,7 @@ export class HomeClientesPage implements OnInit {
     if(accion)
     {
       this.pedido.push(p);
-      this.authService.mostrarToastExito(p.nombre + " ha agregado a su pedido.");
+      this.authService.mostrarToast(`${p.nombre} ha agregado a su pedido.`, 'success', 'top',2000);
       this.importe += p.precio;
     }
     else
@@ -371,13 +371,14 @@ export class HomeClientesPage implements OnInit {
 
       if(!esta)
       {
-        this.authService.mostrarToastError(p.nombre + " no se encuentra en su pedido.");
+        this.authService.mostrarToast(`${p.nombre} no se encuentra en su pedido.`, 'danger', 'top',2000);
       }
       else
       {
         this.pedido.splice(index, 1);
         this.importe -= p.precio;
-        this.authService.mostrarToastExito(p.nombre + " ha sido eliminado de su pedido.");
+        this.authService.mostrarToast(`${p.nombre} ha sido eliminado de su pedido..`, 'danger', 'top',2000);
+
       }
     }
 
@@ -397,7 +398,8 @@ export class HomeClientesPage implements OnInit {
   {
     if(this.pedido.length > 0)
     {
-      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false, precio: this.importe}
+      let obj = {mesa: this.cliente.mesa, productos: this.pedido, estado: 'pendiente', cocina: false, bar: false, precio: this.importe};
+      this.estadoPedido = 'pendiente';
       FirestoreService.guardarFs('pedidos', obj, this.firestore);
       this.authService.mostrarToastExito('Pedido cargado correctamente');
       this.yaPidio = true;

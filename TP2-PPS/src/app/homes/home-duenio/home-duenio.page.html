@@ -1,17 +1,21 @@
 <ion-content class="contenedor" [fullscreen]="true">
 
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
-    <div class="tool">
+    <div class="tool" style="justify-content: space-evenly;;" >
       <button (click)="salir()" style="background:transparent; z-index: 1000;">
         <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
       </button>
       <h1 class="h1Tool" style="font-family: 'Merienda'; position: relative; font-size: 20px;">{{this.duenio != null ? this.duenio.nombre : ''}}</h1>
+      <button style="background:transparent; z-index: 1000; position: relative;  right: -18%;" routerLink="/mesa">
+        <img style="height: 20%; width: 20%;" src="assets/tabla (1).png" alt="">
+      </button>
     </div>
   </ion-toolbar>
 
-  <ion-list>
+  <div class="divContenedor">
+    <h2 class="texto">Clientes en espera de aprobación</h2>
     <ion-item-sliding style="width: auto;" *ngFor="let item of items; let index">
-      <ion-item>
+      <ion-item style="--background: #0077B6;">
         <ion-label class="nombre">{{item.apellido}} {{item.nombre}} - DNI: {{item.dni}}</ion-label>
         <ion-img class="image" [src]="item.foto"></ion-img>
       </ion-item>
@@ -33,7 +37,10 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </div>
+  <!-- <ion-list>
+
+  </ion-list> -->
 
   <!-- <ion-button (click)="send()">PRUEBA</ion-button> -->
 </ion-content>

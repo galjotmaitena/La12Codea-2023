@@ -107,4 +107,14 @@ export class AuthService {
     });
     toast.present();
   }
+
+  async mostrarToast(mensaje: string, colorReq : string, posicion : any, time : number) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: time, // Duración en milisegundos (3 segundos en este ejemplo)
+      color: colorReq, // Color del toast (puedes personalizarlo)
+      position: posicion, // Posición del toast (puedes cambiarlo)
+    });
+    toast.present();
+  }
 }
