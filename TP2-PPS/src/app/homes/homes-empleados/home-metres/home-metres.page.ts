@@ -106,6 +106,9 @@ export class HomeMetresPage implements OnInit {
               });
 
               this.listaMesas=[];
+
+              this.mesa = '';
+              this.clienteEspera = '';
             });
           }
         });

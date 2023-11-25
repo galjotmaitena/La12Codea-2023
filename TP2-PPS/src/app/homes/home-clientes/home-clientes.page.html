@@ -39,8 +39,8 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="(yaPidio || !enMesa) && ingreso">
-    <ion-fab-button (click)="startScan()" style="--background:#64B5F6">
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" *ngIf="(yaPidio || !enMesa) && ingreso" >
+    <ion-fab-button (click)="startScan()" style="--background:#64B5F6" [disabled]="this.cliente.espera && this.cliente.mesa == ''">
       <ion-icon name="qr-code-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -174,8 +174,11 @@
   <!-- home4 -->
 
   <div *ngIf="yaPidio" style="height: 100%; justify-content: space-evenly; align-items: center; display: flex; flex-direction: column; text-align: center;">
+    <div *ngIf="estadoPedido === 'pendiente'" class="cuadroPendiente">
+      <h1 class="texto" style="font-size: 30px;">EL ESTADO DE SU PEDIDO: PENDIENTE.</h1>
+      <h1 class="texto" style="font-size: 30px;">Use el scanner para ver el cambio de estado de su pedido.</h1>
+    </div>
     <h1 *ngIf="estadoPedido !== 'entregado' && estadoPedido !== 'pendiente'" class="texto">ESTADO DE SU PEDIDO: {{estadoPedido.toUpperCase()}}</h1>
-    <h1 *ngIf="estadoPedido === 'pendiente'" class="texto">Use el scanner para ver el estado de su pedido.</h1>
 
     <div class="divJuegoEnc" *ngIf="estadoPedido !== 'pendiente' && estadoPedido !== 'pagado'">
        <ion-button (click)="irA('inicio-juegos')" class="btnJuEn">
@@ -201,31 +204,37 @@
   </div>
 
 
-  <ion-modal [isOpen]="modalAbierto" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
+  <ion-modal [isOpen]="modalAbierto" *ngIf="!abierta" id="example-modal" #modal trigger="open-custom-dialog" style="--background:#ADE8F4;">
     <ng-template>
       <div *ngIf="estadoPedido === 'entregado'" class="wrapper modal">
         <h1 class="texto">Recibio el pedido?</h1>
-        <ion-button (click)="confirmar()">
-          <img src="assets/si.png" alt="">
-        </ion-button>
-        <ion-button (click)="modalAbierto = false">
-          <img src="assets/no.png" alt="">
-        </ion-button>
+        <div style=" display: flex; flex-direction: column;">
+          <ion-button (click)="confirmar()" style="--background: transparent;">
+            <img src="assets/si.png" alt="">
+          </ion-button>
+          <ion-button (click)="modalAbierto = false" style="--background: transparent;">
+            <img src="assets/no.png" alt="">
+          </ion-button>
+        </div>
       </div>
-      
-      <div *ngIf="estadoPedido === 'recibido'" class="wrapper">
-        <ion-list lines="none">
+
+      <div *ngIf="estadoPedido === 'recibido'" class="wrapper detalle">
+        <div style="width: 100%; height: auto; background-color: transparent;position: relative; text-align: center;">
           <ion-item *ngFor="let p of miPedido.productos">
-            <ion-label>{{p.precio}}</ion-label>
-            <ion-label>{{p.nombre}}</ion-label>
+            <ion-label class="texto">{{p.nombre}} ${{p.precio}}</ion-label>
           </ion-item>
-          <ion-label>- {{calcularTotal(cliente.descuento)}}</ion-label>
-          <ion-label>+ {{calcularTotal(cliente.propina)}}</ion-label>
-        </ion-list>
-        <ion-label>TOTAL = {{miPedido.precio + calcularTotal(cliente.propina) - calcularTotal(cliente.descuento)}}</ion-label>
+
+          <ion-label class="texto">Subtotal: ${{miPedido.precio}}</ion-label>
+          <ion-label class="texto">Descuento: ${{calcularTotal(cliente.descuento)}}</ion-label>
+          <ion-label class="texto">Propina: ${{calcularTotal(cliente.propina)}}</ion-label>
+        </div>
+        <div style="width: 100%; height: auto; background-color: #0077B6;">
+          <ion-label class="texto" style="font-weight: bold;">TOTAL = ${{miPedido.precio + calcularTotal(cliente.propina) - calcularTotal(cliente.descuento)}}</ion-label>
+        </div>
 
         <div>
           <ion-button (click)="pagar()">PAGAR</ion-button>
+          <ion-button (click)="modalAbierto = false">CANCELAR</ion-button>
         </div>
 
         <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -234,14 +243,21 @@
           </ion-fab-button>
         </ion-fab>
       </div>
-      <div *ngIf="estadoPedido === 'pagado'" class="wrapper">
-        <h1>Espere la confirmacion del mozo</h1>
+      <div *ngIf="estadoPedido === 'pagado'" class="wrapper modal">
+        <h1 class="texto">Espere la confirmación del mozo</h1>
       </div>
     </ng-template>
   </ion-modal>
 </ion-content>
+
 <div *ngIf="mostrarSpinner" class="spinner-container">
   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <img class="spinner image-spinner" src="assets/logo.png">
   </div>
 </div>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="center" *ngIf="abierta">
+  <ion-fab-button (click)="stopScan()" style="--background:#64B5F6">
+    <ion-icon name="close-circle-outline"></ion-icon>  
+  </ion-fab-button>
+</ion-fab>

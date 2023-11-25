@@ -35,8 +35,8 @@ export class HomeClientesPage implements OnInit {
   abierta = false;
   escaneado : any = '';
 
-  ingreso = true;           ////////////////////////////////////////poner en true para probar
-  enMesa = true; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+  ingreso = false;           ////////////////////////////////////////poner en true para probar
+  enMesa = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
   yaPidio = false; /////////////////////////////////////////////////////////////////////////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   user = this.authService.get_user();                 ///////////////////////////////////funcionaaaaaa
@@ -215,6 +215,7 @@ export class HomeClientesPage implements OnInit {
     BarcodeScanner.showBackground();
     BarcodeScanner.stopScan();
     document.querySelector('body')?.classList.remove('scanner-active');
+    this.abierta = false;
   }
 
   asignarEscan(accion: boolean)
