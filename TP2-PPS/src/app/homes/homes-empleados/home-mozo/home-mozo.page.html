@@ -53,7 +53,7 @@
   <!-- que se abra una modal y pida confirmar la operacion, para mas seguridad -->
   <!-- el click  iria asociado a esa confirmacion -->
   <ion-fab horizontal="start" vertical="bottom">
-    <ion-fab-button routerLink="/chat-mozo" style="--background:#0077B6">
+    <ion-fab-button (click)="irA('chat-mozo')" style="--background:#0077B6">
       <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -61,5 +61,9 @@
 <!-- <ion-toolbar vertical="bottom">
   <ion-icon class="iconFooter" name="person-outline"></ion-icon>
 </ion-toolbar> -->
-
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>
 

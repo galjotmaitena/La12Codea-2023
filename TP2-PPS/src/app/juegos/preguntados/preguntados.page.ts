@@ -20,6 +20,7 @@ export class PreguntadosPage implements OnInit {
   puntaje = 0;
   intentos = 10;
   ganaste = false;
+  mostrarSpinner = false;
 
   cliente : any;
   observable : any;
@@ -29,8 +30,6 @@ export class PreguntadosPage implements OnInit {
 
   ngOnInit()
   {
-    this.authService.login('mai@mai.com', '111111');
-
     this.paisesService.traerPaises().then((paises : any) => {
       paises.forEach((pais : any) => {
         let paisJSON = {nombre : pais.name.common, foto : pais.flags.png};
@@ -61,9 +60,6 @@ export class PreguntadosPage implements OnInit {
           });
           break;
       }
-
-      console.log(this.cliente);
-
     });
   }
 
@@ -98,34 +94,27 @@ export class PreguntadosPage implements OnInit {
       }
       else
       {
-        if(this.puntaje === 10)
+        this.mostrarSpinner = true;
+        if(this.puntaje === 7)
         {
           this.cliente.descuento = 20;
-          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
-
-          this.authService.mostrarToastExito('Ganaste! Tenes un 20% de descuento!');
-
-          this.router.navigateByUrl('inicio-juegos');
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+            this.mostrarSpinner = false;
+            this.authService.mostrarToastExito('Ganaste! Tenes un 20% de descuento!');
+            this.router.navigateByUrl('inicio-juegos');
+          });
         }
         else
         {
-          this.authService.mostrarToastError('PERDISTE');
-
-          this.router.navigateByUrl('inicio-juegos');
+          setTimeout(()=>{
+            this.mostrarSpinner = false;
+            this.authService.mostrarToastError('PERDISTE');
+            this.router.navigateByUrl('inicio-juegos');
+          }, 2000);
         }
 
         this.jugando = false;
       }
     }
   }
-
-  reiniciar()
-  {
-    this.opcionesPaises = [];
-    this.paisCorrecto = {};
-    this.intentos = 10;
-    this.puntaje = 0;
-    this.iniciar();
-  }
-
 }

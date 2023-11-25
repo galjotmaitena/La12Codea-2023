@@ -24,6 +24,7 @@ export class HomeCocinaPage implements OnInit {
 
   user = this.authService.get_user();
   cocinero : any;
+  mostrarSpinner = false;
 
   constructor(private firestore : Firestore, private authService : AuthService, private push: PushService, private router: Router) { }
 
@@ -78,10 +79,12 @@ export class HomeCocinaPage implements OnInit {
 
   terminarPedido(pedido : any)
   {
+    this.mostrarSpinner = true;
     pedido.cocina = true;
     console.log(pedido);
  
     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
       this.authService.mostrarToastExito('Pedido confirmado!');
       this.listaPedidos = [];
  
@@ -99,36 +102,40 @@ export class HomeCocinaPage implements OnInit {
 
   abrir(productos : any)
   {
-    productos.forEach((producto : any) => {
-      if(producto.tipo === 'comida' || producto.tipo === 'postre')
-      {
-        let esta = false;
-        let index = 0;
-
-        for(let i = 0; i < this.productosCocina.length; i++)
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      productos.forEach((producto : any) => {
+        if(producto.tipo === 'comida' || producto.tipo === 'postre')
         {
-          if(producto.nombre == this.productosCocina[i].nombre && producto.descripcion == this.productosCocina[i].descripcion)
+          let esta = false;
+          let index = 0;
+  
+          for(let i = 0; i < this.productosCocina.length; i++)
           {
-            esta = true;
-            index = i;
-            break;
+            if(producto.nombre == this.productosCocina[i].nombre && producto.descripcion == this.productosCocina[i].descripcion)
+            {
+              esta = true;
+              index = i;
+              break;
+            }
           }
+  
+          if(!esta)
+          {
+            let obj = {...producto, cantidad : 1};
+            this.productosCocina.push(obj);
+          }
+          else
+          {
+            this.productosCocina[index].cantidad++;
+          }
+          
         }
-
-        if(!esta)
-        {
-          let obj = {...producto, cantidad : 1};
-          this.productosCocina.push(obj);
-        }
-        else
-        {
-          this.productosCocina[index].cantidad++;
-        }
-        
-      }
-    });
-
-    this.abierta = true;
+      });
+      
+      this.mostrarSpinner = false;
+      this.abierta = true;
+    }, 2000);
   }
 
   // cierreSesion(usuario:any, col:string)
@@ -140,12 +147,23 @@ export class HomeCocinaPage implements OnInit {
 
   salir()
   {
+    this.mostrarSpinner = true;
     this.authService.logout()?.then(()=>{
       this.push.cierreSesion(this.cocinero, 'empleados');
       this.router.navigateByUrl('login');
+      this.mostrarSpinner = false;
     })
     .catch((err)=>{
       alert(JSON.stringify(err));
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }

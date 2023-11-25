@@ -6,7 +6,7 @@
         <ion-icon name="arrow-undo-outline"  class="iconSalir" (click)="salir()"></ion-icon>
       </button>
       <h1 class="h1Tool" style="font-family: 'Merienda'; position: relative; font-size: 20px;">{{this.metre != null ? this.metre.nombre : ''}}</h1>
-      <button style="background:transparent; z-index: 1000;" routerLink="/cliente">
+      <button style="background:transparent; z-index: 1000;" (click)="irA('cliente')">
         <ion-icon name="person-add-outline" class="iconAgregar"></ion-icon>
       </button>
     </div>
@@ -52,5 +52,9 @@
       </ion-toolbar> -->
 
 </ion-content>
-
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>
 

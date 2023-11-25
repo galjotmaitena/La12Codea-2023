@@ -165,7 +165,7 @@
     </div>
 
     <ion-fab slot="fixed" class="fabChat" *ngIf="enMesa && !yaPidio">
-      <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
+      <ion-fab-button (click)="irA('chat-cliente')" style="--background:#64B5F6">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -178,15 +178,15 @@
     <h1 *ngIf="estadoPedido === 'pendiente'" class="texto">Use el scanner para ver el estado de su pedido.</h1>
 
     <div class="divJuegoEnc" *ngIf="estadoPedido !== 'pendiente' && estadoPedido !== 'pagado'">
-       <ion-button routerLink="/inicio-juegos" class="btnJuEn">
+       <ion-button (click)="irA('inicio-juegos')" class="btnJuEn">
           <img src="assets/juegos.png" >
         </ion-button>
         <!-- deshabilitar el btn encuesta una vez que ya la completo -->
-        <ion-button *ngIf="!cliente.encuesta" routerLink="/clientes" class="btnJuEn"> 
+        <ion-button *ngIf="!cliente.encuesta" (click)="irA('clientes')" class="btnJuEn"> 
           <img src="assets/satisfaccion.png">
         </ion-button>
         <!-- tiene que redirigir a una page que muestre los graficossssss -->
-        <ion-button *ngIf="cliente.encuesta" routerLink="/graficos" class="btnJuEn"> 
+        <ion-button *ngIf="cliente.encuesta" (click)="irA('graficos')" class="btnJuEn"> 
           <img src="assets/investigacion.png">
         </ion-button>
     </div>
@@ -194,7 +194,7 @@
     <ion-button *ngIf="estadoPedido === 'recibido'" (click)="modalAbierto = true"  class="pedirCuenta">PEDIR CUENTA</ion-button>
 
     <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="yaPidio">
-      <ion-fab-button routerLink="/chat-cliente" style="--background:#64B5F6">
+      <ion-fab-button (click)="irA('chat-cliente')" style="--background:#64B5F6">
         <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -240,3 +240,8 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>

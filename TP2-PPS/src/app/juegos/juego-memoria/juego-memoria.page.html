@@ -62,10 +62,14 @@
           <label>{{jugadores[3].jugador.split('@')[0]}} {{jugadores[3].segundos}}</label>
           <label>{{jugadores[4].jugador.split('@')[0]}} {{jugadores[4].segundos}}</label>
         </div>
-        <div class="botonModal" >
+        <div class="botonModal">
           <button (click)="back()">Continuar</button>
         </div> 
     </div>
   </div>
 </ion-content>
-
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>

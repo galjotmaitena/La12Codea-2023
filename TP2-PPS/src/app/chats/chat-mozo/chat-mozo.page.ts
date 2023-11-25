@@ -23,6 +23,7 @@ export class ChatMozoPage implements OnInit {
   mozo: any;
   chatElegido:any = null;
   mensajesAgrupados: any;
+  mostrarSpinner = false;
 
   constructor(private firestore : Firestore, private push : PushService, private auth: AuthService, private router: Router) { }
 
@@ -137,24 +138,31 @@ export class ChatMozoPage implements OnInit {
 
   salir()
   {
-    if(this.chatElegido)
-    {
-      this.chatElegido = null;
-    }
-    else
-    {
-      this.router.navigateByUrl('/home-mozo');
-      this.observable.unsubscribe();
-    }
+    this.mostrarSpinner = true;
+    setTimeout(() => {
+      if(this.chatElegido)
+      {
+        this.chatElegido = null;
+      }
+      else
+      {
+        this.observable.unsubscribe();
+        this.router.navigateByUrl('home-mozo');
+      }
+
+      this.mostrarSpinner = false;
+    }, 2000);
   }
 
   elegirChat(chat: any)
   {
+    this.mostrarSpinner = true;
     chat.forEach((m:any) => {
       m.leido = true;
       FirestoreService.actualizarFs('mensajes', m, this.firestore);
     });
 
+    this.mostrarSpinner = false;
     this.chatElegido = chat;
   }
 }

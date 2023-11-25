@@ -18,6 +18,7 @@ export class HomeDuenioPage implements OnInit {
   duenios: any[] = [];
   email = this.auth.get_user()?.email;
   duenio : any;
+  mostrarSpinner = false;
  
   constructor(private firestore: Firestore, private push: PushService, private emailService: EmailService, private auth:AuthService, private router: Router){}
 
@@ -68,6 +69,7 @@ export class HomeDuenioPage implements OnInit {
 
   decidir(decision:boolean, cliente: any)
   {
+    this.mostrarSpinner = true;
     let obj = {...cliente};
     obj.aprobado = decision;
 
@@ -79,6 +81,7 @@ export class HomeDuenioPage implements OnInit {
     };
 
     FirestoreService.actualizarFs('clientes', obj, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
       if(decision)
       {
         data.message = 'su usuario ha sido aprobado. ¡Lo esperamos!';
@@ -91,11 +94,15 @@ export class HomeDuenioPage implements OnInit {
       this.emailService.sendEmail(data).then((data2 : any)=>{
         console.log(JSON.stringify(data2));
       });
+
+      let mensaje = decision ? 'aprobado' : 'rechazado';
+      this.auth.mostrarToastExito('Se ha ' + mensaje + ' correctamente a ' + cliente.nombre);
     });
   }
 
   salir()
   {
+    this.mostrarSpinner = true;
     let usuario:any;
 
     this.duenios.forEach((u:any) => {
@@ -108,9 +115,19 @@ export class HomeDuenioPage implements OnInit {
     this.auth.logout()?.then(()=>{
       this.push.cierreSesion(usuario, 'duenios');
       this.router.navigateByUrl('login');
+      this.mostrarSpinner = false;
     })
     .catch((err)=>{
       alert(JSON.stringify(err));
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }

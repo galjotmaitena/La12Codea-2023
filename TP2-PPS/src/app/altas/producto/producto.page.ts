@@ -29,6 +29,8 @@ export class ProductoPage implements OnInit {
   precio = '';
   tipo = '';
 
+  mostrarSpinner = false;
+
   constructor(private push: PushService, private auth: AuthService, private qr: QrService, private firestore: Firestore, private angularFirestorage: AngularFireStorage, private formBuilder: FormBuilder) 
   {
     this.form = this.formBuilder.group(
@@ -53,6 +55,7 @@ export class ProductoPage implements OnInit {
 
     try
     {
+      this.mostrarSpinner = true;
       const fecha = new Date().getTime();
       this.nombreQr = `productos/${obj.nombre.replace(" ", "_")}/qr_${fecha}`;
       this.nombrePr = `productos/${obj.nombre.replace(" ", "_")}/fotos/1`;
@@ -84,6 +87,7 @@ export class ProductoPage implements OnInit {
                     {
                       this.fotosSubidas.push(url3);
                       FirestoreService.guardarFs('productos', {...obj, fotos: this.fotosSubidas, qr: urlQr}, this.firestore);
+                      this.mostrarSpinner = false;
                       this.auth.mostrarToastExito("¡Alta realizada con éxito!");
                       //this.push.sendPush('ok', '¡Alta realizada con éxito!');
                     });

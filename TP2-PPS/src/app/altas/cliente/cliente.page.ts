@@ -30,6 +30,7 @@ export class ClientePage {
   clave = '';
   rClave = '';
   perfil = '';
+  mostrarSpinner = false;
 
   duenios:any[] = [];
   clientes:any[] = [];
@@ -155,20 +156,24 @@ export class ClientePage {
 
   rellenarInputs(string: string)
   {
-    let array = string.split("@");
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      let array = string.split("@");
 
-    if(array.length === 9)
-    {
-      this.apellido = this.capitalizeFirstLetter(array[1]);
-      this.nombre = this.capitalizeFirstLetter(array[2]);
-      this.dni = parseInt(array[4]);
-    }
-    else
-    {
-      this.apellido = this.capitalizeFirstLetter(array[4]);
-      this.nombre = this.capitalizeFirstLetter(array[5]);
-      this.dni = parseInt(array[1]);
-    }
+      if(array.length === 9)
+      {
+        this.apellido = this.capitalizeFirstLetter(array[1]);
+        this.nombre = this.capitalizeFirstLetter(array[2]);
+        this.dni = parseInt(array[4]);
+      }
+      else
+      {
+        this.apellido = this.capitalizeFirstLetter(array[4]);
+        this.nombre = this.capitalizeFirstLetter(array[5]);
+        this.dni = parseInt(array[1]);
+      }
+      this.mostrarSpinner = false;
+    }, 1500);
   }
 
   noWhitespaceValidator(): ValidatorFn 
@@ -218,6 +223,7 @@ export class ClientePage {
     }
     catch
     {
+      this.mostrarSpinner = true;
       this.auth.mostrarToastError("Error al subir la foto...");
     }
   }
@@ -225,6 +231,7 @@ export class ClientePage {
   guardar()
   {
     let obj:any;
+    this.mostrarSpinner = true;
 
     if(this.form.valid && this.fotoCapturada != null)
     {
@@ -248,6 +255,7 @@ export class ClientePage {
         }
 
         this.subir(obj);
+        this.mostrarSpinner = false;
         this.auth.mostrarToastExito('Alta realizada con exito.');
         this.urlFoto = 'assets/perfil.png';
         this.fotoCapturada = null;
@@ -266,6 +274,7 @@ export class ClientePage {
       }
       else
       {
+        this.mostrarSpinner = false;
         this.auth.mostrarToastError('¡Debe elegir un perfil!');
       }
     }
@@ -280,6 +289,7 @@ export class ClientePage {
         this.mensaje = 'Completar correctamente los campos indicados';  
       }
 
+      this.mostrarSpinner = false;
       this.auth.mostrarToastError(this.mensaje);
     }
   }

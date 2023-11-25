@@ -3,10 +3,10 @@
   <ion-toolbar class="ion-no-border toolB" style="position: relative; z-index: 9999; left: 0; top: 0;" >
     <div class="tool" style="justify-content: space-evenly;;" >
       <button style="background:transparent; z-index: 1000;">
-        <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
+        <ion-icon name="arrow-undo-outline" class="iconSalir" (click)="salir()"></ion-icon>
       </button>
       <h1 class="h1Tool">{{this.bartender != null ? this.bartender.nombre : ''}}</h1>
-      <button style="background:transparent; z-index: 1000;" routerLink="/producto">
+      <button style="background:transparent; z-index: 1000;" (click)="irA('producto')">
         <ion-icon name="fast-food-outline" class="iconAgregar"></ion-icon>
       </button>
     </div>
@@ -55,3 +55,9 @@
   </ion-modal>
 
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <img class="spinner image-spinner" src="assets/logo.png">
+  </div>
+</div>
+<audio id="audioC" src="assets/audios/cierre.mp3"></audio>

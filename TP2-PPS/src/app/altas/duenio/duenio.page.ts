@@ -31,6 +31,8 @@ export class DuenioPage {
   clave = '';
   rClave = '';
 
+  mostrarSpinner = false;
+
   constructor(private angularFirestorage: AngularFireStorage, private auth: AuthService, private formBuilder: FormBuilder, private firestore: Firestore) 
   {
     this.form = this.formBuilder.group(
@@ -173,23 +175,27 @@ export class DuenioPage {
 
   rellenarInputs(string: string)
   {
-    let array = string.split("@");
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      let array = string.split("@");
 
-    if(array.length === 9)
-    {
-      let cuilA:any = this.splitAndConvert(array[8]);
-
-      this.apellido = this.capitalizeFirstLetter(array[1]);
-      this.nombre = this.capitalizeFirstLetter(array[2]);
-      this.dni = parseInt(array[4]);
-      this.cuil = `${cuilA.primeraParte}${this.dni}${cuilA.segundaParte}`;
-    }
-    else
-    {
-      this.apellido = this.capitalizeFirstLetter(array[4]);
-      this.nombre = this.capitalizeFirstLetter(array[5]);
-      this.dni = parseInt(array[1]);
-    }
+      if(array.length === 9)
+      {
+        let cuilA:any = this.splitAndConvert(array[8]);
+  
+        this.apellido = this.capitalizeFirstLetter(array[1]);
+        this.nombre = this.capitalizeFirstLetter(array[2]);
+        this.dni = parseInt(array[4]);
+        this.cuil = `${cuilA.primeraParte}${this.dni}${cuilA.segundaParte}`;
+      }
+      else
+      {
+        this.apellido = this.capitalizeFirstLetter(array[4]);
+        this.nombre = this.capitalizeFirstLetter(array[5]);
+        this.dni = parseInt(array[1]);
+      }
+      this.mostrarSpinner = false;
+    }, 1500);
   }
 
   noWhitespaceValidator(): ValidatorFn 
@@ -221,6 +227,7 @@ export class DuenioPage {
   {
     try
     {
+      this.mostrarSpinner = true;
       const fecha = new Date().getTime();
       const storage = getStorage();
       const nombre = `duenios/${this.nombre.replace(" ", "_")}_${this.apellido.replace(" ", "_")} ${fecha}`;
@@ -233,6 +240,7 @@ export class DuenioPage {
           //this.mostrarSpinner = false;
           let obj_ = {...obj, foto: url};
           FirestoreService.guardarFs('duenios', obj_, this.firestore);
+          this.mostrarSpinner = false;
         });
       });
     }

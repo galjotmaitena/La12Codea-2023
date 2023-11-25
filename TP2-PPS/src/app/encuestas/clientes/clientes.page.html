@@ -2,7 +2,7 @@
 
     <ion-toolbar class="ion-no-border toolB" style=" left: 0; top: 0;" >
         <div class="tool">
-          <button routerLink="homeClientes" style="background:transparent; z-index: 1000;">
+          <button (click)="irA('homeClientes')" style="background:transparent; z-index: 1000;">
             <ion-icon name="arrow-undo-outline"  class="iconSalir"></ion-icon>
           </button>
           <h1 class="h1Tool">Encuesta</h1>
@@ -88,3 +88,8 @@
 
     <ion-button style="width: 90%; margin: 15px; --background: #0077B6;" (click)="enviar()">enviar</ion-button>
 </ion-content>
+<div *ngIf="mostrarSpinner" class="spinner-container">
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <img class="spinner image-spinner" src="assets/logo.png">
+    </div>
+  </div>

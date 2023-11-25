@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, MinLe
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { Firestore } from '@angular/fire/firestore';
 import { PushService } from 'src/app/services/push.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empleado',
@@ -36,8 +37,9 @@ export class EmpleadoPage implements OnInit {
   foto = "assets/user.png";
 
   tipo = 0;
+  mostrarSpinner = false;
   
-  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private authService : AuthService, private formBuilder: FormBuilder, private firestore : Firestore) 
+  constructor(private push: PushService, private aFirestorage : AngularFireStorage, private authService : AuthService, private formBuilder: FormBuilder, private firestore : Firestore, private router: Router) 
   { 
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required, this.contieneSoloLetras()]],
@@ -117,20 +119,26 @@ export class EmpleadoPage implements OnInit {
 
   asignarEscan()
   {
-    this.tipo = this.dniEsc[1];
+    this.mostrarSpinner = true;
 
-    if(this.contieneSoloNumeros(this.dniEsc[3]))
-    {
-      this.nombre = this.dniEsc[5];
-      this.apellido = this.dniEsc[4];
-      this.dni = parseInt(this.dniEsc[1]);
-    }
-    else
-    {
-      this.nombre = this.dniEsc[2];
-      this.apellido = this.dniEsc[1];
-      this.dni = this.dniEsc[4];
-    }
+    setTimeout(()=>{
+      this.tipo = this.dniEsc[1];
+
+      if(this.contieneSoloNumeros(this.dniEsc[3]))
+      {
+        this.nombre = this.dniEsc[5];
+        this.apellido = this.dniEsc[4];
+        this.dni = parseInt(this.dniEsc[1]);
+      }
+      else
+      {
+        this.nombre = this.dniEsc[2];
+        this.apellido = this.dniEsc[1];
+        this.dni = this.dniEsc[4];
+      }
+
+      this.mostrarSpinner = false;
+    }, 1500);
   }
 
   async sacarFoto()
@@ -180,8 +188,10 @@ export class EmpleadoPage implements OnInit {
 
   darAlta()
   {
+    this.mostrarSpinner = true;
     if(!this.form.valid  || this.tipoEmpleado === '')
     {
+      this.mostrarSpinner = false;
       this.authService.mostrarToastError('Quedan campos por completar!');
     }
     else
@@ -199,6 +209,7 @@ export class EmpleadoPage implements OnInit {
         this.authService.signup(this.correo, this.password).catch((error)=>{
           if(error === 'auth/email-already-in-use')
           {
+            this.mostrarSpinner = false;
             this.authService.mostrarToastError('El correo electrónico ya se encuentra en uso.');
           }
         }).then(()=>{
@@ -213,11 +224,13 @@ export class EmpleadoPage implements OnInit {
           this.password2 = '';
           this.tipoEmpleado = '';
           this.foto = "assets/user.png";
-
+          this.router.navigateByUrl('home-duenio');
+          this.mostrarSpinner = false;
         });
       }
       else
       {
+        this.mostrarSpinner = false;
         this.authService.mostrarToastError('Las contraseñas no coinciden!');
       }
     }

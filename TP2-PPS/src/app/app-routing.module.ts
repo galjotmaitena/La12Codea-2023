@@ -11,10 +11,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'ingreso',
-    loadChildren: () => import('./ingreso/ingreso.module').then( m => m.IngresoPageModule)
-  },
-  {
     path: 'duenio',
     loadChildren: () => import('./altas/duenio/duenio.module').then( m => m.DuenioPageModule)
   },
@@ -78,13 +74,10 @@ const routes: Routes = [
     path: '',
     redirectTo: 'splash',
     pathMatch: 'full'
-  },  {
-    path: 'inicio-juegos',
-    loadChildren: () => import('./juegos/inicio-juegos/inicio-juegos.module').then( m => m.InicioJuegosPageModule)
   },
   {
-    path: 'simon-dice',
-    loadChildren: () => import('./juegos/simon-dice/simon-dice.module').then( m => m.SimonDicePageModule)
+    path: 'inicio-juegos',
+    loadChildren: () => import('./juegos/inicio-juegos/inicio-juegos.module').then( m => m.InicioJuegosPageModule)
   },
   {
     path: 'preguntados',

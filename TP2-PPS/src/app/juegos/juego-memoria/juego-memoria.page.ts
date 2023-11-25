@@ -15,6 +15,7 @@ export class JuegoMemoriaPage implements OnInit {
   time = 0;
   interval: any;
   jugadores : any = [];
+  mostrarSpinner = false;
 
   imagenes = ['assets/rest/cerveza.png', 
               'assets/rest/churrasco.png', 
@@ -49,8 +50,6 @@ export class JuegoMemoriaPage implements OnInit {
 
   ngOnInit() 
   {
-    this.authService.login('mai@mai.com', '111111');
-
     this.startTimer();
     this.ordenarAleatoriamente();
 
@@ -75,9 +74,6 @@ export class JuegoMemoriaPage implements OnInit {
           });
           break;
       }
-
-      console.log(this.cliente);
-
     });
   }
 
@@ -139,9 +135,7 @@ export class JuegoMemoriaPage implements OnInit {
   {
     for (let i = this.imagenes.length - 1; i > 0; i--) 
     {
-      // Generar un índice aleatorio entre 0 y i
       const j = Math.floor(Math.random() * (i + 1));
-      // Intercambiar los elementos en las posiciones i y j
       [this.imagenes[i], this.imagenes[j]] = [this.imagenes[j], this.imagenes[i]];
     }
   }
@@ -169,13 +163,14 @@ export class JuegoMemoriaPage implements OnInit {
         if(this.contadorEncontrados == 5)
         {
           this.stopTimer();
-          
+          this.mostrarSpinner = true;
           this.cliente.descuento = 10;
-          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore);
 
-          this.authService.mostrarToastExito('Ganaste! Tenes un 10% de descuento!');
-
-          this.router.navigateByUrl('inicio-juegos');
+          FirestoreService.actualizarFs('clientes', this.cliente, this.firestore).then(()=>{
+            this.mostrarSpinner = false;
+            this.authService.mostrarToastExito('Ganaste! Tenes un 10% de descuento!');
+            this.router.navigateByUrl('inicio-juegos');
+          });
         }
       }
     }
@@ -189,9 +184,11 @@ export class JuegoMemoriaPage implements OnInit {
 
   back()
   {
+    this.mostrarSpinner = true;
     setTimeout(() => {
+      this.mostrarSpinner = false;
       this.router.navigate(['/inicio']);
-    }, 1500);
+    }, 2500);
   }
 
   buscarImagen(id : number) : boolean

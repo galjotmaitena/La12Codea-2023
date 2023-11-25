@@ -23,6 +23,7 @@ export class HomeMozoPage implements OnInit {
   observableEmpleados : any;
   pedido : any = '';
   mozo: any;
+  mostrarSpinner = false;
 
   constructor(private firestore : Firestore, private authService : AuthService, private push: PushService, private router: Router) { }
 
@@ -99,30 +100,35 @@ export class HomeMozoPage implements OnInit {
    //#region 
    confirmarPedido(pedido : any)
    {
-     pedido.estado = 'confirmado';
- 
-     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
-       this.authService.mostrarToastExito('Pedido confirmado!');
-       this.listaPedidosPendientes = [];
- 
-       this.listaEmpleados.forEach(e => {
-         this.push.sendPush("Nuevo Pedido", `Ha ingresado un nuevo pedido para la mesa ${pedido.mesa}`, e);
-       });
-     });
+    this.mostrarSpinner = true;
+    pedido.estado = 'confirmado';
+
+    FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
+      this.authService.mostrarToastExito('Pedido confirmado!');
+      this.listaPedidosPendientes = [];
+
+      this.listaEmpleados.forEach(e => {
+        this.push.sendPush("Nuevo Pedido", `Ha ingresado un nuevo pedido para la mesa ${pedido.mesa}`, e);
+      });
+    });
    }
 
    entregarPedido(pedido : any)
    {
-     pedido.estado = 'entregado';
- 
-     FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
-       this.authService.mostrarToastExito('Pedido entregado!');
-       this.listaPedidosListos = [];
-     });
+    this.mostrarSpinner = true;
+    pedido.estado = 'entregado';
+
+    FirestoreService.actualizarFs('pedidos', pedido, this.firestore).then(()=>{
+      this.mostrarSpinner = false;
+      this.authService.mostrarToastExito('Pedido entregado!');
+      this.listaPedidosListos = [];
+    });
    }
    
   confirmarPago(pedido: any)
   {
+    this.mostrarSpinner = true;
     let mesa:any;
     let cliente:any;
 
@@ -144,6 +150,7 @@ export class HomeMozoPage implements OnInit {
       })
     })
 
+    this.mostrarSpinner = true;
     setTimeout(()=>{
       if(mesa && cliente)
       {
@@ -167,7 +174,9 @@ export class HomeMozoPage implements OnInit {
         FirestoreService.actualizarFs('clientes', cliente, this.firestore);
 
         //pedido.estado = 'pag_confirmado';
-        FirestoreService.eliminarFs('pedidos', pedido, this.firestore);
+        FirestoreService.eliminarFs('pedidos', pedido, this.firestore).toPromise().then(()=>{
+          this.mostrarSpinner = false;
+        });
 
         this.authService.mostrarToastExito('PAGO CONFIRMADO');
       }
@@ -180,12 +189,23 @@ export class HomeMozoPage implements OnInit {
 
   salir()
   {
+    this.mostrarSpinner = true;
     this.authService.logout()?.then(()=>{
+      this.mostrarSpinner = false;
       this.push.cierreSesion(this.mozo, 'empleados');
       this.router.navigateByUrl('login');
     })
     .catch((err)=>{
       alert(JSON.stringify(err));
     });
+  }
+
+  irA(path: string)
+  {
+    this.mostrarSpinner = true;
+    setTimeout(()=>{
+      this.router.navigateByUrl(path);
+      this.mostrarSpinner = false;
+    }, 2500)
   }
 }
